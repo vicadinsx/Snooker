@@ -1,0 +1,27 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Ricardo\Desktop\Git_Rep\snooker-on-fire\Snooker\Snooker\build\Win32\Release\) contains files shared from another project (Snooker_On_Fire.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  3dtangram.cpp
+  hello3dWorld.cpp
+  meshLoader.cpp
+  objectRotation.cpp
+  sceneGraphTangram.cpp
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\mathf.h(5): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\mathf.h(9): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\shaderprogram.h(71): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\shaderprogram.h(142): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\shaderprogram.h(172): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\scene.h(102): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\scene.h(161): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\managers.h(27): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\managers.h(64): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\ricardo\desktop\git_rep\snooker-on-fire\snooker\snooker\managers.h(100): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+applications\sceneGraphTangram.cpp(237): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+applications\sceneGraphTangram.cpp(517): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+applications\sceneGraphTangram.cpp(518): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+applications\sceneGraphTangram.cpp(535): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+applications\sceneGraphTangram.cpp(536): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+  tangram.cpp
+  Generating code
+  All 2493 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Snooker.vcxproj -> C:\Users\Ricardo\Desktop\Git_Rep\snooker-on-fire\Snooker\Snooker\bin\Win32\Release\Snooker.exe
+  Snooker.vcxproj -> C:\Users\Ricardo\Desktop\Git_Rep\snooker-on-fire\Snooker\Snooker\bin\Win32\Release\Snooker.pdb (Full PDB)

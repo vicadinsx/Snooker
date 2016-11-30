@@ -1,0 +1,71 @@
+﻿  hello3dWorld.cpp
+  sceneGraphTangram.cpp
+d:\projects\snooker on fire\snooker\snooker\mathf.h(5): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\projects\snooker on fire\snooker\snooker\mathf.h(9): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\projects\snooker on fire\snooker\snooker\shaderprogram.h(71): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\projects\snooker on fire\snooker\snooker\shaderprogram.h(142): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\projects\snooker on fire\snooker\snooker\shaderprogram.h(172): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\projects\snooker on fire\snooker\snooker\scene.h(102): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\projects\snooker on fire\snooker\snooker\scene.h(161): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\projects\snooker on fire\snooker\snooker\managers.h(27): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\projects\snooker on fire\snooker\snooker\managers.h(64): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\projects\snooker on fire\snooker\snooker\managers.h(100): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+applications\sceneGraphTangram.cpp(237): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+applications\sceneGraphTangram.cpp(517): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+applications\sceneGraphTangram.cpp(518): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+applications\sceneGraphTangram.cpp(535): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+applications\sceneGraphTangram.cpp(536): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewEnableVertexAttribArray
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewBindVertexArray
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewUseProgram
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewVertexAttribPointer
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutKeyboardUpFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutReshapeFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glutCreateWindowWithExit
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutMouseFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutSetOption
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGetShaderiv
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewCompileShader
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewCreateShader
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glutInitWithExit
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewBindBuffer
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewBindAttribLocation
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewCreateProgram
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGetShaderInfoLog
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewBufferSubData
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGetProgramiv
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutPostRedisplay
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewUniformBlockBinding
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutKeyboardFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutSetWindow
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutCloseFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGetUniformLocation
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGetUniformBlockIndex
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutIdleFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewBufferData
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutInitDisplayMode
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewAttachShader
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutSpecialFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glewGetString
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewShaderSource
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutSpecialUpFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGenVertexArrays
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewBindBufferBase
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewUniformMatrix4fv
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutTimerFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glewExperimental
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutSetWindowTitle
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutDisplayFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutInitContextVersion
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGetProgramInfoLog
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutMainLoop
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewGenBuffers
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutMotionFunc
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutInitContextFlags
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutGet
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutInitWindowSize
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp___glewLinkProgram
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutInitContextProfile
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glewInit
+sceneGraphTangram.obj : error LNK2001: unresolved external symbol __imp_glutSwapBuffers
+D:\Projects\Snooker On Fire\Snooker\Snooker\bin\x64\Release\Snooker.exe : fatal error LNK1120: 53 unresolved externals
