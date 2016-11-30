@@ -1,7 +1,7 @@
 #ifndef MATRIXFACTORY_H
 #define MATRIXFACTORY_H
 
-#include "matrix.h"
+#include "types\matrix.h"
 #include "mathf.h"
 
 namespace math{

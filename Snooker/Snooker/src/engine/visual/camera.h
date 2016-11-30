@@ -5,10 +5,8 @@
 // Finish the camera interface and the two classes
 
 #include <vector>
-
 #include <GL/glew.h>
-
-#include "matrixfactory.h"
+#include "math\matrixfactory.h"
 
 using math::Vector3;
 using math::Matrix4;

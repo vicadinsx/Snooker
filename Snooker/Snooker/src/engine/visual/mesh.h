@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "matrixfactory.h"
+#include "math\matrixfactory.h"
 
 using math::Vector3;
 using math::Vector2;

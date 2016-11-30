@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\dependencies\freeglut\include;$(SolutionDir)..\dependencies\glew32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\engine;$(SolutionDir)..\dependencies\freeglut\include;$(SolutionDir)..\dependencies\glew32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +154,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\dependencies\freeglut\include;$(SolutionDir)..\dependencies\glew32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\engine;$(SolutionDir)..\dependencies\freeglut\include;$(SolutionDir)..\dependencies\glew32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,25 +166,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="engine.h" />
-    <ClInclude Include="managers.h" />
-    <ClInclude Include="mathf.h" />
-    <ClInclude Include="matrix.h" />
-    <ClInclude Include="matrixfactory.h" />
-    <ClInclude Include="mesh.h" />
-    <ClInclude Include="quaternion.h" />
-    <ClInclude Include="scene.h" />
-    <ClInclude Include="shaderprogram.h" />
-    <ClInclude Include="vector.h" />
+    <ClCompile Include="src\applications\3dtangram.cpp" />
+    <ClCompile Include="src\applications\hello3dWorld.cpp" />
+    <ClCompile Include="src\applications\meshLoader.cpp" />
+    <ClCompile Include="src\applications\objectRotation.cpp" />
+    <ClCompile Include="src\applications\sceneGraphTangram.cpp" />
+    <ClCompile Include="src\applications\tangram.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="applications\3dtangram.cpp" />
-    <ClCompile Include="applications\hello3dWorld.cpp" />
-    <ClCompile Include="applications\meshLoader.cpp" />
-    <ClCompile Include="applications\objectRotation.cpp" />
-    <ClCompile Include="applications\sceneGraphTangram.cpp" />
-    <ClCompile Include="applications\tangram.cpp" />
+    <None Include="data\shaders\3dfragmentShader.frag" />
+    <None Include="data\shaders\3dvertexShader.vert" />
+    <None Include="data\shaders\cube_fs.glsl" />
+    <None Include="data\shaders\cube_vs.glsl" />
+    <None Include="data\shaders\fragmentShader.frag" />
+    <None Include="data\shaders\fragmentShaderSceneManagement.frag" />
+    <None Include="data\shaders\fragmentWithNormals.frag" />
+    <None Include="data\shaders\vertexShader.vert" />
+    <None Include="data\shaders\vertexShaderSceneManagement.vert" />
+    <None Include="data\shaders\vertexWithNormals.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\engine\common\managers.h" />
+    <ClInclude Include="src\engine\engine.h" />
+    <ClInclude Include="src\engine\math\mathf.h" />
+    <ClInclude Include="src\engine\math\matrixfactory.h" />
+    <ClInclude Include="src\engine\types\matrix.h" />
+    <ClInclude Include="src\engine\types\quaternion.h" />
+    <ClInclude Include="src\engine\types\vector.h" />
+    <ClInclude Include="src\engine\visual\camera.h" />
+    <ClInclude Include="src\engine\visual\mesh.h" />
+    <ClInclude Include="src\engine\visual\scene.h" />
+    <ClInclude Include="src\engine\visual\shaderprogram.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

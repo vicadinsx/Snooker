@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../engine.h"
+#include "engine.h"
 
 using namespace engine;
 
@@ -73,9 +73,9 @@ void createShaderProgram()
 {
     ShaderProgram *program = new ShaderProgram();
 
-    program->compileShaderFromFile("shaders/vertexShaderSceneManagement.vert",ShaderType::VERTEX);
+    program->compileShaderFromFile("data/shaders/vertexShaderSceneManagement.vert",ShaderType::VERTEX);
 
-    program->compileShaderFromFile("shaders/fragmentShaderSceneManagement.frag",ShaderType::FRAGMENT);
+    program->compileShaderFromFile("data/shaders/fragmentShaderSceneManagement.frag",ShaderType::FRAGMENT);
 
     program->bindAttribLocation(VERTICES,"in_Position");
     program->bindAttribLocation(TEXCOORDS,"in_TexCoords");
@@ -99,10 +99,10 @@ void destroyShaderProgram()
 void createMeshes()
 {
 
-    std::string object("objects/suzanne.obj");
-    std::string tamTriangle("objects/tamTriangle.obj");
-    std::string tamSquare("objects/tamSquare.obj");
-    std::string tamParalel("objects/tamParalel.obj");
+    std::string object("data/meshes/suzanne.obj");
+    std::string tamTriangle("data/meshes/tamTriangle.obj");
+    std::string tamSquare("data/meshes/tamSquare.obj");
+    std::string tamParalel("data/meshes/tamParalel.obj");
 
     Mesh *suzanne = new Mesh(object);
     Mesh *triangle = new Mesh(tamTriangle);

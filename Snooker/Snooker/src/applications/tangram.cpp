@@ -1,6 +1,6 @@
-#pragma once
-
-//#include "../shaderprogram.h"
+//#pragma once
+//
+//#include "visual\shaderprogram.h"
 //
 //#define CAPTION "Badass Squirrel"
 //
@@ -40,8 +40,8 @@
 //
 //void createShaderProgram()
 //{
-//        program.compileShaderFromFile("shaders/vertexShader.vert",ShaderType::VERTEX);
-//        program.compileShaderFromFile("shaders/fragmentShader.frag",ShaderType::FRAGMENT);
+//        program.compileShaderFromFile("data/shaders/vertexShader.vert",ShaderType::VERTEX);
+//        program.compileShaderFromFile("data/shaders/fragmentShader.frag",ShaderType::FRAGMENT);
 //        program.bindAttribLocation(VERTICES,"in_Position");
 //        program.link();
 //

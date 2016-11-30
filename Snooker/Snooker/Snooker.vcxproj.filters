@@ -5,68 +5,116 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Source Files\Applications">
+      <UniqueIdentifier>{9ac7715a-f9c3-4d49-b46e-d803d4a098a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Data Files">
+      <UniqueIdentifier>{1d0e2f20-ebaa-4791-b4bc-74bf71e1a917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data Files\Shaders">
+      <UniqueIdentifier>{e64b129d-50a7-4d43-a603-e898eb951408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Types">
+      <UniqueIdentifier>{dfe24e51-f63d-4965-ad49-96c31661dc29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Visual">
+      <UniqueIdentifier>{4da43d57-d9ee-4b5c-801d-d58dfc81021b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{791ec424-f523-4c18-b28c-1933a0a5cc3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{b809d400-d186-472b-b55b-8df995a1a899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{6be8eac4-dab1-41c1-8c58-aa3771f51131}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="engine.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="managers.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mathf.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="matrix.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="matrixfactory.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="quaternion.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shaderprogram.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vector.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
+    <ClCompile Include="src\applications\3dtangram.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="src\applications\hello3dWorld.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="src\applications\meshLoader.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="src\applications\objectRotation.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="src\applications\sceneGraphTangram.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="src\applications\tangram.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="applications\3dtangram.cpp">
+    <None Include="data\shaders\3dfragmentShader.frag">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\3dvertexShader.vert">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\cube_fs.glsl">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\cube_vs.glsl">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\fragmentShader.frag">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\fragmentShaderSceneManagement.frag">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\fragmentWithNormals.frag">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\vertexShader.vert">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\vertexShaderSceneManagement.vert">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\vertexWithNormals.vert">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\engine\engine.h">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="applications\hello3dWorld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="applications\meshLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="applications\objectRotation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="applications\sceneGraphTangram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="applications\tangram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="src\engine\types\quaternion.h">
+      <Filter>Source Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\types\vector.h">
+      <Filter>Source Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\types\matrix.h">
+      <Filter>Source Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\visual\shaderprogram.h">
+      <Filter>Source Files\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\visual\camera.h">
+      <Filter>Source Files\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\visual\mesh.h">
+      <Filter>Source Files\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\visual\scene.h">
+      <Filter>Source Files\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\matrixfactory.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\mathf.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\common\managers.h">
+      <Filter>Source Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

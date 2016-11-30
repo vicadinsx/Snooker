@@ -2,9 +2,9 @@
 #define MANAGERS_H
 
 #include <unordered_map>
-#include "shaderprogram.h"
-#include "scene.h"
-#include "mesh.h"
+#include "visual\shaderprogram.h"
+#include "visual\scene.h"
+#include "visual\mesh.h"
 
 namespace engine {
 
