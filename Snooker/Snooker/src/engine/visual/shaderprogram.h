@@ -1,3 +1,5 @@
+#pragma warning( disable : 4290 )  
+
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 

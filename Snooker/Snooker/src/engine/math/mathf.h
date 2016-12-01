@@ -2,11 +2,11 @@
 #define MATHF_H
 
 #include <cmath>
-constexpr float M_PI = 3.1415926;
+constexpr float M_PI = 3.1415926f;
 
 namespace math {
 
-    float floatThreshold = 1.0e-10;
+    float floatThreshold = 1.0e-10f;
 
     inline float toRadians(float degrees){
         return (degrees * M_PI) / 180.0f;

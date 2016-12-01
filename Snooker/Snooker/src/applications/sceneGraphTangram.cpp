@@ -234,7 +234,7 @@ void createSquirrel() {
     scenegraph->setCamera(new ArcballCamera(UBO_BP));
 
     scenegraph->getCamera()->setProjectionMatrix(
-            math::Perspective(30.0f, WinX / WinY, 0.1f, 100.0f));
+            math::Perspective(30.0f, (float)WinX / WinY, 0.1f, 100.0f));
     
     Mesh* squareMesh = MeshManager::instance()->get("square");
     Mesh* triangleMesh = MeshManager::instance()->get("triangle");
@@ -514,8 +514,8 @@ void mousePress(int button, int state, int x, int y) {
 
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
         leftMouseButtonPressed = true;
-        lastX = currentX = x;
-        lastY = currentY = y;
+        lastX = currentX = (float)x;
+        lastY = currentY = (float)y;
     }
 
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
@@ -532,8 +532,8 @@ void mousePress(int button, int state, int x, int y) {
 
 void mouseMovement(int x, int y){
     if(leftMouseButtonPressed){
-        currentX = x;
-        currentY = y;
+        currentX = (float)x;
+        currentY = (float)y;
         computeAngleAxis();
     }
 }
