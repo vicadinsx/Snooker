@@ -49,6 +49,9 @@
     <ClCompile Include="src\applications\tangram.cpp">
       <Filter>Source Files\Applications</Filter>
     </ClCompile>
+    <ClCompile Include="texturedCube.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\shaders\3dfragmentShader.frag">
