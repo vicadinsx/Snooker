@@ -197,6 +197,7 @@
     <ClInclude Include="src\engine\visual\mesh.h" />
     <ClInclude Include="src\engine\visual\scene.h" />
     <ClInclude Include="src\engine\visual\shaderprogram.h" />
+    <ClInclude Include="src\engine\visual\texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

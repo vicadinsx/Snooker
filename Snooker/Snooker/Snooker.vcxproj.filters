@@ -116,5 +116,8 @@
     <ClInclude Include="src\engine\common\managers.h">
       <Filter>Source Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\visual\texture.h">
+      <Filter>Source Files\Visual</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

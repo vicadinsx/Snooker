@@ -37,15 +37,6 @@ class ShaderProgram {
         std::string logString;
         std::unordered_map<std::string,GLint> uniformIDs;
 
-        GLint getUniformLocation(const char* name){
-            std::unordered_map<std::string,GLint>::iterator it;
-            it = uniformIDs.find(name);
-            if(it == uniformIDs.end())
-                uniformIDs[name] = glGetUniformLocation(programID,name);
-
-            return uniformIDs[name];
-        }
-
     public:
         ShaderProgram(){
             programID = 0;
@@ -68,6 +59,16 @@ class ShaderProgram {
 
             delete[] shaderNames;
         }
+
+		GLint getUniformLocation(const char* name) {
+			std::unordered_map<std::string, GLint>::iterator it;
+			it = uniformIDs.find(name);
+			if (it == uniformIDs.end())
+				uniformIDs[name] = glGetUniformLocation(programID, name);
+
+			return uniformIDs[name];
+		}
+
 
         void compileShaderFromFile(const char* fileName, ShaderType::Type type)
             throw( ShaderProgramException ){
@@ -177,7 +178,6 @@ class ShaderProgram {
             glUseProgram(programID);
         }
 
-
         void setUniform(const char* name, float x, float y, float z, float w){
             GLint uniformID = getUniformLocation(name);
             glUniform4f(uniformID,(GLfloat)x,(GLfloat)y,(GLfloat)z,(GLfloat)w);
@@ -188,6 +188,14 @@ class ShaderProgram {
             GLint uniformID = getUniformLocation(name);
             glUniformMatrix4fv(uniformID,1,GL_FALSE,m);
         }
+
+		void setUniformTexture(const char* name, int n) {
+			GLint uniformID = getUniformLocation(name);
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, n);
+			glUniform1i(uniformID, GL_TEXTURE0);
+		}
 
         void addUniformBlock(const char* name, GLuint location){
             GLint uboId = glGetUniformBlockIndex(this->programID,name);

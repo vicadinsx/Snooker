@@ -73,9 +73,9 @@ void createShaderProgram()
 {
     ShaderProgram *program = new ShaderProgram();
 
-    program->compileShaderFromFile("data/shaders/vertexShaderSceneManagement.vert",ShaderType::VERTEX);
+    program->compileShaderFromFile("data/shaders/vertexShaderTextures.vert",ShaderType::VERTEX);
 
-    program->compileShaderFromFile("data/shaders/fragmentShaderSceneManagement.frag",ShaderType::FRAGMENT);
+    program->compileShaderFromFile("data/shaders/fragmentShaderTextures.frag",ShaderType::FRAGMENT);
 
     program->bindAttribLocation(VERTICES,"in_Position");
     program->bindAttribLocation(TEXCOORDS,"in_TexCoords");
@@ -236,6 +236,10 @@ void createSquirrel() {
     scenegraph->getCamera()->setProjectionMatrix(
             math::Perspective(30.0f, (float)WinX / WinY, 0.1f, 100.0f));
     
+	//Textures definition
+	std::string textBrick("data/textures/bricks.bmp");
+	std::string textTest("data/textures/testTexture.bmp");
+
     Mesh* squareMesh = MeshManager::instance()->get("square");
     Mesh* triangleMesh = MeshManager::instance()->get("triangle");
     Mesh* paralelMesh = MeshManager::instance()->get("paralel");
@@ -249,6 +253,8 @@ void createSquirrel() {
                             Quaternion(0.0f,Vector3(-1.0f,0.0f,0.0f)).toMatrix() *
                             math::scale(Vector3(4.0f,3.0f,0.4f)));
 
+	ground->setTexture(textBrick);
+
     suzanneNode = ground->createNode("suzanne");
     suzanneNode->setMesh(MeshManager::instance()->get("suzanne"));
 
@@ -257,6 +263,8 @@ void createSquirrel() {
     bigTriangle1->setModelMatrix(math::translate(squirrelPositions["bigTriangle1"]) *
                                  squirrelRotations["bigTriangle1"].toMatrix() *
                                  math::scale(Vector3(0.3f,0.3f,0.3f)));
+
+	bigTriangle1->setTexture(textTest);
 
     bigTriangle2 = ground->createNode("triangle");
     bigTriangle2->setMesh(triangleMesh);
