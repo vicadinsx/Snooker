@@ -6,6 +6,7 @@
 #include "mesh.h"
 #include "shaderprogram.h"
 #include "camera.h"
+#include "texture.h"
 
 namespace engine {
 
@@ -39,6 +40,7 @@ namespace engine {
         public:
             std::vector<SceneNode*> children;
             math::Matrix4 modelMatrix;
+			GLuint texture;
             Mesh* mesh;
             ShaderProgram* shaderProgram;
             bool isRoot;
@@ -62,6 +64,11 @@ namespace engine {
             void setMesh(Mesh* _mesh) {
                 mesh = _mesh;
             }
+
+			void setTexture(std::string& filename)
+			{
+				texture = loadBMP_custom(filename.c_str());
+			}
 
             void setShaderProgram(ShaderProgram* _program) {
                 shaderProgram = _program;
@@ -110,7 +117,9 @@ namespace engine {
                         }
                     }
                     shaderProgram->use();
-                    shaderProgram->setUniform("Matrix",this->getModelMatrix().getData());
+					shaderProgram->setUniform("Matrix", this->getModelMatrix().getData());
+					shaderProgram->setUniformTexture("Texture", texture);
+
                     mesh->draw();
                     if (!children.empty()){
                         int i;

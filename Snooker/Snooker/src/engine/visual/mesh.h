@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "visual\texture.h"
 
 #include "math\matrixfactory.h"
 
