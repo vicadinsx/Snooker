@@ -3,12 +3,15 @@
 //#include "visual/shaderprogram.h"
 //#include "visual/camera.h"
 //#include "types/quaternion.h"
+//#include "visual\mesh.h"
 //
 //#include <algorithm>
 //
 //using math::Matrix3;
 //using math::Vector4;
 //using math::Quaternion;
+//
+//using namespace engine;
 //
 //#define CAPTION "Badass Squirrel"
 //

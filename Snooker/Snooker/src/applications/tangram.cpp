@@ -1,6 +1,12 @@
 //#pragma once
 //
-//#include "visual\shaderprogram.h"
+//#include "visual/shaderprogram.h"
+//#include "visual/camera.h"
+//#include "visual/mesh.h"
+//#include "math\matrixfactory.h"
+//
+//using namespace engine;
+//using namespace math;
 //
 //#define CAPTION "Badass Squirrel"
 //
@@ -165,30 +171,30 @@
 //}
 //
 //// big triangles
-//Matrix4 _M0 = MatrixFactory::CreateTransformMatrix( -0.15f,-0.2f,0.0f,170.0f,2.0f);
-// const float* M0 = _M0.getData();
+//Matrix4 _M0 = CreateTransformMatrix( -0.15f,-0.2f,0.0f,170.0f,2.0f);
+// float* M0 = _M0.getData();
 //
-//Matrix4 _M3 = MatrixFactory::CreateTransformMatrix( 0.35f,-0.28f,0.0,125.0f,2.0f);
-// const float* M3 = _M3.getData();
+//Matrix4 _M3 = CreateTransformMatrix( 0.35f,-0.28f,0.0,125.0f,2.0f);
+// float* M3 = _M3.getData();
 //
 //// medium triangle
-//Matrix4 _M4 = MatrixFactory::CreateTransformMatrix( -0.13f,0.40f,0.0,78.0f,1.5f);
-// const float* M4 = _M4.getData();
+//Matrix4 _M4 = CreateTransformMatrix( -0.13f,0.40f,0.0,78.0f,1.5f);
+// float* M4 = _M4.getData();
 //
 //// small triangles
-//Matrix4 _M5 = MatrixFactory::CreateTransformMatrix( 0.15f,-0.55f,0.0,80.0f,1.2f);
-// const float* M5 = _M5.getData();
+//Matrix4 _M5 = CreateTransformMatrix( 0.15f,-0.55f,0.0,80.0f,1.2f);
+// float* M5 = _M5.getData();
 //
-//Matrix4 _M6 = MatrixFactory::CreateTransformMatrix( -0.97f,-0.2f,0.0f,-12.0f,1.2f);
-// const float* M6 = _M6.getData();
+//Matrix4 _M6 = CreateTransformMatrix( -0.97f,-0.2f,0.0f,-12.0f,1.2f);
+// float* M6 = _M6.getData();
 //
 //// square
-//Matrix4 _M1 = MatrixFactory::CreateTransformMatrix(-0.51f,0.41f,0.0f,33.0f,1.25f);
-// const float* M1 = _M1.getData();
+//Matrix4 _M1 = CreateTransformMatrix(-0.51f,0.41f,0.0f,33.0f,1.25f);
+// float* M1 = _M1.getData();
 //
 // // pararelogram
-//Matrix4 _M2 = MatrixFactory::CreateTransformMatrix(-0.12f,0.4f,0.0f,-56.0f,1.0f);
-// const float* M2 = _M2.getData();
+//Matrix4 _M2 = CreateTransformMatrix(-0.12f,0.4f,0.0f,-56.0f,1.0f);
+// float* M2 = _M2.getData();
 //
 //void drawScene()
 //{

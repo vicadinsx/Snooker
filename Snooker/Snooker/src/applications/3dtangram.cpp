@@ -2,6 +2,9 @@
 //
 //#include "visual/shaderprogram.h"
 //#include "visual/camera.h"
+//#include "visual/mesh.h"
+//
+//using namespace engine;
 //
 //#define CAPTION "Badass Squirrel"
 //
