@@ -21,7 +21,7 @@ physics engine holds a list of physical representations of objects, which is in 
 move onto the visual engine -> draw scenegraph
 	note: need to update the model matrix of each ball to match collisions
 	
-### post-processing ### 
+### post-processing
 
 instead of rendering to screen, take framebuffer and render it onto a texture. 
 map that texture onto a square, that will be rendered onto the screen
