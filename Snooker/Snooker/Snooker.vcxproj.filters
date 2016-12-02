@@ -49,7 +49,7 @@
     <ClCompile Include="src\applications\tangram.cpp">
       <Filter>Source Files\Applications</Filter>
     </ClCompile>
-    <ClCompile Include="texturedCube.cpp">
+    <ClCompile Include="src\applications\texturedCube.cpp">
       <Filter>Source Files\Applications</Filter>
     </ClCompile>
   </ItemGroup>

@@ -172,7 +172,7 @@
     <ClCompile Include="src\applications\objectRotation.cpp" />
     <ClCompile Include="src\applications\sceneGraphTangram.cpp" />
     <ClCompile Include="src\applications\tangram.cpp" />
-    <ClCompile Include="texturedCube.cpp" />
+    <ClCompile Include="src\applications\texturedCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\shaders\3dfragmentShader.frag" />
