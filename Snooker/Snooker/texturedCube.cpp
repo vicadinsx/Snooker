@@ -137,7 +137,7 @@ void createSquirrel() {
 
 	ground->setTexture(textRed);
 
-	square1 = scenegraph->createNode("square1");
+	square1 = ground->createNode("square1");
 	square1->setMesh(squareMesh);
 	square1->setModelMatrix(math::translate(Vector3(-1.0f, 0.0f, 2.0f)) 
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix());
@@ -239,9 +239,12 @@ void drawSceneGraph() {
 	ground->applyMatrix(math::translate(Vector3(groundX, groundY, groundZ)) *
 		math::rotate(groundRot, Vector3(-1.0f, 0.0f, 0.0f)));
 
-	ground->applyMatrixToChildren(math::translate(Vector3(0.0f, 1.0f, tamHeight)) *
+	square1->setModelMatrix(math::translate(Vector3(-1.0f, 0.0f, 2.0f))
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix());
+
+	ground->applyMatrixToChildren(math::translate(Vector3(0.5f, 1.5f, 4.0f)) *
 		math::rotate(90.0f, Vector3(1.0f, 0.0f, 0.0f)) *
-		math::scale(Vector3(1.0f, 10.0f, 1.0f)));
+		math::scale(Vector3(0.6f, 5.0f, 0.6f)));
 
 	SceneGraphManager::instance()->get(activeSceneGraph)->draw();
 }
