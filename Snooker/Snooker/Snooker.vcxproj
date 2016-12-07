@@ -187,11 +187,13 @@
     <None Include="data\shaders\vertexWithNormals.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\common\Models.h" />
     <ClInclude Include="src\engine\common\managers.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\math\mathf.h" />
     <ClInclude Include="src\engine\math\matrixfactory.h" />
     <ClInclude Include="src\engine\types\matrix.h" />
+    <ClInclude Include="src\engine\types\Object.h" />
     <ClInclude Include="src\engine\types\quaternion.h" />
     <ClInclude Include="src\engine\types\vector.h" />
     <ClInclude Include="src\engine\visual\camera.h" />

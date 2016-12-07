@@ -7,6 +7,7 @@
 #include "visual\camera.h"
 #include "visual\mesh.h"
 #include "visual\shaderprogram.h"
+#include "common\Models.h"
 
 #endif
 
