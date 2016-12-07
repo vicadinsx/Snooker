@@ -9,7 +9,6 @@
 
 #include "matrix.h"
 
-
 namespace math {
 
     class Matrix2;

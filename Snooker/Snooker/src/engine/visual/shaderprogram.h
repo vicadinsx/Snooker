@@ -9,10 +9,11 @@
 #include <stdexcept>
 #include <iostream>
 #include <unordered_map>
-#include "math\matrixfactory.h"
 
 #include "GL/glew.h"
 #include "GL/freeglut.h"
+
+#include "math\matrixfactory.h"
 
 #define COLORS 1
 

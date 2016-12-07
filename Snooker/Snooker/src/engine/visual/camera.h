@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <GL/glew.h>
+
 #include "math\matrixfactory.h"
 
 using math::Vector3;

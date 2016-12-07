@@ -1,7 +1,7 @@
 #ifndef MATRIXFACTORY_H
 #define MATRIXFACTORY_H
 
-#include "types\matrix.h"
+#include "matrix.h"
 #include "mathf.h"
 
 namespace math{
@@ -165,11 +165,13 @@ namespace math{
                             0     ,  0,               -1                ,                  0);
     }
 
-    Matrix4 Ortho(float left, float right, float bottom, float top, float near, float far){
-        return Matrix4(2.0f / (right - left),        0             ,         0          , (left + right) / (left - right),
-                                0           , 2.0f / (top - bottom),         0          , (bottom + top) / (bottom - top),
-                                0           ,        0             , -2.0f / (far - near),   (near + far) / (near - far)  ,
-                                0           ,        0             ,         0          ,                1               );
+    Matrix4 Ortho(float left, float right, float bottom, float top, float zNear, float zFar){
+        return Matrix4(
+				2.0f / (right - left),			0             ,				  0           ,		(left + right) / (left - right),
+						0            ,	2.0f / (top - bottom) ,				  0           ,		(bottom + top) / (bottom - top),
+						0            ,			0             ,		-2.0f / (zFar - zNear),		(zNear + zFar) / (zNear - zFar),
+						0            ,			0             ,				  0           ,                1               
+		);
     }
 
     Matrix4 translate(Vector3 v) {

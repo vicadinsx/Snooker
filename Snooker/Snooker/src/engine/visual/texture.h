@@ -7,7 +7,6 @@
 
 #include <GL/glew.h>
 
-
 GLuint loadBMP_custom(const char * imagepath) {
 
 	printf("Reading image %s\n", imagepath);

@@ -3,10 +3,9 @@
 #include "engine.h"
 
 using namespace engine;
-
 using math::Quaternion;
 
-#define CAPTION "Badass Moving Squirrel"
+#define CAPTION "Snooker on Fire - Stage 1"
 
 int WinX = 640, WinY = 480;
 int WindowHandle = 0;

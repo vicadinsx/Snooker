@@ -9,8 +9,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "visual\texture.h"
 
+#include "texture.h"
 #include "math\matrixfactory.h"
 
 using math::Vector3;

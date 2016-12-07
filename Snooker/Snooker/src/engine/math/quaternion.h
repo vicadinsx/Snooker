@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <string>
 
-#include "math\matrixfactory.h"
+#include "matrixfactory.h"
 
 namespace math {
 

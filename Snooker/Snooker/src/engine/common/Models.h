@@ -1,11 +1,10 @@
-#pragma once
 #ifndef __ModelsManager_H__
 #define __ModelsManager_H__
 
 #include <vector>
 #include <string>
 #include <map>
-#include "types\Object.h"
+#include "math\object.h"
 #include "visual\scene.h"
 
 namespace engine {
@@ -41,5 +40,4 @@ namespace engine {
 	};
 
 }
-
 #endif;

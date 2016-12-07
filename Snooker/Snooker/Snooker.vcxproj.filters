@@ -14,9 +14,6 @@
     <Filter Include="Data Files\Shaders">
       <UniqueIdentifier>{e64b129d-50a7-4d43-a603-e898eb951408}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Types">
-      <UniqueIdentifier>{dfe24e51-f63d-4965-ad49-96c31661dc29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Visual">
       <UniqueIdentifier>{4da43d57-d9ee-4b5c-801d-d58dfc81021b}</UniqueIdentifier>
     </Filter>
@@ -89,15 +86,6 @@
     <ClInclude Include="src\engine\engine.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\types\quaternion.h">
-      <Filter>Source Files\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\types\vector.h">
-      <Filter>Source Files\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\types\matrix.h">
-      <Filter>Source Files\Types</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\visual\shaderprogram.h">
       <Filter>Source Files\Visual</Filter>
     </ClInclude>
@@ -110,23 +98,32 @@
     <ClInclude Include="src\engine\visual\scene.h">
       <Filter>Source Files\Visual</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\matrixfactory.h">
-      <Filter>Source Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\math\mathf.h">
-      <Filter>Source Files\Math</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\common\managers.h">
       <Filter>Source Files\Common</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\visual\texture.h">
       <Filter>Source Files\Visual</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\common\Models.h">
-      <Filter>Source Files\Common</Filter>
+    <ClInclude Include="src\engine\math\mathf.h">
+      <Filter>Source Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\types\Object.h">
-      <Filter>Source Files\Types</Filter>
+    <ClInclude Include="src\engine\math\matrix.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\matrixfactory.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\quaternion.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\vector.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\object.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\common\models.h">
+      <Filter>Source Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
