@@ -33,6 +33,12 @@ namespace math {
 		void setDirection(Vector2 d) { _direction = d; }
 		void setSpeed(Vector2 s) { _speed = s; }
 		void setAcceleration(Vector2 a) { _acceleration = a; }
+
+		void update(int timeElapsed)
+		{
+			_speed = _speed + _acceleration;
+			_model = _model * Create4DTranslation(_speed.x, _speed.y, 0);
+		}
 	};
 }
 

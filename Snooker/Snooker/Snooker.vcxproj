@@ -187,6 +187,7 @@
     <None Include="data\shaders\vertexWithNormals.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\physicengine\physicengine.h" />
     <ClInclude Include="src\engine\common\managers.h" />
     <ClInclude Include="src\engine\common\models.h" />
     <ClInclude Include="src\engine\engine.h" />

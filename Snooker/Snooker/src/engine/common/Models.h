@@ -31,6 +31,14 @@ namespace engine {
 
 		void add(Object* o, std::string name) { objects[name] = o; }
 
+		void updateObjects(int timeElapsed)
+		{
+			std::map<std::string, Object*>::iterator it;
+			for (it = objects.begin(); it != objects.end(); it++) {
+				it->second->update(timeElapsed);
+			}
+		}
+
 		static ModelsManager* instance()
 		{
 			static ModelsManager instance;

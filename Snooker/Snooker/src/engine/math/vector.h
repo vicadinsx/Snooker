@@ -274,6 +274,7 @@ namespace math {
             Vector2 operator = (Vector2 v){
                 x = v.x;
                 y = v.y;
+				return *this;
             }
 
             bool operator == (const Vector2 &u){
