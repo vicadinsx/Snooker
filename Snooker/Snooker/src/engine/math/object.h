@@ -73,8 +73,8 @@ namespace math {
 			float y2 = (o2->speed().y * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().y)) / (o1->mass() + o2->mass());
 			o2->setSpeed({ x2,y2 });
 
-			o1->setModel(o1->model() + Create4DTranslation(x1, y1, 0));
-			o2->setModel(o2->model() + Create4DTranslation(x2, y2, 0));
+			o1->setModel(o1->model() * Create4DTranslation(x1, y1, 0));
+			o2->setModel(o2->model() * Create4DTranslation(x2, y2, 0));
 		}
 
 		void updatePosition(int timeElapsed)
