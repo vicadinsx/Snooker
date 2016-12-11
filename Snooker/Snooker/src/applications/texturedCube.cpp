@@ -221,6 +221,28 @@ void createSquirrel() {
 	//square1->setModelMatrix(math::translate(Vector3(-1.0f, 0.0f, 2.0f)) 
 	//	* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix());
 
+	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.0005,0 ), 1), "cue");
+
+	ModelsManager::instance()->add(new Object(balls[0]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball1");
+
+	ModelsManager::instance()->add(new Object(balls[1]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball2");
+
+	ModelsManager::instance()->add(new Object(balls[2]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball3");
+
+	ModelsManager::instance()->add(new Object(balls[3]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0, 0), 1), "ball4");
+
+	ModelsManager::instance()->add(new Object(balls[4]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball5");
+
+	ModelsManager::instance()->add(new Object(balls[5]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball6");
+
+
 	//ModelsManager::instance()->add(new Object(math::translate(Vector3(-1.0f, 0.0f, 2.0f))
 	//	* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 2, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.00001,0 )), "square1");
 
@@ -321,7 +343,14 @@ void drawSceneGraph() {
 	//ground->applyMatrix(math::translate(Vector3(groundX, groundY, groundZ)) *
 	//	math::rotate(groundRot, Vector3(-1.0f, 0.0f, 0.0f)));
 
-	//ModelsManager::instance()->updateObjects(0);
+	ModelsManager::instance()->updateObjects(0);
+	whiteBall->setModelMatrix(ModelsManager::instance()->get("cue")->model());
+	balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->model());
+	balls[1]->setModelMatrix(ModelsManager::instance()->get("ball2")->model());
+	balls[2]->setModelMatrix(ModelsManager::instance()->get("ball3")->model());
+	balls[3]->setModelMatrix(ModelsManager::instance()->get("ball4")->model());
+	balls[4]->setModelMatrix(ModelsManager::instance()->get("ball5")->model());
+	balls[5]->setModelMatrix(ModelsManager::instance()->get("ball6")->model());
 
 	//square1->setModelMatrix(ModelsManager::instance()->get("square1")->model());
 

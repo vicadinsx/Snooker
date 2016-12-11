@@ -39,42 +39,42 @@ namespace math {
 		void setMass(float m) { _mass = m; }
 
 		//AABB overlaps method for balls
-		friend bool overlaps(Object o1, Object o2) {
-			if (o1.model().getElement(0,3) + o1.radius() + o2.radius() > o2.model().getElement(0, 3)
-				&& o1.model().getElement(0, 3) < o1.radius() + o2.radius() + o2.model().getElement(0, 3)
-				&& o1.model().getElement(1, 3) + o1.radius() + o2.radius() > o2.model().getElement(1, 3)
-				&& o1.model().getElement(1, 3) < o1.radius() + o2.radius() + o2.model().getElement(1, 3))
+		friend bool overlaps(Object *o1, Object *o2) {
+			if (o1->model().getElement(0,3) + o1->radius() + o2->radius() > o2->model().getElement(0, 3)
+				&& o1->model().getElement(0, 3) < o1->radius() + o2->radius() + o2->model().getElement(0, 3)
+				&& o1->model().getElement(1, 3) + o1->radius() + o2->radius() > o2->model().getElement(1, 3)
+				&& o1->model().getElement(1, 3) < o1->radius() + o2->radius() + o2->model().getElement(1, 3))
 				return true;
 			return false;
 		}
 
 		//Check if balls are colliding
-		friend bool colliding(Object o1, Object o2) {
-			float distance = sqrt(pow(o1.model().getElement(0, 3) - o2.model().getElement(0, 3), 2) + pow(o1.model().getElement(1, 3) - o2.model().getElement(1, 3), 2));
-			if (distance < o1.radius() + o2.radius())
+		friend bool colliding(Object *o1, Object *o2) {
+			float distance = sqrt(pow(o1->model().getElement(0, 3) - o2->model().getElement(0, 3), 2) + pow(o1->model().getElement(1, 3) - o2->model().getElement(1, 3), 2));
+			if (distance < o1->radius() + o2->radius())
 				return true;
 			return false;
 		}
 
 		//Return collision x and y position
-		friend Vector2 collisionPoints(Object o1, Object o2) {
-			float collisionPointX = ((o1.model().getElement(0, 3)*o2.radius()) + o2.model().getElement(0, 3)*o1.radius()) / (o1.radius() + o2.radius());
-			float collisionPointY = ((o1.model().getElement(1, 3)*o2.radius()) + o2.model().getElement(1, 3)*o1.radius()) / (o1.radius() + o2.radius());
+		friend Vector2 collisionPoints(Object* o1, Object *o2) {
+			float collisionPointX = ((o1->model().getElement(0, 3)*o2->radius()) + o2->model().getElement(0, 3)*o1->radius()) / (o1->radius() + o2->radius());
+			float collisionPointY = ((o1->model().getElement(1, 3)*o2->radius()) + o2->model().getElement(1, 3)*o1->radius()) / (o1->radius() + o2->radius());
 			return { collisionPointX, collisionPointY };
 		}
 
-		//Probably buggy collision
-		friend void collide(Object o1, Object o2) {
-			float x1 = (o1.speed().x * (o1.mass() - o2.mass()) + (2 * o2.mass() * o2.speed().x)) / (o1.mass() + o2.mass());
-			float y1 = (o1.speed().y * (o1.mass() - o2.mass()) + (2 * o2.mass() * o2.speed().y)) / (o1.mass() + o2.mass());
-			o1.setSpeed({ x1, y1 });
+		//Buggy collision
+		friend void collide(Object* o1, Object* o2) {
+			float x1 = (o1->speed().x * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().x)) / (o1->mass() + o2->mass());
+			float y1 = (o1->speed().y * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().y)) / (o1->mass() + o2->mass());
+			o1->setSpeed({ x1, y1 });
 
-			float x2 = (o2.speed().x * (o2.mass() - o1.mass()) + (2 * o1.mass() * o1.speed().x)) / (o1.mass() + o2.mass());
-			float y2 = (o2.speed().y * (o2.mass() - o1.mass()) + (2 * o1.mass() * o1.speed().y)) / (o1.mass() + o2.mass());
-			o2.setSpeed({ x2,y2 });
+			float x2 = (o2->speed().x * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().x)) / (o1->mass() + o2->mass());
+			float y2 = (o2->speed().y * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().y)) / (o1->mass() + o2->mass());
+			o2->setSpeed({ x2,y2 });
 
-			o1.setModel(o1.model() + Create4DTranslation(x1, y1, 0));
-			o2.setModel(o2.model() + Create4DTranslation(x2, y2, 0));
+			o1->setModel(o1->model() + Create4DTranslation(x1, y1, 0));
+			o2->setModel(o2->model() + Create4DTranslation(x2, y2, 0));
 		}
 
 		void updatePosition(int timeElapsed)
