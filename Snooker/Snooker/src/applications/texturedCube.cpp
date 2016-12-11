@@ -142,7 +142,7 @@ void createSquirrel() {
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix());
 
 	ModelsManager::instance()->add(new Object(math::translate(Vector3(-1.0f, 0.0f, 2.0f))
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 2, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.00001,0 )), "square1");
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 2, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.00001,0 ), 10), "square1");
 
 	square1->setTexture(textBrick);
 
@@ -244,6 +244,8 @@ void drawSceneGraph() {
 	ModelsManager::instance()->updateObjects(0);
 
 	square1->setModelMatrix(ModelsManager::instance()->get("square1")->model());
+
+	//ModelsManager::instance()->get("square1")->model().print();
 
 	ground->applyMatrixToChildren(math::translate(Vector3(0.5f, 1.5f, 4.0f)) *
 		math::rotate(90.0f, Vector3(1.0f, 0.0f, 0.0f)) *
