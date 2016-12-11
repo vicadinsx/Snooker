@@ -94,20 +94,26 @@ void destroyShaderProgram()
 void createMeshes()
 {
 	std::string tamSquare("data/meshes/cube.obj");
+	std::string ballStr("data/meshes/sphere.obj");
 
 	Mesh *square = new Mesh(tamSquare);
+	Mesh *ball = new Mesh(ballStr);
 
 	square->create();
+	ball->create();
 
 	MeshManager::instance()->add("square", square);
+	MeshManager::instance()->add("ball", ball);
 
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
 
 
 SceneNode *ground, *square1;
+SceneNode *wall1, *wall2, *wall3, *wall4;
+SceneNode *whiteBall;
+std::array<SceneNode*,6> balls;
 SceneNode* root;
-
 
 void destroyBufferObjects() {
 }
@@ -122,8 +128,13 @@ void createSquirrel() {
 	//Textures definition
 	std::string textBrick("data/textures/bricks.bmp");
 	std::string textRed("data/textures/red.bmp");
+	std::string textBlue("data/textures/blue.bmp");
+	std::string textGreen("data/textures/green.bmp");
+	std::string textBrown("data/textures/brown.bmp");
+	std::string textWhite("data/textures/white.bmp");
 
 	Mesh* squareMesh = MeshManager::instance()->get("square");
+	Mesh* ballMesh   = MeshManager::instance()->get("ball");
 
 	root = scenegraph->getRoot();
 	root->setShaderProgram(ShaderProgramManager::instance()->get("default"));
@@ -132,19 +143,88 @@ void createSquirrel() {
 	ground->setMesh(squareMesh);
 	ground->setModelMatrix(math::translate(Vector3(0.0f, 0.0f, 0.0f)) *
 		Quaternion(0.0f, Vector3(-1.0f, 0.0f, 0.0f)).toMatrix() *
-		math::scale(Vector3(4.0f, 3.0f, 0.4f)));
+		math::scale(Vector3(10.0f, 6.0f, 0.6f)));
 
-	ground->setTexture(textRed);
+	ground->setTexture(textGreen);
 
-	square1 = ground->createNode("square1");
-	square1->setMesh(squareMesh);
-	square1->setModelMatrix(math::translate(Vector3(-1.0f, 0.0f, 2.0f)) 
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix());
+	wall1 = ground->createNode("wall");
+	wall1->setMesh(squareMesh);
+	wall1->setModelMatrix(math::translate(Vector3(0.0f, 1.3, 2.0f)) *
+							math::scale(Vector3(1.0f, 0.1f, 1.0)));
+	wall1->setTexture(textBrown);
 
-	ModelsManager::instance()->add(new Object(math::translate(Vector3(-1.0f, 0.0f, 2.0f))
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 2, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.00001,0 )), "square1");
+	wall2 = ground->createNode("wall");
+	wall2->setMesh(squareMesh);
+	wall2->setModelMatrix(math::translate(Vector3(0.0f, -0.5, 2.0f)) *
+		   				  math::scale(Vector3(1.0f, 0.1f, 1.0)));
+	wall2->setTexture(textBrown);
 
-	square1->setTexture(textBrick);
+	wall3 = ground->createNode("wall");
+	wall3->setMesh(squareMesh);
+	wall3->setModelMatrix(math::translate(Vector3(0.85f, 0.0, 2.0f)) *
+		  				  math::scale(Vector3(0.1f, 1.0f, 1.0)));
+	wall3->setTexture(textBrown);
+
+	wall4 = ground->createNode("wall");
+	wall4->setMesh(squareMesh);
+	wall4->setModelMatrix(math::translate(Vector3(-0.95f, 0.0, 2.0f)) *
+		 				  math::scale(Vector3(0.1f, 1.0f, 1.0)));
+	wall4->setTexture(textBrown);
+
+	float xOffset = 0.0f, yOffset = 0.0f, zOffset = 0.0f;
+	float scaleFactor = 0.3f;
+
+	whiteBall = scenegraph->createNode("ball");
+	whiteBall->setMesh(ballMesh);
+	whiteBall->setModelMatrix(math::translate(Vector3(5.0f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
+		 				  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	whiteBall->setTexture(textWhite);
+
+	balls[0] = scenegraph->createNode("ball");
+	balls[0]->setMesh(ballMesh);
+	balls[0]->setModelMatrix(math::translate(Vector3(-4.0f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
+		 				  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[0]->setTexture(textBlue);
+
+	balls[1] = scenegraph->createNode("ball");
+	balls[1]->setMesh(ballMesh);
+	balls[1]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 3.0f + yOffset, 1.0f + zOffset)) *
+		   			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[1]->setTexture(textBlue);
+
+	balls[2] = scenegraph->createNode("ball");
+	balls[2]->setMesh(ballMesh);
+	balls[2]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 2.0f + yOffset, 1.0f + zOffset)) *
+		  			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[2]->setTexture(textBlue);
+
+	balls[3] = scenegraph->createNode("ball");
+	balls[3]->setMesh(ballMesh);
+	balls[3]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 1.5f + yOffset, 1.0f + zOffset)) *
+		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[3]->setTexture(textBlue);
+
+	balls[4] = scenegraph->createNode("ball");
+	balls[4]->setMesh(ballMesh);
+	balls[4]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
+		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[4]->setTexture(textBlue);
+
+	balls[5] = scenegraph->createNode("ball");
+	balls[5]->setMesh(ballMesh);
+	balls[5]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 3.5f + yOffset, 1.0f + zOffset)) *
+		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[5]->setTexture(textBlue);
+
+	//square1 = ground->createNode("square1");
+	//square1->setMesh(squareMesh);
+	//square1->setModelMatrix(math::translate(Vector3(-1.0f, 0.0f, 2.0f)) 
+	//	* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix());
+
+	//ModelsManager::instance()->add(new Object(math::translate(Vector3(-1.0f, 0.0f, 2.0f))
+	//	* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 2, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.00001,0 )), "square1");
+
+	//square1->setTexture(textBrick);
 
 	SceneGraphManager::instance()->add(activeSceneGraph, scenegraph);
 }
@@ -238,16 +318,16 @@ void setViewProjectionMatrix() {
 }
 
 void drawSceneGraph() {
-	ground->applyMatrix(math::translate(Vector3(groundX, groundY, groundZ)) *
-		math::rotate(groundRot, Vector3(-1.0f, 0.0f, 0.0f)));
+	//ground->applyMatrix(math::translate(Vector3(groundX, groundY, groundZ)) *
+	//	math::rotate(groundRot, Vector3(-1.0f, 0.0f, 0.0f)));
 
-	ModelsManager::instance()->updateObjects(0);
+	//ModelsManager::instance()->updateObjects(0);
 
-	square1->setModelMatrix(ModelsManager::instance()->get("square1")->model());
+	//square1->setModelMatrix(ModelsManager::instance()->get("square1")->model());
 
-	ground->applyMatrixToChildren(math::translate(Vector3(0.5f, 1.5f, 4.0f)) *
-		math::rotate(90.0f, Vector3(1.0f, 0.0f, 0.0f)) *
-		math::scale(Vector3(0.6f, 5.0f, 0.6f)));
+	//ground->applyMatrixToChildren(math::translate(Vector3(0.5f, 1.5f, 4.0f)) *
+	//	math::rotate(90.0f, Vector3(1.0f, 0.0f, 0.0f)) *
+	//	math::scale(Vector3(0.6f, 5.0f, 0.6f)));
 
 	SceneGraphManager::instance()->get(activeSceneGraph)->draw();
 }
