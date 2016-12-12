@@ -250,105 +250,105 @@ void createSquirrel() {
 	balls[0] = scenegraph->createNode("ball");
 	balls[0]->setMesh(ballMesh);
 	balls[0]->setModelMatrix(math::translate(Vector3(-4.0f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
-						  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+						  //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		 				  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[0]->setTexture(textBall1);
 
 	balls[1] = scenegraph->createNode("ball");
 	balls[1]->setMesh(ballMesh);
 	balls[1]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 3.0f + yOffset, 1.0f + zOffset)) *
-					  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+					  //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[1]->setTexture(textBall2);
 
 	balls[2] = scenegraph->createNode("ball");
 	balls[2]->setMesh(ballMesh);
 	balls[2]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 2.0f + yOffset, 1.0f + zOffset)) *
-					  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+					  //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		  			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[2]->setTexture(textBall3);
 
 	balls[3] = scenegraph->createNode("ball");
 	balls[3]->setMesh(ballMesh);
 	balls[3]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 1.5f + yOffset, 1.0f + zOffset)) *
-				  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+				  //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[3]->setTexture(textBall4);
 
 	balls[4] = scenegraph->createNode("ball");
 	balls[4]->setMesh(ballMesh);
 	balls[4]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
-				  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+				  //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[4]->setTexture(textBall5);
 
 	balls[5] = scenegraph->createNode("ball");
 	balls[5]->setMesh(ballMesh);
 	balls[5]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 3.5f + yOffset, 1.0f + zOffset)) *
-				  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+				  //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[5]->setTexture(textBall6);
 
 	balls[6] = scenegraph->createNode("ball");
 	balls[6]->setMesh(ballMesh);
 	balls[6]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 1.0f + yOffset, 1.0f + zOffset)) *
-		    	  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		    	  //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		  		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[6]->setTexture(textBall7);
 
 	balls[7] = scenegraph->createNode("ball");
 	balls[7]->setMesh(ballMesh);
 	balls[7]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 2.0f + yOffset, 1.0f + zOffset)) *
-		   		 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		   		 //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 				 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[7]->setTexture(textBall8);
 
 	balls[8] = scenegraph->createNode("ball");
 	balls[8]->setMesh(ballMesh);
 	balls[8]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 3.0f + yOffset, 1.0f + zOffset)) *
-		  		 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		  		 //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[8]->setTexture(textBall9);
 
 	balls[9] = scenegraph->createNode("ball");
 	balls[9]->setMesh(ballMesh);
 	balls[9]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 4.0f + yOffset, 1.0f + zOffset)) *
-		    	 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		    	 //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[9]->setTexture(textBall10);
 
 	balls[10] = scenegraph->createNode("ball");
 	balls[10]->setMesh(ballMesh);
 	balls[10]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 0.5f + yOffset, 1.0f + zOffset)) *
-		    	 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		    	 //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[10]->setTexture(textBall11);
 	
 	balls[11] = scenegraph->createNode("ball");
 	balls[11]->setMesh(ballMesh);
 	balls[11]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 1.5f + yOffset, 1.0f + zOffset)) *
-		         math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		         //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[11]->setTexture(textBall12);
 
 	balls[12] = scenegraph->createNode("ball");
 	balls[12]->setMesh(ballMesh);
 	balls[12]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
-		   	 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		   	 //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[12]->setTexture(textBall13);
 
 	balls[13] = scenegraph->createNode("ball");
 	balls[13]->setMesh(ballMesh);
 	balls[13]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 3.5f + yOffset, 1.0f + zOffset)) *
-		     math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		     //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		     math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[13]->setTexture(textBall14);
 
 	balls[14] = scenegraph->createNode("ball");
 	balls[14]->setMesh(ballMesh);
 	balls[14]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 4.5f + yOffset, 1.0f + zOffset)) *
-		     math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		     //math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		     math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[14]->setTexture(textBall15);
 
