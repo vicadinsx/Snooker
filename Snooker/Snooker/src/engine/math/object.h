@@ -2,6 +2,7 @@
 #define __OBJECT_H__
 
 #include "matrix.h"
+#include <cmath>
 
 namespace math {
 
@@ -12,6 +13,7 @@ namespace math {
 		Vector2 _speed;
 		Vector2 _acceleration;
 		float _mass;
+		float friction = 0.0001;
 
 	public:
 		Object(){}
@@ -90,6 +92,15 @@ namespace math {
 		{
 			_speed = _speed + _acceleration;
 			_model = _model * Create4DTranslation(_speed.x, _speed.y, 0);
+
+			_speed.x = _speed.x > 0 ? _speed.x - friction : _speed.x + friction;
+			_speed.y = _speed.y > 0 ? _speed.y - friction : _speed.y + friction;
+
+			if (fabs(_speed.x) < 0.001)
+				_speed.x = 0;
+
+			if (fabs(_speed.y) < 0.001)
+				_speed.y = 0;
 		}
 	};
 }
