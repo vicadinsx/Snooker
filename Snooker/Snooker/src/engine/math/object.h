@@ -17,7 +17,7 @@ namespace math {
 		Object(){}
 		Object(Matrix4 m, float r, Vector2 d, Vector2 s, Vector2 a, float mass) {
 			_model = m;
-			_radius = r;
+			_radius = 0.30;
 			_direction = d;
 			_speed = s;
 			_acceleration = a;
