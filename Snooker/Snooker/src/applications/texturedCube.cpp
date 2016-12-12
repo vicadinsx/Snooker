@@ -29,6 +29,8 @@ float interpolationFactor = 1.0f / animationDuration;
 float currentInterpolation = 0.0f;
 bool  interpolationSwitch = false;
 
+float cueAcceleration = 0.0f;
+
 float maxSpeed = 1.0f;
 float maxRotationSpeed = 3.0f;
 float distanceStep = 1.5f;
@@ -95,25 +97,32 @@ void createMeshes()
 {
 	std::string tamSquare("data/meshes/cube.obj");
 	std::string ballStr("data/meshes/sphere.obj");
+	std::string cylinderStr("data/meshes/cylinder.obj");
 
 	Mesh *square = new Mesh(tamSquare);
 	Mesh *ball = new Mesh(ballStr);
+	Mesh *cylinder = new Mesh(cylinderStr);
 
 	square->create();
 	ball->create();
+	cylinder->create();
+
 
 	MeshManager::instance()->add("square", square);
 	MeshManager::instance()->add("ball", ball);
+	MeshManager::instance()->add("cylinder", cylinder);
 
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
 
 
-SceneNode *ground, *square1;
-SceneNode *wall1, *wall2, *wall3, *wall4;
-SceneNode *whiteBall;
-std::array<SceneNode*,6> balls;
 SceneNode* root;
+SceneNode *ground;
+SceneNode *whiteBall;
+SceneNode *cue;
+std::array<SceneNode*,4> walls;
+std::array<SceneNode*,6> holes;
+std::array<SceneNode*,15> balls;
 
 void destroyBufferObjects() {
 }
@@ -131,10 +140,31 @@ void createSquirrel() {
 	std::string textBlue("data/textures/blue.bmp");
 	std::string textGreen("data/textures/green.bmp");
 	std::string textBrown("data/textures/brown.bmp");
+	std::string textBlack("data/textures/black.bmp");
 	std::string textWhite("data/textures/white.bmp");
+	std::string textYellow("data/textures/yellow.bmp");
+	std::string textBall1("data/textures/ball1.bmp");
+	std::string textBall2("data/textures/ball2.bmp");
+	std::string textBall3("data/textures/ball3.bmp");
+	std::string textBall4("data/textures/ball4.bmp");
+	std::string textBall5("data/textures/ball5.bmp");
+	std::string textBall6("data/textures/ball6.bmp");
+	std::string textBall7("data/textures/ball7.bmp");
+	std::string textBall8("data/textures/ball8.bmp");
+	std::string textBall9("data/textures/ball9.bmp");
+	std::string textBall10("data/textures/ball10.bmp");
+	std::string textBall11("data/textures/ball11.bmp");
+	std::string textBall12("data/textures/ball12.bmp");
+	std::string textBall13("data/textures/ball13.bmp");
+	std::string textBall14("data/textures/ball14.bmp");
+	std::string textBall15("data/textures/ball15.bmp");
+	std::string textWood("data/textures/wood1.bmp");
+	//std::string textTable("data/textures/tableTexture.bmp");
+	std::string textTable("data/textures/tableTexture2.bmp");
 
-	Mesh* squareMesh = MeshManager::instance()->get("square");
-	Mesh* ballMesh   = MeshManager::instance()->get("ball");
+	Mesh* squareMesh   = MeshManager::instance()->get("square");
+	Mesh* ballMesh     = MeshManager::instance()->get("ball");
+	Mesh* cylinderMesh = MeshManager::instance()->get("cylinder");
 
 	root = scenegraph->getRoot();
 	root->setShaderProgram(ShaderProgramManager::instance()->get("default"));
@@ -145,33 +175,70 @@ void createSquirrel() {
 		Quaternion(0.0f, Vector3(-1.0f, 0.0f, 0.0f)).toMatrix() *
 		math::scale(Vector3(10.0f, 6.0f, 0.6f)));
 
-	ground->setTexture(textGreen);
+	ground->setTexture(textTable);
 
-	wall1 = ground->createNode("wall");
-	wall1->setMesh(squareMesh);
-	wall1->setModelMatrix(math::translate(Vector3(0.0f, 1.3, 2.0f)) *
-							math::scale(Vector3(1.0f, 0.1f, 1.0)));
-	wall1->setTexture(textBrown);
+	walls[0] = ground->createNode("wall");
+	walls[0]->setMesh(squareMesh);
+	walls[0]->setModelMatrix(math::translate(Vector3(0.0f, 1.3, 2.0f)) *
+							math::scale(Vector3(0.82f, 0.1f, 1.0)));
+	walls[0]->setTexture(textWood);
 
-	wall2 = ground->createNode("wall");
-	wall2->setMesh(squareMesh);
-	wall2->setModelMatrix(math::translate(Vector3(0.0f, -0.5, 2.0f)) *
-		   				  math::scale(Vector3(1.0f, 0.1f, 1.0)));
-	wall2->setTexture(textBrown);
+	walls[1] = ground->createNode("wall");
+	walls[1]->setMesh(squareMesh);
+	walls[1]->setModelMatrix(math::translate(Vector3(0.0f, -0.5, 2.0f)) *
+		   				  math::scale(Vector3(0.82f, 0.1f, 1.0)));
+	walls[1]->setTexture(textWood);
 
-	wall3 = ground->createNode("wall");
-	wall3->setMesh(squareMesh);
-	wall3->setModelMatrix(math::translate(Vector3(0.85f, 0.0, 2.0f)) *
+	walls[2] = ground->createNode("wall");
+	walls[2]->setMesh(squareMesh);
+	walls[2]->setModelMatrix(math::translate(Vector3(0.85f, 0.0, 2.0f)) *
 		  				  math::scale(Vector3(0.1f, 1.0f, 1.0)));
-	wall3->setTexture(textBrown);
+	walls[2]->setTexture(textWood);
 
-	wall4 = ground->createNode("wall");
-	wall4->setMesh(squareMesh);
-	wall4->setModelMatrix(math::translate(Vector3(-0.95f, 0.0, 2.0f)) *
+	walls[3] = ground->createNode("wall");
+	walls[3]->setMesh(squareMesh);
+	walls[3]->setModelMatrix(math::translate(Vector3(-0.95f, 0.0, 2.0f)) *
 		 				  math::scale(Vector3(0.1f, 1.0f, 1.0)));
-	wall4->setTexture(textBrown);
+	walls[3]->setTexture(textWood);
 
-	float xOffset = 0.0f, yOffset = 0.0f, zOffset = 0.0f;
+	float holeSize = 0.1f;
+	holes[0] = ground->createNode("hole");
+	holes[0]->setMesh(ballMesh);
+	holes[0]->setModelMatrix(math::translate(Vector3(0.7f, 1.2f, 0.8f)) *
+							 (math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+	holes[0]->setTexture(textBlack);
+
+	holes[1] = ground->createNode("hole");
+	holes[1]->setMesh(ballMesh);
+	holes[1]->setModelMatrix(math::translate(Vector3(0.0f, 1.2f, 0.8f)) *
+		   				 (math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+	holes[1]->setTexture(textBlack);
+
+	holes[2] = ground->createNode("hole");
+	holes[2]->setMesh(ballMesh);
+	holes[2]->setModelMatrix(math::translate(Vector3(-0.82f, 1.2f, 0.8f)) *
+		  				 (math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+	holes[2]->setTexture(textBlack);
+
+	holes[3] = ground->createNode("hole");
+	holes[3]->setMesh(ballMesh);
+	holes[3]->setModelMatrix(math::translate(Vector3(-0.82f, -0.3f, 0.8f)) *
+		  		        	(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+	holes[3]->setTexture(textBlack);
+
+	holes[4] = ground->createNode("hole");
+	holes[4]->setMesh(ballMesh);
+	holes[4]->setModelMatrix(math::translate(Vector3(0.0f, -0.3f, 0.8f)) *
+		    	        	(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+	holes[4]->setTexture(textBlack);
+
+	holes[5] = ground->createNode("hole");
+	holes[5]->setMesh(ballMesh);
+	holes[5]->setModelMatrix(math::translate(Vector3(0.7f, -0.3f, 0.8f)) *
+		    	        	(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+	holes[5]->setTexture(textBlack);
+
+	float xOffset = 0.0f, yOffset = 0.0f, zOffset = -0.2f;
 	float scaleFactor = 0.3f;
 
 	whiteBall = scenegraph->createNode("ball");
@@ -183,38 +250,115 @@ void createSquirrel() {
 	balls[0] = scenegraph->createNode("ball");
 	balls[0]->setMesh(ballMesh);
 	balls[0]->setModelMatrix(math::translate(Vector3(-4.0f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
+						  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		 				  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
-	balls[0]->setTexture(textBlue);
+	balls[0]->setTexture(textBall1);
 
 	balls[1] = scenegraph->createNode("ball");
 	balls[1]->setMesh(ballMesh);
 	balls[1]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 3.0f + yOffset, 1.0f + zOffset)) *
+					  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
-	balls[1]->setTexture(textBlue);
+	balls[1]->setTexture(textBall2);
 
 	balls[2] = scenegraph->createNode("ball");
 	balls[2]->setMesh(ballMesh);
 	balls[2]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 2.0f + yOffset, 1.0f + zOffset)) *
+					  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		  			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
-	balls[2]->setTexture(textBlue);
+	balls[2]->setTexture(textBall3);
 
 	balls[3] = scenegraph->createNode("ball");
 	balls[3]->setMesh(ballMesh);
 	balls[3]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 1.5f + yOffset, 1.0f + zOffset)) *
+				  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
-	balls[3]->setTexture(textBlue);
+	balls[3]->setTexture(textBall4);
 
 	balls[4] = scenegraph->createNode("ball");
 	balls[4]->setMesh(ballMesh);
 	balls[4]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
+				  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
-	balls[4]->setTexture(textBlue);
+	balls[4]->setTexture(textBall5);
 
 	balls[5] = scenegraph->createNode("ball");
 	balls[5]->setMesh(ballMesh);
 	balls[5]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 3.5f + yOffset, 1.0f + zOffset)) *
+				  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
 		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
-	balls[5]->setTexture(textBlue);
+	balls[5]->setTexture(textBall6);
+
+	balls[6] = scenegraph->createNode("ball");
+	balls[6]->setMesh(ballMesh);
+	balls[6]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 1.0f + yOffset, 1.0f + zOffset)) *
+		    	  math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		  		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[6]->setTexture(textBall7);
+
+	balls[7] = scenegraph->createNode("ball");
+	balls[7]->setMesh(ballMesh);
+	balls[7]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 2.0f + yOffset, 1.0f + zOffset)) *
+		   		 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+				 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[7]->setTexture(textBall8);
+
+	balls[8] = scenegraph->createNode("ball");
+	balls[8]->setMesh(ballMesh);
+	balls[8]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 3.0f + yOffset, 1.0f + zOffset)) *
+		  		 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[8]->setTexture(textBall9);
+
+	balls[9] = scenegraph->createNode("ball");
+	balls[9]->setMesh(ballMesh);
+	balls[9]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 4.0f + yOffset, 1.0f + zOffset)) *
+		    	 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[9]->setTexture(textBall10);
+
+	balls[10] = scenegraph->createNode("ball");
+	balls[10]->setMesh(ballMesh);
+	balls[10]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 0.5f + yOffset, 1.0f + zOffset)) *
+		    	 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[10]->setTexture(textBall11);
+	
+	balls[11] = scenegraph->createNode("ball");
+	balls[11]->setMesh(ballMesh);
+	balls[11]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 1.5f + yOffset, 1.0f + zOffset)) *
+		         math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[11]->setTexture(textBall12);
+
+	balls[12] = scenegraph->createNode("ball");
+	balls[12]->setMesh(ballMesh);
+	balls[12]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
+		   	 math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		   	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[12]->setTexture(textBall13);
+
+	balls[13] = scenegraph->createNode("ball");
+	balls[13]->setMesh(ballMesh);
+	balls[13]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 3.5f + yOffset, 1.0f + zOffset)) *
+		     math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		     math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[13]->setTexture(textBall14);
+
+	balls[14] = scenegraph->createNode("ball");
+	balls[14]->setMesh(ballMesh);
+	balls[14]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 4.5f + yOffset, 1.0f + zOffset)) *
+		     math::rotate(200.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(-60.0f,Vector3(0.0f,0.0f,1.0f)) *
+		     math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+	balls[14]->setTexture(textBall15);
+
+
+	cue = scenegraph->createNode("cue");
+	cue->setMesh(squareMesh);
+	cue->setModelMatrix(math::translate(Vector3(10.0f + xOffset, 2.5f + yOffset, 2.0f + zOffset)) *
+						math::rotate(-10.0f,Vector3(0.0f,1.0f,0.0f)) *
+						math::scale(Vector3(4.0f, 0.1f, 0.1f)));
+	cue->setTexture(textWood);
 
 	//square1 = ground->createNode("square1");
 	//square1->setMesh(squareMesh);
@@ -222,7 +366,7 @@ void createSquirrel() {
 	//	* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix());
 
 	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.0005,0 ), 1), "cue");
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2( 0,0 ), Vector2( 0.0,0 ), Vector2( 0.000,0 ), 1), "cue");
 
 	ModelsManager::instance()->add(new Object(balls[0]->getModelMatrix()
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball1");
@@ -285,11 +429,22 @@ void applyGroundMovement() {
 	else if (groundRot > 0.0f)
 		groundRot -= angleStep;
 
-	if (KeyBuffer::instance()->isKeyDown('w'))
-		tamHeight += 0.005f;
+	if (KeyBuffer::instance()->isKeyDown('w')) 
+		tamHeight += 0.5f;
 
 	if (KeyBuffer::instance()->isKeyDown('s'))
-		tamHeight -= 0.005f;
+		tamHeight -= 0.5f;
+
+	if (KeyBuffer::instance()->isKeyDown(' ')) {
+		cueAcceleration += 0.0005f;
+		std::cout << cueAcceleration << std::endl;
+	}
+
+	if (!KeyBuffer::instance()->isKeyDown(' ')) {
+		if(cueAcceleration > 0.0f)
+			cueAcceleration -= 0.0005f;
+	}
+
 
 }
 
@@ -342,6 +497,10 @@ void setViewProjectionMatrix() {
 void drawSceneGraph() {
 	//ground->applyMatrix(math::translate(Vector3(groundX, groundY, groundZ)) *
 	//	math::rotate(groundRot, Vector3(-1.0f, 0.0f, 0.0f)));
+	if (!KeyBuffer::instance()->isKeyDown(' ') && cueAcceleration > 0.0f) {
+		std::cout << "o bagulho é loco mano" << std::endl;
+		ModelsManager::instance()->get("cue")->setAcceleration(Vector2(-cueAcceleration, 0.0f));
+	}
 
 	ModelsManager::instance()->updateObjects(0);
 	whiteBall->setModelMatrix(ModelsManager::instance()->get("cue")->model());
@@ -351,6 +510,10 @@ void drawSceneGraph() {
 	balls[3]->setModelMatrix(ModelsManager::instance()->get("ball4")->model());
 	balls[4]->setModelMatrix(ModelsManager::instance()->get("ball5")->model());
 	balls[5]->setModelMatrix(ModelsManager::instance()->get("ball6")->model());
+
+	//balls[0]->setModelMatrix(math::translate(Vector3(-4.0f, 2.5f , 1.0f )) *
+	//					  math::rotate(20.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(tamHeight,Vector3(0.0f,0.0f,1.0f)) *
+	//	 				  math::scale(Vector3(1.0f, 1.0f, 1.0f) * 0.3f));
 
 	//square1->setModelMatrix(ModelsManager::instance()->get("square1")->model());
 
