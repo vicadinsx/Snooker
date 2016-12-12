@@ -81,6 +81,9 @@ namespace math {
 			// Replace the collision velocity components with the new ones
 			o1->setSpeed(o1->speed() + (collision * (acf - aci)));
 			o2->setSpeed(o2->speed() + (collision * (bcf - bci)));
+
+			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x, o1->speed().y, 0));
+			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x, o2->speed().y, 0));
 		}
 
 		void updatePosition(int timeElapsed)
