@@ -96,11 +96,20 @@ namespace math {
 			_speed.x = _speed.x > 0 ? _speed.x - friction : _speed.x + friction;
 			_speed.y = _speed.y > 0 ? _speed.y - friction : _speed.y + friction;
 
+			_acceleration.x = _acceleration.x > 0 ? _acceleration.x - friction : _acceleration.x + friction;
+			_acceleration.y = _acceleration.y > 0 ? _acceleration.y - friction : _acceleration.y + friction;
+
 			if (fabs(_speed.x) < 0.001)
 				_speed.x = 0;
 
 			if (fabs(_speed.y) < 0.001)
 				_speed.y = 0;
+
+			if (fabs(_acceleration.x) < 0.001)
+				_acceleration.x = 0;
+
+			if (fabs(_acceleration.y) < 0.001)
+				_acceleration.y = 0;
 		}
 	};
 }
