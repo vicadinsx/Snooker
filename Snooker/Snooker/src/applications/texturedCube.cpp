@@ -387,6 +387,35 @@ void createSquirrel() {
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball6");
 
 
+	ModelsManager::instance()->add(new Object(balls[6]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball7");
+
+
+	ModelsManager::instance()->add(new Object(balls[7]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball8");
+
+
+	ModelsManager::instance()->add(new Object(balls[8]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball9");
+
+	ModelsManager::instance()->add(new Object(balls[9]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball10");
+
+	ModelsManager::instance()->add(new Object(balls[10]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball11");
+
+	ModelsManager::instance()->add(new Object(balls[11]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball12");
+
+	ModelsManager::instance()->add(new Object(balls[12]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball13");
+
+	ModelsManager::instance()->add(new Object(balls[13]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball14");
+
+	ModelsManager::instance()->add(new Object(balls[14]->getModelMatrix()
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball15");
+
 	//ModelsManager::instance()->add(new Object(math::translate(Vector3(-1.0f, 0.0f, 2.0f))
 	//	* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 2, Vector2( 0,0 ), Vector2( 0.01,0 ), Vector2( -0.00001,0 )), "square1");
 
@@ -510,6 +539,15 @@ void drawSceneGraph() {
 	balls[3]->setModelMatrix(ModelsManager::instance()->get("ball4")->model());
 	balls[4]->setModelMatrix(ModelsManager::instance()->get("ball5")->model());
 	balls[5]->setModelMatrix(ModelsManager::instance()->get("ball6")->model());
+	balls[6]->setModelMatrix(ModelsManager::instance()->get("ball7")->model());
+	balls[7]->setModelMatrix(ModelsManager::instance()->get("ball8")->model());
+	balls[8]->setModelMatrix(ModelsManager::instance()->get("ball9")->model());
+	balls[9]->setModelMatrix(ModelsManager::instance()->get("ball10")->model());
+	balls[10]->setModelMatrix(ModelsManager::instance()->get("ball11")->model());
+	balls[11]->setModelMatrix(ModelsManager::instance()->get("ball12")->model());
+	balls[12]->setModelMatrix(ModelsManager::instance()->get("ball13")->model());
+	balls[13]->setModelMatrix(ModelsManager::instance()->get("ball14")->model());
+	balls[14]->setModelMatrix(ModelsManager::instance()->get("ball15")->model());
 
 	//balls[0]->setModelMatrix(math::translate(Vector3(-4.0f, 2.5f , 1.0f )) *
 	//					  math::rotate(20.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(tamHeight,Vector3(0.0f,0.0f,1.0f)) *

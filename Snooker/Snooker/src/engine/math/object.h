@@ -65,16 +65,22 @@ namespace math {
 
 		//Buggy collision
 		friend void collide(Object* o1, Object* o2) {
-			float x1 = (o1->speed().x * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().x)) / (o1->mass() + o2->mass());
-			float y1 = (o1->speed().y * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().y)) / (o1->mass() + o2->mass());
-			o1->setSpeed({ x1, y1 });
 
-			float x2 = (o2->speed().x * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().x)) / (o1->mass() + o2->mass());
-			float y2 = (o2->speed().y * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().y)) / (o1->mass() + o2->mass());
-			o2->setSpeed({ x2,y2 });
+			Vector2 collision = Vector2( o1->model().getElement(0,3), o1->model().getElement(1,3)) - Vector2(o2->model().getElement(0, 3), o2->model().getElement(1, 3));
+			float distance = collision.norm();
 
-			o1->setModel(o1->model() * Create4DTranslation(x1, y1, 0));
-			o2->setModel(o2->model() * Create4DTranslation(x2, y2, 0));
+			collision = collision / distance;
+			float aci = dot(o1->speed(),collision);
+			float bci = dot(o2->speed(),collision);
+
+			// Solve for the new velocities using the 1-dimensional elastic collision equations.
+			// Turns out it's really simple when the masses are the same.
+			float acf = bci;
+			float bcf = aci;
+
+			// Replace the collision velocity components with the new ones
+			o1->setSpeed(o1->speed() + (collision * (acf - aci)));
+			o2->setSpeed(o2->speed() + (collision * (bcf - bci)));
 		}
 
 		void updatePosition(int timeElapsed)

@@ -36,21 +36,22 @@ namespace engine {
 			std::map<std::string, Object*>::iterator it;
 			for (it = objects.begin(); it != objects.end(); it++) {
 				it->second->updatePosition(timeElapsed);
-			}
-			for (it = objects.begin(); it != objects.end(); it++) {
 				calculateCollisions(it->first, it->second);
 			}
 		}
 
 		//Calculate collisions
 		void calculateCollisions(std::string name, Object *o){
+			bool startNode = false;
 			std::map<std::string, Object*>::iterator it;
 			for (it = objects.begin(); it != objects.end(); it++) {
-				if (it->first.compare(name) != 0) {
-					if (overlaps(o, it->second)) {
-						if (colliding(o, it->second)) {
-							collide(o, it->second);
-						}
+				if (!startNode && it->first.compare(name) == 0) {
+					startNode = true;
+					continue;
+				}
+				if (startNode && overlaps(o, it->second)) {
+					if (colliding(o, it->second)) {
+						collide(o, it->second);
 					}
 				}
 			}
