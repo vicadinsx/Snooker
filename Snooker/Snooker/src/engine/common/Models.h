@@ -49,10 +49,10 @@ namespace engine {
 
 		void calculateCollisionsWithWall(Object *o) {
 			if (o->model().getElement(0, 3) <= -8.1 || o->model().getElement(0, 3) >= 7.1) {
-				o->setSpeed(Vector2(-o->speed().x, o->speed().y));
+				o->setSpeed(Vector2(-o->speed().x*0.90f, o->speed().y*0.90f));
 			}
 			if (o->model().getElement(1, 3) <= -1.8 || o->model().getElement(1, 3) >= 7) {
-				o->setSpeed(Vector2(o->speed().x, -o->speed().y));
+				o->setSpeed(Vector2(o->speed().x*0.90f, -o->speed().y*0.90f));
 			}
 
 			o->setModel(o->model() * math::Create4DTranslation(o->speed().x, o->speed().y, 0));
@@ -60,18 +60,15 @@ namespace engine {
 
 		//Calculate collisions
 		void calculateCollisions(std::string name, Object *o){
-			bool startNode = false;
 			std::map<std::string, Object*>::iterator it;
 			for (it = objects.begin(); it != objects.end(); it++) {
-				if (!startNode && it->first.compare(name) == 0) {
-					startNode = true;
+				if (it->first.compare(name) == 0)
 					continue;
-				}
-				if (startNode && overlaps(o, it->second)) {
+				//if (overlaps(o, it->second)) {
 					if (colliding(o, it->second)) {
 						collide(o, it->second);
 					}
-				}
+				//}
 			}
 		}
 

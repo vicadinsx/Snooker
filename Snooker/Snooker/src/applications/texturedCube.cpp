@@ -532,22 +532,22 @@ void drawSceneGraph() {
 	}
 
 	ModelsManager::instance()->updateObjects(0);
-	whiteBall->setModelMatrix(ModelsManager::instance()->get("cue")->model());
-	balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->model());
-	balls[1]->setModelMatrix(ModelsManager::instance()->get("ball2")->model());
-	balls[2]->setModelMatrix(ModelsManager::instance()->get("ball3")->model());
-	balls[3]->setModelMatrix(ModelsManager::instance()->get("ball4")->model());
-	balls[4]->setModelMatrix(ModelsManager::instance()->get("ball5")->model());
-	balls[5]->setModelMatrix(ModelsManager::instance()->get("ball6")->model());
-	balls[6]->setModelMatrix(ModelsManager::instance()->get("ball7")->model());
-	balls[7]->setModelMatrix(ModelsManager::instance()->get("ball8")->model());
-	balls[8]->setModelMatrix(ModelsManager::instance()->get("ball9")->model());
-	balls[9]->setModelMatrix(ModelsManager::instance()->get("ball10")->model());
-	balls[10]->setModelMatrix(ModelsManager::instance()->get("ball11")->model());
-	balls[11]->setModelMatrix(ModelsManager::instance()->get("ball12")->model());
-	balls[12]->setModelMatrix(ModelsManager::instance()->get("ball13")->model());
-	balls[13]->setModelMatrix(ModelsManager::instance()->get("ball14")->model());
-	balls[14]->setModelMatrix(ModelsManager::instance()->get("ball15")->model());
+	whiteBall->setModelMatrix(ModelsManager::instance()->get("cue")->modelMatrix());
+	balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->modelMatrix());
+	balls[1]->setModelMatrix(ModelsManager::instance()->get("ball2")->modelMatrix());
+	balls[2]->setModelMatrix(ModelsManager::instance()->get("ball3")->modelMatrix());
+	balls[3]->setModelMatrix(ModelsManager::instance()->get("ball4")->modelMatrix());
+	balls[4]->setModelMatrix(ModelsManager::instance()->get("ball5")->modelMatrix());
+	balls[5]->setModelMatrix(ModelsManager::instance()->get("ball6")->modelMatrix());
+	balls[6]->setModelMatrix(ModelsManager::instance()->get("ball7")->modelMatrix());
+	balls[7]->setModelMatrix(ModelsManager::instance()->get("ball8")->modelMatrix());
+	balls[8]->setModelMatrix(ModelsManager::instance()->get("ball9")->modelMatrix());
+	balls[9]->setModelMatrix(ModelsManager::instance()->get("ball10")->modelMatrix());
+	balls[10]->setModelMatrix(ModelsManager::instance()->get("ball11")->modelMatrix());
+	balls[11]->setModelMatrix(ModelsManager::instance()->get("ball12")->modelMatrix());
+	balls[12]->setModelMatrix(ModelsManager::instance()->get("ball13")->modelMatrix());
+	balls[13]->setModelMatrix(ModelsManager::instance()->get("ball14")->modelMatrix());
+	balls[14]->setModelMatrix(ModelsManager::instance()->get("ball15")->modelMatrix());
 
 	//balls[0]->setModelMatrix(math::translate(Vector3(-4.0f, 2.5f , 1.0f )) *
 	//					  math::rotate(20.0f,Vector3(1.0f,0.0f,0.0f)) * math::rotate(tamHeight,Vector3(0.0f,0.0f,1.0f)) *

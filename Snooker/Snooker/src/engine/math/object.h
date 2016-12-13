@@ -2,11 +2,12 @@
 #define __OBJECT_H__
 
 #include "matrix.h"
+#include "quaternion.h"
 #include <cmath>
 
 namespace math {
-
 	class Object {
+
 		Matrix4 _model;
 		float _radius;
 		Vector2 _direction;
@@ -14,6 +15,7 @@ namespace math {
 		Vector2 _acceleration;
 		float _mass;
 		float friction = 0.0001;
+		Quaternion rotationQuaternion = Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
 
 	public:
 		Object(){}
@@ -27,6 +29,7 @@ namespace math {
 		}
 		~Object(){}
 		Matrix4 model() { return this->_model; }
+		Matrix4 modelMatrix() { return this->_model*this->rotationQuaternion.toMatrix(); }
 		float radius() { return this->_radius; }
 		Vector2 direction() { return this->_direction; }
 		Vector2 speed() { return this->_speed; }
@@ -110,6 +113,11 @@ namespace math {
 
 			if (fabs(_acceleration.y) < 0.001)
 				_acceleration.y = 0;
+
+			Quaternion rotationQtrnY = Quaternion(_speed.x * 100, math::Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+			Quaternion rotationQtrnX = Quaternion(-_speed.y * 100, math::Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+
+			rotationQuaternion = rotationQtrnX * rotationQtrnY * rotationQuaternion;
 		}
 	};
 }
