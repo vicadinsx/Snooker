@@ -41,6 +41,21 @@ namespace engine {
 			for (it = objects.begin(); it != objects.end(); it++) {
 				calculateCollisions(it->first, it->second);
 			}
+
+			for (it = objects.begin(); it != objects.end(); it++) {
+				calculateCollisionsWithWall(it->second);
+			}
+		}
+
+		void calculateCollisionsWithWall(Object *o) {
+			if (o->model().getElement(0, 3) <= -8.1 || o->model().getElement(0, 3) >= 7.5) {
+				o->setSpeed(Vector2(-o->speed().x, o->speed().y));
+			}
+			if (o->model().getElement(1, 3) <= -1.8 || o->model().getElement(1, 3) >= 7) {
+				o->setSpeed(Vector2(o->speed().x, -o->speed().y));
+			}
+
+			o->setModel(o->model() * math::Create4DTranslation(o->speed().x, o->speed().y, 0));
 		}
 
 		//Calculate collisions
