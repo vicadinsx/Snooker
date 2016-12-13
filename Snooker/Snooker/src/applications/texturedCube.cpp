@@ -542,7 +542,6 @@ void drawSceneGraph() {
 	//	math::rotate(groundRot, Vector3(-1.0f, 0.0f, 0.0f)));
 	if (!KeyBuffer::instance()->isKeyDown(' ') && cueAcceleration > 0.0f) {
 		std::cout << "o bagulho é loco mano" << std::endl;
-		ModelsManager::instance()->get("cue")->setAcceleration(Vector2(-cueAcceleration, 0.0f));
 	}
 
 	ModelsManager::instance()->updateObjects(0);
@@ -637,6 +636,8 @@ void keyboardPressSpecial(int key, int x, int y) {
 
 void keyboardUp(unsigned char key, int x, int y) {
 	KeyBuffer::instance()->releaseKey(key);
+	if(key = ' ')
+		ModelsManager::instance()->get("cue")->setAcceleration(Vector2(-cueAcceleration, 0.0f));
 }
 
 void keyboardUpSpecial(int key, int x, int y) {
