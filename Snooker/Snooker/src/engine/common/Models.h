@@ -76,11 +76,15 @@ namespace engine {
 		//Calculate collisions
 		void calculateCollisions(std::string name, Object *o){
 			std::map<std::string, Object*>::iterator it;
+			bool startNode = false;
 			for (it = objects.begin(); it != objects.end(); it++) {
 				if (it->first.compare(name) == 0)
+				{
+					startNode = true;
 					continue;
+				}
 				//if (overlaps(o, it->second)) {
-					if (colliding(o, it->second)) {
+					if (startNode && colliding(o, it->second)) {
 						collide(o, it->second);
 					}
 				//}
