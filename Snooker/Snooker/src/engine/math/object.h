@@ -14,14 +14,14 @@ namespace math {
 		Vector2 _speed;
 		Vector2 _acceleration;
 		float _mass;
-		float friction = 0.0001;
+		float friction = 0.0002;
 		Quaternion rotationQuaternion = Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
 
 	public:
 		Object(){}
 		Object(Matrix4 m, float r, Vector2 d, Vector2 s, Vector2 a, float mass) {
 			_model = m;
-			_radius = 0.30;
+			_radius = 0.35;
 			_direction = d;
 			_speed = s;
 			_acceleration = a;
