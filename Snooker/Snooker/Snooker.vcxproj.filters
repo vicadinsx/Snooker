@@ -128,5 +128,8 @@
     <ClInclude Include="src\physicengine\physicengine.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\math\geometry.h">
+      <Filter>Source Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

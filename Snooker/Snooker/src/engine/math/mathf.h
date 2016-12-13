@@ -2,6 +2,7 @@
 #define MATHF_H
 
 #include <cmath>
+
 constexpr float M_PI = 3.1415926f;
 
 namespace math {
@@ -25,7 +26,5 @@ namespace math {
         float difference = x - y;
         return difference < floatThreshold && -difference < floatThreshold;
     }
-
 };
-
 #endif
