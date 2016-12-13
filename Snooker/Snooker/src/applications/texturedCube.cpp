@@ -458,11 +458,25 @@ void applyGroundMovement() {
 	else if (groundRot > 0.0f)
 		groundRot -= angleStep;
 
-	if (KeyBuffer::instance()->isKeyDown('w')) 
-		tamHeight += 0.5f;
+	if (KeyBuffer::instance()->isKeyDown('a')) {
+		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(-0.01f, 0.0f);
+		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+	}
 
-	if (KeyBuffer::instance()->isKeyDown('s'))
-		tamHeight -= 0.5f;
+	if (KeyBuffer::instance()->isKeyDown('d')) {
+		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(0.01f, 0.0f);
+		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('w')) {
+		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(0.0f, 0.01f);
+		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('s')) {
+		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(0.0f, -0.01f);
+		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+	}
 
 	if (KeyBuffer::instance()->isKeyDown(' ')) {
 		cueAcceleration += 0.0005f;
