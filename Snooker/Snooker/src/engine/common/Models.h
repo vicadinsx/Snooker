@@ -48,7 +48,7 @@ namespace engine {
 		}
 
 		void calculateCollisionsWithWall(Object *o) {
-			if (o->model().getElement(0, 3) <= -8.1 || o->model().getElement(0, 3) >= 7.5) {
+			if (o->model().getElement(0, 3) <= -8.1 || o->model().getElement(0, 3) >= 7.1) {
 				o->setSpeed(Vector2(-o->speed().x, o->speed().y));
 			}
 			if (o->model().getElement(1, 3) <= -1.8 || o->model().getElement(1, 3) >= 7) {
