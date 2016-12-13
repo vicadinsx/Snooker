@@ -5,7 +5,7 @@
 using namespace engine;
 using math::Quaternion;
 
-#define CAPTION "Snooker on Fire - Stage 1"
+#define CAPTION "Snooker on Fire - Stage 2"
 
 int WinX = 640, WinY = 480;
 int WindowHandle = 0;
