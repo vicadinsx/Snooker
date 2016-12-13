@@ -70,31 +70,50 @@ namespace math {
 
 		//Buggy collision
 		friend void collide(Object* o1, Object* o2) {
+			Vector2 collision = Vector2(o1->model().getElement(0, 3), o1->model().getElement(1, 3)) - 
+							    Vector2(o2->model().getElement(0, 3), o2->model().getElement(1, 3));
+			float distance = collision.norm(); 
+			
+			collision = collision / distance;
+			float aci = dot(o1->speed(), collision);
+			float bci = dot(o2->speed(), collision);
 
-			float newVelX1 = (o1->speed().x * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().x)) / (o1->mass() + o2->mass());
-			float newVelX2 = (o2->speed().x * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().x)) / (o1->mass() + o2->mass());
-			float newVelY1 = (o1->speed().y * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().y)) / (o1->mass() + o2->mass());
-			float newVelY2 = (o2->speed().y * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().y)) / (o1->mass() + o2->mass());
+			// Solve for the new velocities using the 1-dimensional elastic collision equations.
+			// Turns out it's really simple when the masses are the same.
+			float acf = bci;
+			float bcf = aci;
 
-			//firstBall.speed.x = newVelX1;
-			//firstBall.speed.y = newVelY1;
-			o1->setSpeed(Vector2(newVelX1, newVelY1));
-			//secondBall.speed.x = newVelX2;
-			//secondBall.speed.y = newVelY2;
-			o2->setSpeed(Vector2(newVelX2, newVelY2));
+			// Replace the collision velocity components with the new ones
+			o1->setSpeed(o1->speed() + (collision * (acf - aci)));
+			o2->setSpeed(o2->speed() + (collision * (bcf - bci)));
 
-			//firstBall.x = firstBall.x + newVelX1;
-			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x, 0, 0));
-			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x, 0, 0));
-			//firstBall.y = firstBall.y + newVelY1;
-			o1->setModel(o1->model() * Create4DTranslation(0, o1->speed().y, 0));
-			o1->setModel(o1->model() * Create4DTranslation(0, o1->speed().y, 0));
-			//secondBall.x = secondBall.x + newVelX2;
-			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x, 0, 0));
-			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x, 0, 0));
-			//secondBall.y = secondBall.y + newVelY2;
-			o2->setModel(o2->model() * Create4DTranslation(0, o2->speed().y, 0));
-			o2->setModel(o2->model() * Create4DTranslation(0, o2->speed().y, 0));
+			o1->setModel(o1->model() * Create4DTranslation(3*o1->speed().x, 3*o1->speed().y, 0));
+			o2->setModel(o2->model() * Create4DTranslation(3*o2->speed().x, 3*o2->speed().y, 0));
+
+			//float newVelX1 = (o1->speed().x * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().x)) / (o1->mass() + o2->mass());
+			//float newVelX2 = (o2->speed().x * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().x)) / (o1->mass() + o2->mass());
+			//float newVelY1 = (o1->speed().y * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().y)) / (o1->mass() + o2->mass());
+			//float newVelY2 = (o2->speed().y * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().y)) / (o1->mass() + o2->mass());
+
+			////firstBall.speed.x = newVelX1;
+			////firstBall.speed.y = newVelY1;
+			//o1->setSpeed(Vector2(newVelX1, newVelY1));
+			////secondBall.speed.x = newVelX2;
+			////secondBall.speed.y = newVelY2;
+			//o2->setSpeed(Vector2(newVelX2, newVelY2));
+
+			////firstBall.x = firstBall.x + newVelX1;
+			//o1->setModel(o1->model() * Create4DTranslation(o1->speed().x, 0, 0));
+			//o1->setModel(o1->model() * Create4DTranslation(o1->speed().x, 0, 0));
+			////firstBall.y = firstBall.y + newVelY1;
+			//o1->setModel(o1->model() * Create4DTranslation(0, o1->speed().y, 0));
+			//o1->setModel(o1->model() * Create4DTranslation(0, o1->speed().y, 0));
+			////secondBall.x = secondBall.x + newVelX2;
+			//o2->setModel(o2->model() * Create4DTranslation(o2->speed().x, 0, 0));
+			//o2->setModel(o2->model() * Create4DTranslation(o2->speed().x, 0, 0));
+			////secondBall.y = secondBall.y + newVelY2;
+			//o2->setModel(o2->model() * Create4DTranslation(0, o2->speed().y, 0));
+			//o2->setModel(o2->model() * Create4DTranslation(0, o2->speed().y, 0));
 
 		}
 
