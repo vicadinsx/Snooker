@@ -92,15 +92,19 @@ namespace math {
 
 		// "Light" colisions
 		static void collide_1(Object* o1, Object* o2) {
-			float v1x(o1->posX()), v1y(o1->posY()), v2x(o2->posX()), v2y(o2->posY());
-
-			float radiusv1X = v1x - v2x < 0 ? o1->radius() : -o1->radius();
-			float radiusv1Y = v1y - v2y < 0 ? o1->radius() : -o1->radius();
+			float v1x(o1->posX()), v1y(o1->posY()), v2x(o2->posX()), v2y(o2->posY()), 
+				  disp_X, disp_Y, distance;
 
 			Vector2 collisionv1(Vector2(v1x, v1y)), collisionv2(Vector2(v2x, v2y));
 			Vector2 collision = collisionv1 - collisionv2;
-			float distance = collision.norm();
+			distance = collision.norm();
 			collision = collision / distance;
+
+			//disp_X = (v1x - v2x < 0 ? o1->radius() : -o1->radius());
+			//disp_Y = (v1y - v2y < 0 ? o1->radius() : -o1->radius());
+			float displacement = (o1->radius() + o2->radius() - distance);
+			disp_X = (v1x - v2x < 0 ? displacement : -displacement);
+			disp_Y = (v1y - v2y < 0 ? displacement : -displacement);
 
 			float aci = dot(o1->speed(), collision);
 			float bci = dot(o2->speed(), collision);
@@ -114,19 +118,19 @@ namespace math {
 			o1->setSpeed(o1->speed() + (collision * (acf - aci)));
 			o2->setSpeed(o2->speed() + (collision * (bcf - bci)));
 
-			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x - radiusv1X, o1->speed().y - radiusv1Y, 0));
-			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x + radiusv1X, o2->speed().y + radiusv1Y, 0));
+			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x - disp_X, o1->speed().y - disp_Y, 0));
+			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x + disp_X, o2->speed().y + disp_Y, 0));
 		}
 
 		// "Heavy" collisions
 		static void collide_2(Object* o1, Object* o2) {
 
 			Vector2 U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y, v1temp, v1, v2, v1x, v2x, v1y, v2y, x(o1->pos() - o2->pos());
-			float m1, m2, x1, x2, radiusv1X, radiusv1Y;
+			float m1, m2, x1, x2, disp_X, disp_Y;
 
 			// store radius to push them appart
-			radiusv1X = x.x < 0 ? o1->radius() : -o1->radius();
-			radiusv1Y = x.y < 0 ? o1->radius() : -o1->radius();
+			disp_X = (x.x < 0 ? o1->radius() : -o1->radius());
+			disp_Y = (x.y < 0 ? o1->radius() : -o1->radius());
 			//
 
 			x.normalized();
@@ -147,8 +151,8 @@ namespace math {
 			o2->setSpeed(v1x*(2 * m1) / (m1 + m2) + v2x*(m2 - m1) / (m1 + m2) + v2y);
 
 			// Push them apart
-			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x - radiusv1X, o1->speed().y - radiusv1Y, 0));
-			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x + radiusv1X, o2->speed().y + radiusv1Y, 0));
+			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x - disp_X, o1->speed().y - disp_Y, 0));
+			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x + disp_X, o2->speed().y + disp_Y, 0));
 		}
 
 		void updatePosition(int timeElapsed)
