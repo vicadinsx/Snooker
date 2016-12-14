@@ -49,21 +49,21 @@ namespace math {
 
 		//AABB overlaps method for balls
 		friend bool overlaps(Object *o1, Object *o2) {
-			if (o1->model().getElement(0,3) + o1->radius() + o2->radius() > o2->model().getElement(0, 3)
-				&& o1->model().getElement(0, 3) < o1->radius() + o2->radius() + o2->model().getElement(0, 3)
-				&& o1->model().getElement(1, 3) + o1->radius() + o2->radius() > o2->model().getElement(1, 3)
-				&& o1->model().getElement(1, 3) < o1->radius() + o2->radius() + o2->model().getElement(1, 3))
+			if (o1->posX() + o1->radius() + o2->radius() > o2->posX()
+				&& o1->posX() < o1->radius() + o2->radius() + o2->posX()
+				&& o1->posY() + o1->radius() + o2->radius() > o2->posY()
+				&& o1->posY() < o1->radius() + o2->radius() + o2->posY())
 				return true;
 			return false;
 		}
 
 		//Check if balls are colliding
 		friend bool colliding(Object *o1, Object *o2) {
-			float v1x = o1->model().getElement(0, 3);
-			float v1y = o1->model().getElement(1, 3);
+			float v1x = o1->posX();
+			float v1y = o1->posY();
 
-			float v2x = o2->model().getElement(0, 3);
-			float v2y = o2->model().getElement(1, 3);
+			float v2x = o2->posX();
+			float v2y = o2->posY();
 
 			Vector2 collisionv1 = Vector2(v1x, v1y);
 			Vector2 collisionv2 = Vector2(v2x,v2y);
@@ -71,7 +71,7 @@ namespace math {
 			Vector2 collision = collisionv1 - collisionv2;
 			float distance = collision.norm();
 
-			//float distance = sqrt(pow(o1->model().getElement(0, 3) - o2->model().getElement(0, 3), 2) + pow(o1->model().getElement(1, 3) - o2->model().getElement(1, 3), 2));
+			//float distance = sqrt(pow(o1->posX() - o2->posX(), 2) + pow(o1->posY() - o2->posY(), 2));
 			if (distance < o1->radius() + o2->radius())
 			{
 				return true;
@@ -81,8 +81,8 @@ namespace math {
 
 		//Return collision x and y position
 		friend Vector2 collisionPoints(Object* o1, Object *o2) {
-			float collisionPointX = ((o1->model().getElement(0, 3)*o2->radius()) + o2->model().getElement(0, 3)*o1->radius()) / (o1->radius() + o2->radius());
-			float collisionPointY = ((o1->model().getElement(1, 3)*o2->radius()) + o2->model().getElement(1, 3)*o1->radius()) / (o1->radius() + o2->radius());
+			float collisionPointX = ((o1->posX()*o2->radius()) + o2->posX()*o1->radius()) / (o1->radius() + o2->radius());
+			float collisionPointY = ((o1->posY()*o2->radius()) + o2->posY()*o1->radius()) / (o1->radius() + o2->radius());
 			return { collisionPointX, collisionPointY };
 		}
 
