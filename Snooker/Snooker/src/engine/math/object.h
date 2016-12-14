@@ -21,7 +21,7 @@ namespace math {
 		Object(){}
 		Object(Matrix4 m, float r, Vector2 d, Vector2 s, Vector2 a, float mass) {
 			_model = m;
-			_radius = 0.35;
+			_radius = 0.32;
 			_direction = d;
 			_speed = s;
 			_acceleration = a;
@@ -55,9 +55,23 @@ namespace math {
 
 		//Check if balls are colliding
 		friend bool colliding(Object *o1, Object *o2) {
-			float distance = sqrt(pow(o1->model().getElement(0, 3) - o2->model().getElement(0, 3), 2) + pow(o1->model().getElement(1, 3) - o2->model().getElement(1, 3), 2));
+			float v1x = o1->model().getElement(0, 3);
+			float v1y = o1->model().getElement(1, 3);
+
+			float v2x = o2->model().getElement(0, 3);
+			float v2y = o2->model().getElement(1, 3);
+
+			Vector2 collisionv1 = Vector2(v1x, v1y);
+			Vector2 collisionv2 = Vector2(v2x,v2y);
+
+			Vector2 collision = collisionv1 - collisionv2;
+			float distance = collision.norm();
+
+			//float distance = sqrt(pow(o1->model().getElement(0, 3) - o2->model().getElement(0, 3), 2) + pow(o1->model().getElement(1, 3) - o2->model().getElement(1, 3), 2));
 			if (distance < o1->radius() + o2->radius())
+			{
 				return true;
+			}
 			return false;
 		}
 
@@ -70,9 +84,21 @@ namespace math {
 
 		//Buggy collision
 		friend void collide(Object* o1, Object* o2) {
-			Vector2 collision = Vector2(o1->model().getElement(0, 3), o1->model().getElement(1, 3)) - 
-							    Vector2(o2->model().getElement(0, 3), o2->model().getElement(1, 3));
-			float distance = collision.norm(); 
+
+			float v1x = o1->model().getElement(0, 3);
+			float v1y = o1->model().getElement(1, 3);
+
+			float v2x = o2->model().getElement(0, 3);
+			float v2y = o2->model().getElement(1, 3);
+
+			float radiusv1X = v1x - v2x < 0 ? o1->radius() : -o1->radius();
+			float radiusv1Y = v1y - v2y < 0 ? o1->radius() : -o1->radius();
+
+			Vector2 collisionv1 = Vector2(v1x , v1y);
+			Vector2 collisionv2 = Vector2(v2x , v2y);
+
+			Vector2 collision = collisionv1 - collisionv2;
+			float distance = collision.norm();
 			
 			collision = collision / distance;
 			float aci = dot(o1->speed(), collision);
@@ -87,8 +113,8 @@ namespace math {
 			o1->setSpeed(o1->speed() + (collision * (acf - aci)));
 			o2->setSpeed(o2->speed() + (collision * (bcf - bci)));
 
-			o1->setModel(o1->model() * Create4DTranslation(3*o1->speed().x, 3*o1->speed().y, 0));
-			o2->setModel(o2->model() * Create4DTranslation(3*o2->speed().x, 3*o2->speed().y, 0));
+			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x - radiusv1X, o1->speed().y - radiusv1Y, 0));
+			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x + radiusv1X, o2->speed().y + radiusv1Y, 0));
 
 			//float newVelX1 = (o1->speed().x * (o1->mass() - o2->mass()) + (2 * o2->mass() * o2->speed().x)) / (o1->mass() + o2->mass());
 			//float newVelX2 = (o2->speed().x * (o2->mass() - o1->mass()) + (2 * o1->mass() * o1->speed().x)) / (o1->mass() + o2->mass());
