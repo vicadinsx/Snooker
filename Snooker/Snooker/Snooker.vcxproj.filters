@@ -46,7 +46,7 @@
     <ClCompile Include="src\applications\tangram.cpp">
       <Filter>Source Files\Applications</Filter>
     </ClCompile>
-    <ClCompile Include="src\applications\texturedCube.cpp">
+    <ClCompile Include="src\applications\snooker_v2.cpp">
       <Filter>Source Files\Applications</Filter>
     </ClCompile>
   </ItemGroup>

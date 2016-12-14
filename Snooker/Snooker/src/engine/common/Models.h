@@ -54,22 +54,22 @@ namespace engine {
 			if (o->model().getElement(0, 3) < -8.1) {
 				o->setSpeed(Vector2(-o->speed().x*0.90f, o->speed().y*0.90f));
 				o->setAcceleration(Vector2(-o->acceleration().x*0.90f, o->acceleration().y*0.90f));
-				m.setElement(0, 3, -8);
+				m.setElement(0, 3, -8.0f);
 			}
 			if (o->model().getElement(0, 3) > 7.1) {
 				o->setSpeed(Vector2(-o->speed().x*0.90f, o->speed().y*0.90f));
 				o->setAcceleration(Vector2(-o->acceleration().x*0.90f, o->acceleration().y*0.90f));
-				m.setElement(0, 3, 7);
+				m.setElement(0, 3, 7.0f);
 			}
 			if (o->model().getElement(1, 3) < -1.8) {
 				o->setSpeed(Vector2(o->speed().x*0.90f, -o->speed().y*0.90f));
 				o->setAcceleration(Vector2(o->acceleration().x*0.90f, -o->acceleration().y*0.90f));
-				m.setElement(1, 3, -1.7);
+				m.setElement(1, 3, -1.7f);
 			}
 			if (o->model().getElement(1, 3) > 7) {
 				o->setSpeed(Vector2(o->speed().x*0.90f, -o->speed().y*0.90f));
 				o->setAcceleration(Vector2(o->acceleration().x*0.90f, -o->acceleration().y*0.90f));
-				m.setElement(1, 3, 6.9);
+				m.setElement(1, 3, 6.9f);
 			}
 
 			o->setModel(m * math::Create4DTranslation(o->speed().x, o->speed().y, 0));
