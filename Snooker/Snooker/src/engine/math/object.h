@@ -34,6 +34,7 @@ namespace math {
 		Vector2 direction() { return this->_direction; }
 		Vector2 speed() { return this->_speed; }
 		Vector2 acceleration() { return this->_acceleration; }
+		Vector2 pos() { return Vector2(this->_model.getElement(0, 3), this->_model.getElement(1, 3)); }
 		float radius() { return this->_radius; }
 		float mass() { return _mass; }
 		float posX() { return this->_model.getElement(0, 3); }
@@ -85,21 +86,18 @@ namespace math {
 			return { collisionPointX, collisionPointY };
 		}
 
-		//Buggy collision
 		friend void collide(Object* o1, Object* o2) {
+			collide_1(o1, o2);
+		}
 
-			float v1x = o1->posX();
-			float v1y = o1->posY();
-
-			float v2x = o2->posX();
-			float v2y = o2->posY();
+		// "Light" colisions
+		static void collide_1(Object* o1, Object* o2) {
+			float v1x(o1->posX()), v1y(o1->posY()), v2x(o2->posX()), v2y(o2->posY());
 
 			float radiusv1X = v1x - v2x < 0 ? o1->radius() : -o1->radius();
 			float radiusv1Y = v1y - v2y < 0 ? o1->radius() : -o1->radius();
 
-			Vector2 collisionv1 = Vector2(v1x, v1y);
-			Vector2 collisionv2 = Vector2(v2x, v2y);
-
+			Vector2 collisionv1(Vector2(v1x, v1y)), collisionv2(Vector2(v2x, v2y));
 			Vector2 collision = collisionv1 - collisionv2;
 			float distance = collision.norm();
 			collision = collision / distance;
@@ -116,6 +114,39 @@ namespace math {
 			o1->setSpeed(o1->speed() + (collision * (acf - aci)));
 			o2->setSpeed(o2->speed() + (collision * (bcf - bci)));
 
+			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x - radiusv1X, o1->speed().y - radiusv1Y, 0));
+			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x + radiusv1X, o2->speed().y + radiusv1Y, 0));
+		}
+
+		// "Heavy" collisions
+		static void collide_2(Object* o1, Object* o2) {
+
+			Vector2 U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y, v1temp, v1, v2, v1x, v2x, v1y, v2y, x(o1->pos() - o2->pos());
+			float m1, m2, x1, x2, radiusv1X, radiusv1Y;
+
+			// store radius to push them appart
+			radiusv1X = x.x < 0 ? o1->radius() : -o1->radius();
+			radiusv1Y = x.y < 0 ? o1->radius() : -o1->radius();
+			//
+
+			x.normalized();
+			v1 = o1->speed();
+			x1 = dot(x, v1);
+			v1x = x * x1;
+			v1y = v1 - v1x;
+			m1 = o1->mass();
+
+			x = x * -1;
+			v2 = o2->speed();
+			x2 = dot(x, v2);
+			v2x = x * x2;
+			v2y = v2 - v2x;
+			m2 = o2->mass();
+
+			o1->setSpeed(v1x*(m1 - m2) / (m1 + m2) + v2x*(2 * m2) / (m1 + m2) + v1y);
+			o2->setSpeed(v1x*(2 * m1) / (m1 + m2) + v2x*(m2 - m1) / (m1 + m2) + v2y);
+
+			// Push them apart
 			o1->setModel(o1->model() * Create4DTranslation(o1->speed().x - radiusv1X, o1->speed().y - radiusv1Y, 0));
 			o2->setModel(o2->model() * Create4DTranslation(o2->speed().x + radiusv1X, o2->speed().y + radiusv1Y, 0));
 		}
