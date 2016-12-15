@@ -26,6 +26,9 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{6be8eac4-dab1-41c1-8c58-aa3771f51131}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data Files\Textures">
+      <UniqueIdentifier>{9dba4973-4435-40f2-850d-3ba39129b68f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\applications\3dtangram.cpp">
@@ -131,5 +134,91 @@
     <ClInclude Include="src\engine\math\geometry.h">
       <Filter>Source Files\Math</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="data\textures\ball1.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball2.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball3.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball4.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball5.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball6.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball7.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball8.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball9.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball10.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball11.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball12.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball13.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball14.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\ball15.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\black.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\blue.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\bricks.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\brown.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\green.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\red.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\tableTexture.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\tableTexture2.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\testTexture.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\uvtemplate.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\white.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\wood1.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
+    <Image Include="data\textures\yellow.bmp">
+      <Filter>Data Files\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>
