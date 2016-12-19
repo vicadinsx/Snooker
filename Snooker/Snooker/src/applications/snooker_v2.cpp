@@ -341,7 +341,11 @@ void createSnooker() {
 	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2( 0,0 ), Vector2( 0.0,0 ), Vector2( 0.000,0 ), 1), "cue");
 
-	ModelsManager::instance()->add(new Object(balls[0]->getModelMatrix()
+	for (int i = 1; i < 16; i++) {
+		ModelsManager::instance()->add(new Object(balls[i-1]->getModelMatrix()
+			* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball" + std::to_string(i));
+	}
+	/*ModelsManager::instance()->add(new Object(balls[0]->getModelMatrix()
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball1");
 
 	ModelsManager::instance()->add(new Object(balls[1]->getModelMatrix()
@@ -384,7 +388,7 @@ void createSnooker() {
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball14");
 
 	ModelsManager::instance()->add(new Object(balls[14]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball15");
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball15");*/
 
 	SceneGraphManager::instance()->add(activeSceneGraph, scenegraph);
 }
@@ -468,7 +472,11 @@ void setViewProjectionMatrix() {
 void drawSceneGraph() {
 	ModelsManager::instance()->updateObjects(0);
 	whiteBall->setModelMatrix(ModelsManager::instance()->get("cue")->modelMatrix());
-	balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->modelMatrix());
+
+	for (int i = 1; i < 16; i++) {
+		balls[i-1]->setModelMatrix(ModelsManager::instance()->get("ball" + std::to_string(i))->modelMatrix());
+	}
+	/*balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->modelMatrix());
 	balls[1]->setModelMatrix(ModelsManager::instance()->get("ball2")->modelMatrix());
 	balls[2]->setModelMatrix(ModelsManager::instance()->get("ball3")->modelMatrix());
 	balls[3]->setModelMatrix(ModelsManager::instance()->get("ball4")->modelMatrix());
@@ -482,7 +490,7 @@ void drawSceneGraph() {
 	balls[11]->setModelMatrix(ModelsManager::instance()->get("ball12")->modelMatrix());
 	balls[12]->setModelMatrix(ModelsManager::instance()->get("ball13")->modelMatrix());
 	balls[13]->setModelMatrix(ModelsManager::instance()->get("ball14")->modelMatrix());
-	balls[14]->setModelMatrix(ModelsManager::instance()->get("ball15")->modelMatrix());
+	balls[14]->setModelMatrix(ModelsManager::instance()->get("ball15")->modelMatrix());*/
 
 	SceneGraphManager::instance()->get(activeSceneGraph)->draw();
 }
