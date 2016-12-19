@@ -114,12 +114,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\engine;$(SolutionDir)..\dependencies\freeglut\include;$(SolutionDir)..\dependencies\glew32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\engine;C:\Users\m.m.silva\Documents\snooker-on-fire\dependencies\freeglut\include;C:\Users\m.m.silva\Documents\snooker-on-fire\dependencies\glew32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\dependencies\glew32\lib\Release\x64;$(SolutionDir)..\dependencies\freeglut\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\m.m.silva\Documents\snooker-on-fire\dependencies\glew32\lib\Release\x64;C:\Users\m.m.silva\Documents\snooker-on-fire\dependencies\freeglut\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;freeglut.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -181,9 +181,11 @@
     <None Include="data\shaders\cube_vs.glsl" />
     <None Include="data\shaders\fragmentShader.frag" />
     <None Include="data\shaders\fragmentShaderSceneManagement.frag" />
+    <None Include="data\shaders\fragmentShaderTextures.frag" />
     <None Include="data\shaders\fragmentWithNormals.frag" />
     <None Include="data\shaders\vertexShader.vert" />
     <None Include="data\shaders\vertexShaderSceneManagement.vert" />
+    <None Include="data\shaders\vertexShaderTextures.vert" />
     <None Include="data\shaders\vertexWithNormals.vert" />
   </ItemGroup>
   <ItemGroup>

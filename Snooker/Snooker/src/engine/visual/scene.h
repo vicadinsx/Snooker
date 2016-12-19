@@ -120,6 +120,13 @@ namespace engine {
 					shaderProgram->setUniform("Matrix", this->getModelMatrix().getData());
 					shaderProgram->setUniformTexture("Texture", texture);
 
+					shaderProgram->setUniform("AmbientProduct", 0.1, 0.1, 0.1, 0.1);
+					shaderProgram->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 1.0);
+					shaderProgram->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
+
+					//program->setUniform("Shininess", 100.0);
+					shaderProgram->setUniform("LightPosition", 0.0, 0.0, 10.0, 1.0);
+
                     mesh->draw();
                     if (!children.empty()){
                         int i;
