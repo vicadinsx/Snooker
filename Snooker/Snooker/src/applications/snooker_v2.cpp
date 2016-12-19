@@ -7,6 +7,8 @@ using math::Quaternion;
 
 #define CAPTION "Snooker on Fire - Stage 2"
 
+#define MAX_ACC 0.05
+
 int WinX = 640, WinY = 480;
 int WindowHandle = 0;
 unsigned int FrameCount = 0;
@@ -339,7 +341,7 @@ void createSnooker() {
 	cue->setTexture(textWood);
 
 	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2( 0,0 ), Vector2( 0.0,0 ), Vector2( 0.000,0 ), 1), "cue");
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2( 0,0 ), Vector2( 0.0,0 ), Vector2( 0.000,0 ), 1), "whiteBall");
 
 	for (int i = 1; i < 16; i++) {
 		ModelsManager::instance()->add(new Object(balls[i-1]->getModelMatrix()
@@ -395,33 +397,39 @@ void createSnooker() {
 
 void applyCueMovement(){
 	if (KeyBuffer::instance()->isKeyDown('a')) {
-		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(-0.01f, 0.0f);
-		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(-0.01f, 0.0f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
 	}
 
 	if (KeyBuffer::instance()->isKeyDown('d')) {
-		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(0.01f, 0.0f);
-		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.01f, 0.0f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
 	}
 
 	if (KeyBuffer::instance()->isKeyDown('w')) {
-		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(0.0f, 0.01f);
-		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.0f, 0.01f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
 	}
 
 	if (KeyBuffer::instance()->isKeyDown('s')) {
-		Vector2 newDir = ModelsManager::instance()->get("cue")->speed() + Vector2(0.0f, -0.01f);
-		ModelsManager::instance()->get("cue")->setSpeed(newDir);
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.0f, -0.01f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
 	}
 
 	if (KeyBuffer::instance()->isKeyDown(' ')) {
-		cueAcceleration += 0.0005f;
-		std::cout << cueAcceleration << std::endl;
+		if (cueAcceleration < MAX_ACC) {
+			cueAcceleration += 0.0005f;
+			std::cout << cueAcceleration << std::endl;
+		}
+		else
+			cueAcceleration = MAX_ACC;
 	}
 
 	if (!KeyBuffer::instance()->isKeyDown(' ')) {
-		if(cueAcceleration > 0.0f)
+		if (cueAcceleration > 0.0f)
 			cueAcceleration -= 0.0005f;
+		else
+			cueAcceleration = 0.0f;
 	}
 }
 
@@ -471,7 +479,7 @@ void setViewProjectionMatrix() {
 
 void drawSceneGraph() {
 	ModelsManager::instance()->updateObjects(0);
-	whiteBall->setModelMatrix(ModelsManager::instance()->get("cue")->modelMatrix());
+	whiteBall->setModelMatrix(ModelsManager::instance()->get("whiteBall")->modelMatrix());
 
 	for (int i = 1; i < 16; i++) {
 		balls[i-1]->setModelMatrix(ModelsManager::instance()->get("ball" + std::to_string(i))->modelMatrix());
@@ -557,7 +565,7 @@ void keyboardPressSpecial(int key, int x, int y) {
 void keyboardUp(unsigned char key, int x, int y) {
 	KeyBuffer::instance()->releaseKey(key);
 	if(key = ' ')
-		ModelsManager::instance()->get("cue")->setAcceleration(Vector2(-cueAcceleration, 0.0f));
+		ModelsManager::instance()->get("whiteBall")->setAcceleration(Vector2(-cueAcceleration, 0.0f));
 }
 
 void keyboardUpSpecial(int key, int x, int y) {
