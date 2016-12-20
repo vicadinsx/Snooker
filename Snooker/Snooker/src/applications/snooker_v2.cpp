@@ -335,7 +335,7 @@ void createSnooker() {
 
 	cue = scenegraph->createNode("cue");
 	cue->setMesh(squareMesh);
-	cue->setModelMatrix(math::translate(Vector3(10.0f + xOffset, 2.5f + yOffset, 2.0f + zOffset)) *
+	cue->setModelMatrix(math::translate(Vector3(whiteBall->getModelMatrix().getElement(0, 3) + 3.0f, whiteBall->getModelMatrix().getElement(1, 3), whiteBall->getModelMatrix().getElement(2, 3))) *
 						math::rotate(-10.0f,Vector3(0.0f,1.0f,0.0f)) *
 						math::scale(Vector3(4.0f, 0.1f, 0.1f)));
 	cue->setTexture(textWood);
@@ -484,6 +484,18 @@ void drawSceneGraph() {
 	for (int i = 1; i < 16; i++) {
 		balls[i-1]->setModelMatrix(ModelsManager::instance()->get("ball" + std::to_string(i))->modelMatrix());
 	}
+
+	Matrix4 whiteModel = ModelsManager::instance()->get("whiteBall")->modelMatrix();
+	Matrix4 translation = math::translate(Vector3(whiteModel.getElement(0, 3)+3.0f, whiteModel.getElement(1, 3), whiteModel.getElement(2, 3)));
+
+	if (!ModelsManager::instance()->isUpdating()) {
+		cue->setModelMatrix(translation *
+			math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
+			math::scale(Vector3(4.0f, 0.1f, 0.1f)));
+	}
+	else
+		cue->setModelMatrix(math::translate(Vector3(500.0f ,500.0f, 500.0f)));
+
 	/*balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->modelMatrix());
 	balls[1]->setModelMatrix(ModelsManager::instance()->get("ball2")->modelMatrix());
 	balls[2]->setModelMatrix(ModelsManager::instance()->get("ball3")->modelMatrix());
