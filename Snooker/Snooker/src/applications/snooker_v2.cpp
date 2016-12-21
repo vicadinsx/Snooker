@@ -26,6 +26,8 @@ float currentInterpolation = 0.0f;
 bool  interpolationSwitch = false;
 
 float cueAcceleration = 0.0f;
+//Quaternion cueQuat = Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
+//Matrix4 cueModel;
 
 float maxSpeed = 1.0f;
 float maxRotationSpeed = 3.0f;
@@ -340,6 +342,8 @@ void createSnooker() {
 						math::scale(Vector3(4.0f, 0.1f, 0.1f)));
 	cue->setTexture(textWood);
 
+	//cueModel = cue->getModelMatrix();
+
 	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2( 0,0 ), Vector2( 0.0,0 ), Vector2( 0.000,0 ), 1), "whiteBall");
 
@@ -415,6 +419,11 @@ void applyCueMovement(){
 		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.0f, -0.01f);
 		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
 	}
+
+	/*if (KeyBuffer::instance()->isKeyDown('z')) {
+		Quaternion rotationQtrnY = Quaternion(1.0f, math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+		cueQuat = rotationQtrnY * cueQuat;
+	}*/
 
 	if (KeyBuffer::instance()->isKeyDown(' ')) {
 		if (cueAcceleration < MAX_ACC) {
@@ -492,6 +501,10 @@ void drawSceneGraph() {
 		cue->setModelMatrix(translation *
 			math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
 			math::scale(Vector3(4.0f, 0.1f, 0.1f)));
+		/*cueModel = translation *
+			math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
+			math::scale(Vector3(4.0f, 0.1f, 0.1f));
+		cue->setModelMatrix(cueModel * cueQuat.toMatrix());*/
 	}
 	else
 		cue->setModelMatrix(math::translate(Vector3(500.0f ,500.0f, 500.0f)));

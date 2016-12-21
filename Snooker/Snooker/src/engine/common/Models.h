@@ -94,7 +94,7 @@ namespace engine {
 		bool isUpdating() {
 			std::map<std::string, Object*>::iterator it;
 			for (it = objects.begin(); it != objects.end(); it++) {
-				if (abs(it->second->speed().x) > 0.0f || abs(it->second->speed().y > 0.0f))
+				if (abs(it->second->speed().x) > 0.0f || abs(it->second->speed().y) > 0.0f)
 					return true;
 			}
 			return false;
