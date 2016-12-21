@@ -497,7 +497,6 @@ void drawSceneGraph() {
 	Matrix4 whiteModel = ModelsManager::instance()->get("whiteBall")->modelMatrix();
 	Matrix4 translation = math::translate(Vector3(whiteModel.getElement(0, 3)+3.0f, whiteModel.getElement(1, 3), whiteModel.getElement(2, 3)));
 
-	if (!ModelsManager::instance()->isUpdating()) {
 		cue->setModelMatrix(translation *
 			math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
 			math::scale(Vector3(4.0f, 0.1f, 0.1f)));
@@ -505,9 +504,6 @@ void drawSceneGraph() {
 			math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
 			math::scale(Vector3(4.0f, 0.1f, 0.1f));
 		cue->setModelMatrix(cueModel * cueQuat.toMatrix());*/
-	}
-	else
-		cue->setModelMatrix(math::translate(Vector3(500.0f ,500.0f, 500.0f)));
 
 	/*balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->modelMatrix());
 	balls[1]->setModelMatrix(ModelsManager::instance()->get("ball2")->modelMatrix());
