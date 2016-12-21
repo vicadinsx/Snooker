@@ -31,7 +31,7 @@ float cueAcceleration = 0.0f;
 
 float maxSpeed = 1.0f;
 float maxRotationSpeed = 3.0f;
-float distance = 15; 
+float distance = 15;
 float distanceStep = 1.5f;
 
 GLfloat deltaTime = 0.0f;
@@ -39,6 +39,14 @@ GLfloat oldTime = 0.0f;
 
 Quaternion rotationQuaternion(1.0f, 0.0f, 0.0f, 0.0f);
 std::string activeSceneGraph = "snooker";
+
+SceneNode* root;
+SceneNode *ground;
+SceneNode *whiteBall;
+SceneNode *cue;
+std::array<SceneNode*, 4> walls;
+std::array<SceneNode*, 6> holes;
+std::array<SceneNode*, 15> balls;
 
 /////////////////////////////////////////////////////////////////////// ERRORS
 
@@ -113,15 +121,6 @@ void createMeshes()
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
 
-
-SceneNode* root;
-SceneNode *ground;
-SceneNode *whiteBall;
-SceneNode *cue;
-std::array<SceneNode*,4> walls;
-std::array<SceneNode*,6> holes;
-std::array<SceneNode*,15> balls;
-
 void destroyBufferObjects() {
 }
 
@@ -160,8 +159,8 @@ void createSnooker() {
 	//std::string textTable("data/textures/tableTexture.bmp");
 	std::string textTable("data/textures/tableTexture2.bmp");
 
-	Mesh* squareMesh   = MeshManager::instance()->get("square");
-	Mesh* ballMesh     = MeshManager::instance()->get("ball");
+	Mesh* squareMesh = MeshManager::instance()->get("square");
+	Mesh* ballMesh = MeshManager::instance()->get("ball");
 	Mesh* cylinderMesh = MeshManager::instance()->get("cylinder");
 
 	root = scenegraph->getRoot();
@@ -178,62 +177,62 @@ void createSnooker() {
 	walls[0] = ground->createNode("wall");
 	walls[0]->setMesh(squareMesh);
 	walls[0]->setModelMatrix(math::translate(Vector3(0.0f, 1.3f, 2.0f)) *
-							math::scale(Vector3(0.82f, 0.1f, 1.0)));
+		math::scale(Vector3(0.82f, 0.1f, 1.0)));
 	walls[0]->setTexture(textWood);
 
 	walls[1] = ground->createNode("wall");
 	walls[1]->setMesh(squareMesh);
 	walls[1]->setModelMatrix(math::translate(Vector3(0.0f, -0.5f, 2.0f)) *
-		   				  math::scale(Vector3(0.82f, 0.1f, 1.0)));
+		math::scale(Vector3(0.82f, 0.1f, 1.0)));
 	walls[1]->setTexture(textWood);
 
 	walls[2] = ground->createNode("wall");
 	walls[2]->setMesh(squareMesh);
 	walls[2]->setModelMatrix(math::translate(Vector3(0.85f, 0.0f, 2.0f)) *
-		  				  math::scale(Vector3(0.1f, 1.0f, 1.0)));
+		math::scale(Vector3(0.1f, 1.0f, 1.0)));
 	walls[2]->setTexture(textWood);
 
 	walls[3] = ground->createNode("wall");
 	walls[3]->setMesh(squareMesh);
 	walls[3]->setModelMatrix(math::translate(Vector3(-0.95f, 0.0f, 2.0f)) *
-		 				  math::scale(Vector3(0.1f, 1.0f, 1.0)));
+		math::scale(Vector3(0.1f, 1.0f, 1.0)));
 	walls[3]->setTexture(textWood);
 
 	float holeSize = 0.1f;
 	holes[0] = ground->createNode("hole");
 	holes[0]->setMesh(ballMesh);
 	holes[0]->setModelMatrix(math::translate(Vector3(0.7f, 1.2f, 0.8f)) *
-							 (math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+		(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
 	holes[0]->setTexture(textBlack);
 
 	holes[1] = ground->createNode("hole");
 	holes[1]->setMesh(ballMesh);
 	holes[1]->setModelMatrix(math::translate(Vector3(0.0f, 1.2f, 0.8f)) *
-		   				 (math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+		(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
 	holes[1]->setTexture(textBlack);
 
 	holes[2] = ground->createNode("hole");
 	holes[2]->setMesh(ballMesh);
 	holes[2]->setModelMatrix(math::translate(Vector3(-0.82f, 1.2f, 0.8f)) *
-		  				 (math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+		(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
 	holes[2]->setTexture(textBlack);
 
 	holes[3] = ground->createNode("hole");
 	holes[3]->setMesh(ballMesh);
 	holes[3]->setModelMatrix(math::translate(Vector3(-0.82f, -0.3f, 0.8f)) *
-		  		        	(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+		(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
 	holes[3]->setTexture(textBlack);
 
 	holes[4] = ground->createNode("hole");
 	holes[4]->setMesh(ballMesh);
 	holes[4]->setModelMatrix(math::translate(Vector3(0.0f, -0.3f, 0.8f)) *
-		    	        	(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+		(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
 	holes[4]->setTexture(textBlack);
 
 	holes[5] = ground->createNode("hole");
 	holes[5]->setMesh(ballMesh);
 	holes[5]->setModelMatrix(math::translate(Vector3(0.7f, -0.3f, 0.8f)) *
-		    	        	(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
+		(math::scale(Vector3(0.05f, 0.1f, 0.0)) * holeSize));
 	holes[5]->setTexture(textBlack);
 
 	float xOffset = 0.0f, yOffset = 0.0f, zOffset = -0.2f;
@@ -242,97 +241,97 @@ void createSnooker() {
 	whiteBall = scenegraph->createNode("ball");
 	whiteBall->setMesh(ballMesh);
 	whiteBall->setModelMatrix(math::translate(Vector3(5.0f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
-		 				  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	whiteBall->setTexture(textWhite);
 
 	balls[0] = scenegraph->createNode("ball");
 	balls[0]->setMesh(ballMesh);
 	balls[0]->setModelMatrix(math::translate(Vector3(-4.0f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
-		 				  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[0]->setTexture(textBall1);
 
 	balls[1] = scenegraph->createNode("ball");
 	balls[1]->setMesh(ballMesh);
 	balls[1]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 3.0f + yOffset, 1.0f + zOffset)) *
-		   			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[1]->setTexture(textBall2);
 
 	balls[2] = scenegraph->createNode("ball");
 	balls[2]->setMesh(ballMesh);
 	balls[2]->setModelMatrix(math::translate(Vector3(-4.4f + xOffset, 2.0f + yOffset, 1.0f + zOffset)) *
-		  			  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[2]->setTexture(textBall3);
 
 	balls[3] = scenegraph->createNode("ball");
 	balls[3]->setMesh(ballMesh);
 	balls[3]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 1.5f + yOffset, 1.0f + zOffset)) *
-		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[3]->setTexture(textBall4);
 
 	balls[4] = scenegraph->createNode("ball");
 	balls[4]->setMesh(ballMesh);
 	balls[4]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
-		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[4]->setTexture(textBall5);
 
 	balls[5] = scenegraph->createNode("ball");
 	balls[5]->setMesh(ballMesh);
 	balls[5]->setModelMatrix(math::translate(Vector3(-4.8f + xOffset, 3.5f + yOffset, 1.0f + zOffset)) *
-		   		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[5]->setTexture(textBall6);
 
 	balls[6] = scenegraph->createNode("ball");
 	balls[6]->setMesh(ballMesh);
 	balls[6]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 1.0f + yOffset, 1.0f + zOffset)) *
-		  		  math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[6]->setTexture(textBall7);
 
 	balls[7] = scenegraph->createNode("ball");
 	balls[7]->setMesh(ballMesh);
 	balls[7]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 2.0f + yOffset, 1.0f + zOffset)) *
-				 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[7]->setTexture(textBall8);
 
 	balls[8] = scenegraph->createNode("ball");
 	balls[8]->setMesh(ballMesh);
 	balls[8]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 3.0f + yOffset, 1.0f + zOffset)) *
-		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[8]->setTexture(textBall9);
 
 	balls[9] = scenegraph->createNode("ball");
 	balls[9]->setMesh(ballMesh);
 	balls[9]->setModelMatrix(math::translate(Vector3(-5.2f + xOffset, 4.0f + yOffset, 1.0f + zOffset)) *
-		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[9]->setTexture(textBall10);
 
 	balls[10] = scenegraph->createNode("ball");
 	balls[10]->setMesh(ballMesh);
 	balls[10]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 0.5f + yOffset, 1.0f + zOffset)) *
-		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[10]->setTexture(textBall11);
-	
+
 	balls[11] = scenegraph->createNode("ball");
 	balls[11]->setMesh(ballMesh);
 	balls[11]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 1.5f + yOffset, 1.0f + zOffset)) *
-		    	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[11]->setTexture(textBall12);
 
 	balls[12] = scenegraph->createNode("ball");
 	balls[12]->setMesh(ballMesh);
 	balls[12]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
-		   	 math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[12]->setTexture(textBall13);
 
 	balls[13] = scenegraph->createNode("ball");
 	balls[13]->setMesh(ballMesh);
 	balls[13]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 3.5f + yOffset, 1.0f + zOffset)) *
-		     math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[13]->setTexture(textBall14);
 
 	balls[14] = scenegraph->createNode("ball");
 	balls[14]->setMesh(ballMesh);
 	balls[14]->setModelMatrix(math::translate(Vector3(-5.6f + xOffset, 4.5f + yOffset, 1.0f + zOffset)) *
-		     math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
+		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	balls[14]->setTexture(textBall15);
 
 	cue = scenegraph->createNode("cue");
@@ -345,61 +344,17 @@ void createSnooker() {
 	//cueModel = cue->getModelMatrix();
 
 	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2( 0,0 ), Vector2( 0.0,0 ), Vector2( 0.000,0 ), 1), "whiteBall");
+		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "whiteBall");
 
 	for (int i = 1; i < 16; i++) {
-		ModelsManager::instance()->add(new Object(balls[i-1]->getModelMatrix()
+		ModelsManager::instance()->add(new Object(balls[i - 1]->getModelMatrix()
 			* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball" + std::to_string(i));
 	}
-	/*ModelsManager::instance()->add(new Object(balls[0]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball1");
-
-	ModelsManager::instance()->add(new Object(balls[1]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball2");
-
-	ModelsManager::instance()->add(new Object(balls[2]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball3");
-
-	ModelsManager::instance()->add(new Object(balls[3]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0, 0), 1), "ball4");
-
-	ModelsManager::instance()->add(new Object(balls[4]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball5");
-
-	ModelsManager::instance()->add(new Object(balls[5]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball6");
-
-	ModelsManager::instance()->add(new Object(balls[6]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball7");
-
-	ModelsManager::instance()->add(new Object(balls[7]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball8");
-
-	ModelsManager::instance()->add(new Object(balls[8]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball9");
-
-	ModelsManager::instance()->add(new Object(balls[9]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball10");
-
-	ModelsManager::instance()->add(new Object(balls[10]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball11");
-
-	ModelsManager::instance()->add(new Object(balls[11]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball12");
-
-	ModelsManager::instance()->add(new Object(balls[12]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball13");
-
-	ModelsManager::instance()->add(new Object(balls[13]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball14");
-
-	ModelsManager::instance()->add(new Object(balls[14]->getModelMatrix()
-		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "ball15");*/
 
 	SceneGraphManager::instance()->add(activeSceneGraph, scenegraph);
 }
 
-void applyCueMovement(){
+void applyCueMovement() {
 	if (KeyBuffer::instance()->isKeyDown('a')) {
 		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(-0.01f, 0.0f);
 		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
@@ -431,7 +386,7 @@ void applyCueMovement(){
 			std::cout << cueAcceleration << std::endl;
 		}
 		else
-			cueAcceleration = MAX_ACC;
+			cueAcceleration = (float)MAX_ACC;
 	}
 
 	if (!KeyBuffer::instance()->isKeyDown(' ')) {
@@ -497,29 +452,22 @@ void drawSceneGraph() {
 	Matrix4 whiteModel = ModelsManager::instance()->get("whiteBall")->modelMatrix();
 	Matrix4 translation = math::translate(Vector3(whiteModel.getElement(0, 3)+3.0f, whiteModel.getElement(1, 3), whiteModel.getElement(2, 3)));
 
-		cue->setModelMatrix(translation *
-			math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
-			math::scale(Vector3(4.0f, 0.1f, 0.1f)));
-		/*cueModel = translation *
-			math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
-			math::scale(Vector3(4.0f, 0.1f, 0.1f));
-		cue->setModelMatrix(cueModel * cueQuat.toMatrix());*/
+	cue->setModelMatrix(translation *
+		math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
+		math::scale(Vector3(4.0f, 0.1f, 0.1f)));
 
-	/*balls[0]->setModelMatrix(ModelsManager::instance()->get("ball1")->modelMatrix());
-	balls[1]->setModelMatrix(ModelsManager::instance()->get("ball2")->modelMatrix());
-	balls[2]->setModelMatrix(ModelsManager::instance()->get("ball3")->modelMatrix());
-	balls[3]->setModelMatrix(ModelsManager::instance()->get("ball4")->modelMatrix());
-	balls[4]->setModelMatrix(ModelsManager::instance()->get("ball5")->modelMatrix());
-	balls[5]->setModelMatrix(ModelsManager::instance()->get("ball6")->modelMatrix());
-	balls[6]->setModelMatrix(ModelsManager::instance()->get("ball7")->modelMatrix());
-	balls[7]->setModelMatrix(ModelsManager::instance()->get("ball8")->modelMatrix());
-	balls[8]->setModelMatrix(ModelsManager::instance()->get("ball9")->modelMatrix());
-	balls[9]->setModelMatrix(ModelsManager::instance()->get("ball10")->modelMatrix());
-	balls[10]->setModelMatrix(ModelsManager::instance()->get("ball11")->modelMatrix());
-	balls[11]->setModelMatrix(ModelsManager::instance()->get("ball12")->modelMatrix());
-	balls[12]->setModelMatrix(ModelsManager::instance()->get("ball13")->modelMatrix());
-	balls[13]->setModelMatrix(ModelsManager::instance()->get("ball14")->modelMatrix());
-	balls[14]->setModelMatrix(ModelsManager::instance()->get("ball15")->modelMatrix());*/
+	/*cueModel = translation *
+		math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
+		math::scale(Vector3(4.0f, 0.1f, 0.1f));
+	cue->setModelMatrix(cueModel * cueQuat.toMatrix());*/
+
+	for (int i = 1; i < 16; i++)
+		balls[i - 1]->setModelMatrix(ModelsManager::instance()->get("ball" + std::to_string(i))->modelMatrix());
+
+	if (ModelsManager::instance()->shotInProgress())
+		cue->setDrawable(false);
+	else
+		cue->setDrawable(true);
 
 	SceneGraphManager::instance()->get(activeSceneGraph)->draw();
 }
@@ -585,7 +533,7 @@ void keyboardPressSpecial(int key, int x, int y) {
 
 void keyboardUp(unsigned char key, int x, int y) {
 	KeyBuffer::instance()->releaseKey(key);
-	if(key = ' ')
+	if (key = ' ')
 		ModelsManager::instance()->get("whiteBall")->setAcceleration(Vector2(-cueAcceleration, 0.0f));
 }
 

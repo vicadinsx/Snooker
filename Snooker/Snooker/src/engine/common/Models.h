@@ -76,7 +76,7 @@ namespace engine {
 		}
 
 		//Calculate collisions
-		void calculateCollisions(std::string name, Object *o){
+		void calculateCollisions(std::string name, Object *o) {
 			std::map<std::string, Object*>::iterator it;
 			for (it = objects.begin(); it != objects.end(); it++) {
 				if (it->first.compare(name) == 0)
@@ -84,9 +84,9 @@ namespace engine {
 					continue;
 				}
 				//if (overlaps(o, it->second)) {
-					if (colliding(o, it->second)) {
-						collide(o, it->second);
-					}
+				if (colliding(o, it->second)) {
+					collide(o, it->second);
+				}
 				//}
 			}
 		}
@@ -97,6 +97,14 @@ namespace engine {
 			return &instance;
 		}
 
+		bool shotInProgress() {
+			std::map<std::string, Object*>::iterator it;
+			for (it = objects.begin(); it != objects.end(); it++) {
+				if (it->second->isMoving())
+					return true;
+			}
+			return false;
+		}
 	};
 
 }
