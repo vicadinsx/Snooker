@@ -18,7 +18,7 @@ namespace math {
 		Quaternion rotationQuaternion = Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
 
 	public:
-		Object(){}
+		Object() {}
 		Object(Matrix4 m, float r, Vector2 d, Vector2 s, Vector2 a, float mass) {
 			_model = m;
 			_radius = 0.32f;
@@ -27,7 +27,7 @@ namespace math {
 			_acceleration = a;
 			_mass = mass;
 		}
-		~Object(){}
+		~Object() {}
 
 		Matrix4 model() { return this->_model; }
 		Matrix4 modelMatrix() { return this->_model*this->rotationQuaternion.toMatrix(); }
@@ -51,7 +51,7 @@ namespace math {
 		friend bool overlaps(Object *o1, Object *o2) {
 			if (o1->posX() + o1->radius() + o2->radius() > o2->posX() &&
 				o1->posX() < o1->radius() + o2->radius() + o2->posX() &&
-			    o1->posY() + o1->radius() + o2->radius() > o2->posY() &&
+				o1->posY() + o1->radius() + o2->radius() > o2->posY() &&
 				o1->posY() < o1->radius() + o2->radius() + o2->posY())
 				return true;
 
@@ -75,7 +75,7 @@ namespace math {
 		friend Vector2 collisionPoints(Object* o1, Object *o2) {
 			float collisionPointX = ((o1->posX()*o2->radius()) + o2->posX()*o1->radius()) / (o1->radius() + o2->radius());
 			float collisionPointY = ((o1->posY()*o2->radius()) + o2->posY()*o1->radius()) / (o1->radius() + o2->radius());
-			return { collisionPointX, collisionPointY };
+			return{ collisionPointX, collisionPointY };
 		}
 
 		friend void collide(Object* o1, Object* o2) {
@@ -84,8 +84,8 @@ namespace math {
 
 		// "Light" colisions
 		static void collide_1(Object* o1, Object* o2) {
-			float v1x(o1->posX()), v1y(o1->posY()), v2x(o2->posX()), v2y(o2->posY()), 
-				  disp_X, disp_Y, distance;
+			float v1x(o1->posX()), v1y(o1->posY()), v2x(o2->posX()), v2y(o2->posY()),
+				disp_X, disp_Y, distance;
 
 			Vector2 collisionv1(Vector2(v1x, v1y)), collisionv2(Vector2(v2x, v2y));
 			Vector2 collision = collisionv1 - collisionv2;
@@ -175,6 +175,15 @@ namespace math {
 
 			rotationQuaternion = rotationQtrnX * rotationQtrnY * rotationQuaternion;
 		}
+
+		bool isMoving() {
+			if (_speed.x == 0.0f && _speed.y == 0.0f) {
+				return false;
+			}
+			else
+				return true;
+		}
+
 	};
 }
 
