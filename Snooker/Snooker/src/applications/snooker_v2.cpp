@@ -450,10 +450,18 @@ void drawSceneGraph() {
 	}
 
 	Matrix4 whiteModel = ModelsManager::instance()->get("whiteBall")->modelMatrix();
-	Matrix4 translation = math::translate(Vector3(whiteModel.getElement(0, 3)+3.0f, whiteModel.getElement(1, 3), whiteModel.getElement(2, 3)));
+	Matrix4 translation = math::translate(Vector3(whiteModel.getElement(0, 3), whiteModel.getElement(1, 3), whiteModel.getElement(2, 3)+1));
 
-	cue->setModelMatrix(translation *
-		math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
+	cue->setModelMatrix(
+		// TRANSLATE TO THE DESIRED POSITION (white ball location)
+		translation * 
+		// ROTATE 45º AROUND Z (moves the cue left/right)
+		//math::rotate(-45.0f, Vector3(0.0f, 0.0f, 1.0f)) *
+		// ROTATE 45º AROUND X (moves the cue up/down)
+		math::rotate(-45.0f, Vector3(0.0f, 1.0f, 0.0f)) *
+		// TRANSLATE SO THE TIP IS AT THE ORIGIN
+		math::translate(Vector3(4.0f, 0.0f, 0.0f)) *
+		// SCALE THE CUE
 		math::scale(Vector3(4.0f, 0.1f, 0.1f)));
 
 	/*cueModel = translation *
