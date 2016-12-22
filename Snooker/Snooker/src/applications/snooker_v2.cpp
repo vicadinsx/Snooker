@@ -20,12 +20,16 @@ GLfloat currentX, currentY;
 GLuint UBO_BP = 0;
 
 bool leftMouseButtonPressed = false;
+bool rightMouseButtonPressed = false;
+
 float animationDuration = 2.0f;
 float interpolationFactor = 1.0f / animationDuration;
 float currentInterpolation = 0.0f;
 bool  interpolationSwitch = false;
 
 float cueAcceleration = 0.0f;
+float        cuePitch = -18.0f;
+float          cueYaw = 0.0f;
 //Quaternion cueQuat = Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
 //Matrix4 cueModel;
 
@@ -77,7 +81,6 @@ void createShaderProgram()
 	ShaderProgram *program = new ShaderProgram();
 
 	program->compileShaderFromFile("data/shaders/vertexShaderTextures.vert", ShaderType::VERTEX);
-
 	program->compileShaderFromFile("data/shaders/fragmentShaderTextures.frag", ShaderType::FRAGMENT);
 
 	program->bindAttribLocation(VERTICES, "in_Position");
@@ -341,8 +344,6 @@ void createSnooker() {
 						math::scale(Vector3(4.0f, 0.1f, 0.1f)));
 	cue->setTexture(textWood);
 
-	//cueModel = cue->getModelMatrix();
-
 	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "whiteBall");
 
@@ -354,7 +355,7 @@ void createSnooker() {
 	SceneGraphManager::instance()->add(activeSceneGraph, scenegraph);
 }
 
-void applyCueMovement() {
+void applyWhiteBallMovement() {
 	if (KeyBuffer::instance()->isKeyDown('a')) {
 		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(-0.01f, 0.0f);
 		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
@@ -375,15 +376,10 @@ void applyCueMovement() {
 		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
 	}
 
-	/*if (KeyBuffer::instance()->isKeyDown('z')) {
-		Quaternion rotationQtrnY = Quaternion(1.0f, math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
-		cueQuat = rotationQtrnY * cueQuat;
-	}*/
-
 	if (KeyBuffer::instance()->isKeyDown(' ')) {
 		if (cueAcceleration < MAX_ACC) {
 			cueAcceleration += 0.0005f;
-			std::cout << cueAcceleration << std::endl;
+			std::cout << "Cue Acceleration: " << cueAcceleration << std::endl;
 		}
 		else
 			cueAcceleration = (float)MAX_ACC;
@@ -413,7 +409,7 @@ void computeInterpolation() {
 }
 
 void applyMotion() {
-	applyCueMovement();
+	applyWhiteBallMovement();
 	computeInterpolation();
 }
 
@@ -430,6 +426,27 @@ void computeAngleAxis() {
 		Quaternion rotationQtrnY = Quaternion(rotX, math::Vector4(0.0f, 1.0f, 0.0f, 1.0f));
 		Quaternion rotationQtrnX = Quaternion(rotY, math::Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 		rotationQuaternion = rotationQtrnX * rotationQtrnY * rotationQuaternion;
+		lastX = currentX;
+		lastY = currentY;
+	}
+}
+
+void computeCueRotation() {
+	if (currentX != lastX || currentY != lastY) {
+
+		cuePitch += currentY - lastY;
+		  cueYaw += currentX - lastX;
+
+		if (cuePitch < -48.0f)
+			cuePitch = -48.0f;
+		if (cuePitch > -18.0f)
+			cuePitch = -18.0f;
+
+		//if (cueYaw >  89.0f)
+		//	cueYaw =  89.0f;
+		//if (cueYaw < -89.0f)
+		//	cueYaw = -89.0f;
+
 		lastX = currentX;
 		lastY = currentY;
 	}
@@ -455,10 +472,11 @@ void drawSceneGraph() {
 		// TRANSLATE TO THE DESIRED POSITION (white ball location)
 		   translation *
 		
-		// ROTATE 45º AROUND Z (moves the cue left/right)
-		   math::rotate(-45.0f, Vector3(0.0f, 0.0f, 1.0f)) *
-		// ROTATE 45º AROUND X (moves the cue up/down)
-		   //math::rotate(-45.0f, Vector3(0.0f, 1.0f, 0.0f)) *
+		// ROTATE AROUND Z (moves the cue left/right)
+		   math::rotate(cueYaw, Vector3(0.0f, 0.0f, 1.0f)) *
+
+		// ROTATE AROUND X (moves the cue up/down)
+		   math::rotate(cuePitch, Vector3(0.0f, 1.0f, 0.0f)) *
 		
 		// TRANSLATE SO THE TIP IS AT THE ORIGIN
 		   math::translate(Vector3(4.8f, 0.0f, 0.0f)) *
@@ -466,11 +484,6 @@ void drawSceneGraph() {
 		// SCALE THE CUE
 		   math::scale(Vector3(4.0f, 0.1f, 0.1f))
 	);
-		
-	/*cueModel = translation *
-		math::rotate(-10.0f, Vector3(0.0f, 1.0f, 0.0f)) *
-		math::scale(Vector3(4.0f, 0.1f, 0.1f));
-	cue->setModelMatrix(cueModel * cueQuat.toMatrix());*/
 
 	for (int i = 1; i < 16; i++)
 		balls[i - 1]->setModelMatrix(ModelsManager::instance()->get("ball" + std::to_string(i))->modelMatrix());
@@ -560,15 +573,23 @@ void mousePress(int button, int state, int x, int y) {
 		lastY = currentY = (float)y;
 	}
 
+	if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
+		rightMouseButtonPressed = true;
+		lastX = currentX = (float)x;
+		lastY = currentY = (float)y;
+	}
+
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
 		leftMouseButtonPressed = false;
+
+	if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP)
+		rightMouseButtonPressed = false;
 
 	if (button == MOUSE_SCROLL_UP)
 		distance -= distanceStep;
 
 	if (button == MOUSE_SCROLL_DOWN)
 		distance += distanceStep;
-
 }
 
 void mouseMovement(int x, int y) {
@@ -576,6 +597,11 @@ void mouseMovement(int x, int y) {
 		currentX = (float)x;
 		currentY = (float)y;
 		computeAngleAxis();
+	}
+	if (rightMouseButtonPressed) {
+		currentX = (float)x;
+		currentY = (float)y;
+		computeCueRotation();
 	}
 }
 
