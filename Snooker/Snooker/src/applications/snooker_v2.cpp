@@ -376,6 +376,14 @@ void applyWhiteBallMovement() {
 		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
 	}
 
+	if (KeyBuffer::instance()->isKeyDown('z')) {
+		cueYaw += 1.0f;
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('c')) {
+		cueYaw -= 1.0f;
+	}
+
 	if (KeyBuffer::instance()->isKeyDown(' ')) {
 		if (cueAcceleration < MAX_ACC) {
 			cueAcceleration += 0.0005f;
@@ -435,7 +443,7 @@ void computeCueRotation() {
 	if (currentX != lastX || currentY != lastY) {
 
 		cuePitch += currentY - lastY;
-		  cueYaw += currentX - lastX;
+		//cueYaw += currentX - lastX;
 
 		if (cuePitch < -48.0f)
 			cuePitch = -48.0f;
@@ -558,7 +566,7 @@ void keyboardPressSpecial(int key, int x, int y) {
 void keyboardUp(unsigned char key, int x, int y) {
 	KeyBuffer::instance()->releaseKey(key);
 	if (key = ' ')
-		ModelsManager::instance()->get("whiteBall")->setAcceleration(Vector2(-cueAcceleration, 0.0f));
+		ModelsManager::instance()->get("whiteBall")->setAcceleration(Vector2(-cueAcceleration*cos(math::toRadians(cueYaw)), -cueAcceleration*sin(math::toRadians(cueYaw))));
 }
 
 void keyboardUpSpecial(int key, int x, int y) {
