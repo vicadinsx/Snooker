@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "vector.h"
+#include <iomanip>
 
 namespace math {
 
@@ -760,9 +761,9 @@ namespace math {
                 for (i = 0; i < height; i++) {
                     for (j = 0; j < width; j++) {
                         if(j != width -1)
-                            std::cout << getElement(i,j) << ", ";
+                            std::cout << std::setw(10) << getElement(i,j) << ", ";
                         else
-                            std::cout << getElement(i,j) << "|" << std::endl;
+                            std::cout << std::setw(10) << getElement(i,j) << "|" << std::endl;
                     }
                     if(i != height -1)
                         std::cout << "|";

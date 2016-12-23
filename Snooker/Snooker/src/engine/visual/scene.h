@@ -10,182 +10,190 @@
 
 namespace engine {
 
-    class RenderException : public std::runtime_error {
-        public:
-            RenderException( const std::string & msg ) :
-                std::runtime_error(msg) { }
-    };
+	class RenderException : public std::runtime_error {
+	public:
+		RenderException(const std::string & msg) :
+			std::runtime_error(msg) { }
+	};
 
-    class SceneGraphException : public std::runtime_error {
-        public:
-            SceneGraphException( const std::string & msg ) :
-                std::runtime_error(msg) { }
-    };
+	class SceneGraphException : public std::runtime_error {
+	public:
+		SceneGraphException(const std::string & msg) :
+			std::runtime_error(msg) { }
+	};
 
-    class SceneNode {
-        private:
-            SceneNode* parent;
-            std::string tag;
+	class SceneNode {
+	private:
+		SceneNode* parent;
+		std::string tag;
+		bool drawable = true;
 
-            ShaderProgram* getProgramFromParent() {
-                if(parent == nullptr)
-                    return nullptr;
+		ShaderProgram* getProgramFromParent() {
+			if (parent == nullptr)
+				return nullptr;
 
-                if(parent->shaderProgram != nullptr)
-                    return parent->shaderProgram;
+			if (parent->shaderProgram != nullptr)
+				return parent->shaderProgram;
 
-                return parent->getProgramFromParent();
-            }
+			return parent->getProgramFromParent();
+		}
 
-        public:
-            std::vector<SceneNode*> children;
-            math::Matrix4 modelMatrix;
-			GLuint texture;
-            Mesh* mesh;
-            ShaderProgram* shaderProgram;
-            bool isRoot;
+	public:
+		std::vector<SceneNode*> children;
+		math::Matrix4 modelMatrix;
+		GLuint texture;
+		Mesh* mesh;
+		ShaderProgram* shaderProgram;
+		bool isRoot;
 
-            SceneNode(std::string _tag = "") {
-                modelMatrix = math::Create4DIdentity();
-                mesh = nullptr;
-                shaderProgram = nullptr;
-                parent = nullptr;
-                isRoot = false;
-                tag = _tag;
-            }
+		SceneNode(std::string _tag = "") {
+			modelMatrix = math::Create4DIdentity();
+			mesh = nullptr;
+			shaderProgram = nullptr;
+			parent = nullptr;
+			isRoot = false;
+			tag = _tag;
+		}
 
-            SceneNode* createNode(std::string tag = "") {
-                SceneNode* child = new SceneNode(tag);
-                child->setParent(this);
-                children.push_back(child);
-                return child;
-            }
+		SceneNode* createNode(std::string tag = "") {
+			SceneNode* child = new SceneNode(tag);
+			child->setParent(this);
+			children.push_back(child);
+			return child;
+		}
 
-            void setMesh(Mesh* _mesh) {
-                mesh = _mesh;
-            }
+		void setMesh(Mesh* _mesh) {
+			mesh = _mesh;
+		}
 
-			void setTexture(std::string& filename)
-			{
-				texture = loadBMP_custom(filename.c_str());
+		void setDrawable(bool b) {
+			drawable = b;
+		}
+
+		void setTexture(std::string& filename)
+		{
+			texture = loadBMP_custom(filename.c_str());
+		}
+
+		void setShaderProgram(ShaderProgram* _program) {
+			shaderProgram = _program;
+		}
+
+		void setParent(SceneNode* _parent) {
+			parent = _parent;
+		}
+
+		math::Matrix4 getModelMatrix() {
+			if (parent == nullptr || parent->isRoot)
+				return modelMatrix;
+
+			if (parent->parent->isRoot) {
+				return parent->modelMatrix * modelMatrix;
 			}
 
-            void setShaderProgram(ShaderProgram* _program) {
-                shaderProgram = _program;
-            }
+			return parent->getModelMatrix() * modelMatrix;
+		}
 
-            void setParent(SceneNode* _parent) {
-                parent = _parent;
-            }
+		void setModelMatrix(math::Matrix4 matrix) {
+			modelMatrix = matrix;
+		}
 
-            math::Matrix4 getModelMatrix(){
-                if(parent == nullptr || parent->isRoot)
-                    return modelMatrix;
+		void applyMatrix(math::Matrix4 matrix) {
+			modelMatrix = matrix * modelMatrix;
+		}
 
-                    if(parent->parent->isRoot){
-                        return parent->modelMatrix * modelMatrix;
-                    }
-                    
-                    return parent->getModelMatrix() * modelMatrix;
-                }
+		void setTag(std::string _tag) {
+			tag = _tag;
+		}
 
-            void setModelMatrix(math::Matrix4 matrix) {
-                    modelMatrix = matrix;
-            }
+		std::string getTag() {
+			return tag;
+		}
 
-            void applyMatrix(math::Matrix4 matrix) {
-                    modelMatrix = matrix * modelMatrix;
-            }
+		void draw()
+			throw (RenderException) {
+			if (mesh == nullptr) {
+				throw RenderException("No Mesh set for the node " + tag);
+			}
+			if (shaderProgram == nullptr) {
+				shaderProgram = getProgramFromParent();
+				if (shaderProgram == nullptr) {
+					throw RenderException("Could not find any shader program");
+				}
+			}
+			shaderProgram->use();
+			shaderProgram->setUniform("Matrix", this->getModelMatrix().getData());
+			shaderProgram->setUniformTexture("Texture", texture);
 
-            void setTag(std::string _tag) {
-                tag = _tag;
-            }
+			shaderProgram->setUniform("AmbientProduct", 0.1, 0.1, 0.1, 0.1);
+			shaderProgram->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 1.0);
+			shaderProgram->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
 
-            std::string getTag() {
-                return tag;
-            }
+			//program->setUniform("Shininess", 100.0);
+			shaderProgram->setUniform("LightPosition", 0.0, 0.0, 10.0, 1.0);
 
-            void draw()
-                throw (RenderException) {
-                    if (mesh == nullptr) {
-                        throw RenderException("No Mesh set for the node " + tag);
-                    }
-                    if (shaderProgram == nullptr) {
-                        shaderProgram = getProgramFromParent();
-                        if (shaderProgram == nullptr) {
-                            throw RenderException("Could not find any shader program");
-                        }
-                    }
-                    shaderProgram->use();
-					shaderProgram->setUniform("Matrix", this->getModelMatrix().getData());
-					shaderProgram->setUniformTexture("Texture", texture);
+			if (drawable)
+				mesh->draw();
 
-					shaderProgram->setUniform("AmbientProduct", 0.1, 0.1, 0.1, 0.1);
-					shaderProgram->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 1.0);
-					shaderProgram->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
+			if (!children.empty()) {
+				int i;
+				for (i = 0; i < (int)children.size(); i++) {
+					children[i]->draw();
+				}
+			}
+		}
 
-					//program->setUniform("Shininess", 100.0);
-					shaderProgram->setUniform("LightPosition", 0.0, 0.0, 10.0, 1.0);
+		void applyMatrixToChildren(Matrix4 matrix) {
+			if (!children.empty()) {
+				int i;
+				for (i = 0; i < (int)children.size(); i++) {
+					children[i]->modelMatrix = matrix * children[i]->modelMatrix;
+				}
+			}
+		}
+	};
 
-                    mesh->draw();
-                    if (!children.empty()){
-                        int i;
-                        for (i = 0; i < (int)children.size(); i++) {
-                            children[i]->draw();
-                        }
-                    }
-                }
+	class SceneGraph {
+	private:
+		SceneNode* root;
+		ICamera* camera;
 
-            void applyMatrixToChildren(Matrix4 matrix) {
-                if (!children.empty()){
-                    int i;
-                    for (i = 0; i < (int)children.size(); i++) {
-                        children[i]->modelMatrix = matrix * children[i]->modelMatrix;
-                    }
-                }
-            }
-    };
+	public:
+		SceneGraph() {
+			root = new SceneNode("root");
+			root->isRoot = true;
+		}
 
-    class SceneGraph {
-        private:
-            SceneNode* root;
-            ICamera* camera;
+		SceneNode* createNode(std::string tag = "") {
+			return root->createNode(tag);
+		}
 
-        public:
-            SceneGraph() {
-                root = new SceneNode("root");
-                root->isRoot = true;
-            }
+		void setCamera(ICamera* _camera) {
+			camera = _camera;
+		}
 
-            SceneNode* createNode(std::string tag = "") {
-                return root->createNode(tag);
-            }
+		ICamera* getCamera() {
+			return camera;
+		}
 
-            void setCamera(ICamera* _camera){
-                camera = _camera;
-            }
+		SceneNode* getRoot() {
+			return root;
+		}
 
-            ICamera* getCamera() {
-                return camera;
-            }
+		void draw()
+			throw (RenderException) {
+			if (!root->children.empty()) {
+				int i;
+				for (i = 0; i < (int)root->children.size(); i++) {
+					root->children[i]->draw();
 
-            SceneNode* getRoot() {
-                return root;
-            }
-
-            void draw()
-                throw (RenderException) {
-                    if (!root->children.empty()){
-                        int i;
-                        for (i = 0; i < (int)root->children.size(); i++) {
-                            root->children[i]->draw();
-
-                        }
-                    } else {
-                        throw RenderException("The graph is empty.");
-                    }
-                }
-    };
+				}
+			}
+			else {
+				throw RenderException("The graph is empty.");
+			}
+		}
+	};
 
 };
 
