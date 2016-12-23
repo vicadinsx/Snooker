@@ -483,8 +483,12 @@ void drawSceneGraph() {
 
 	if (cueTakingTheShot) 
 	{
-		if (!cueReleased)
-			cueDrawDistance += 0.05f;
+		if (!cueReleased) {
+			if (cueDrawDistance < MAX_ACC*50)
+				cueDrawDistance += 0.05f;
+			else
+				cueDrawDistance = MAX_ACC*50;
+		}
 		else
 		{
 			if (cueDrawDistance > 0.0f)
