@@ -27,11 +27,14 @@ float interpolationFactor = 1.0f / animationDuration;
 float currentInterpolation = 0.0f;
 bool  interpolationSwitch = false;
 
-float cueAcceleration = 0.0f;
+float cueDrawDistance =   0.0f;
 float        cuePitch = -18.0f;
-float          cueYaw = 0.0f;
-//Quaternion cueQuat = Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
-//Matrix4 cueModel;
+float          cueYaw =   0.0f;
+bool cueTakingTheShot =  false;
+bool      cueReleased =  false;
+
+float        whiteBallAcceleration = 0.0f;
+Vector2 savedWhiteBallAcceleration;
 
 float maxSpeed = 1.0f;
 float maxRotationSpeed = 3.0f;
@@ -385,19 +388,21 @@ void applyWhiteBallMovement() {
 	}
 
 	if (KeyBuffer::instance()->isKeyDown(' ')) {
-		if (cueAcceleration < MAX_ACC) {
-			cueAcceleration += 0.0005f;
-			std::cout << "Cue Acceleration: " << cueAcceleration << std::endl;
+		cueTakingTheShot = true;
+		if (whiteBallAcceleration < MAX_ACC) {
+			whiteBallAcceleration += 0.0005f;
+			std::cout << "Cue Acceleration: " << whiteBallAcceleration << std::endl;
 		}
 		else
-			cueAcceleration = (float)MAX_ACC;
+			whiteBallAcceleration = (float)MAX_ACC;
+
 	}
 
 	if (!KeyBuffer::instance()->isKeyDown(' ')) {
-		if (cueAcceleration > 0.0f)
-			cueAcceleration -= 0.0005f;
+		if (whiteBallAcceleration > 0.0f)
+			whiteBallAcceleration -= 0.0005f;
 		else
-			cueAcceleration = 0.0f;
+			whiteBallAcceleration = 0.0f;
 	}
 }
 
@@ -476,23 +481,39 @@ void drawSceneGraph() {
 	Matrix4 whiteModel = ModelsManager::instance()->get("whiteBall")->modelMatrix();
 	Matrix4 translation = math::translate(Vector3(whiteModel.getElement(0, 3), whiteModel.getElement(1, 3), whiteModel.getElement(2, 3)));
 
+	if (cueTakingTheShot) 
+	{
+		if (!cueReleased)
+			cueDrawDistance += 0.05f;
+		else
+		{
+			if (cueDrawDistance > 0.0f)
+				cueDrawDistance -= 0.30f;
+			else
+			{
+				ModelsManager::instance()->get("whiteBall")->setAcceleration(savedWhiteBallAcceleration);
+				cueDrawDistance = 0.0f; 
+				cueReleased = false;
+				cueTakingTheShot = false;
+			}
+		}
+	}
+
 	cue->setModelMatrix(
 		// TRANSLATE TO THE DESIRED POSITION (white ball location)
 		   translation *
-		
 		// ROTATE AROUND Z (moves the cue left/right)
 		   math::rotate(cueYaw, Vector3(0.0f, 0.0f, 1.0f)) *
-
 		// ROTATE AROUND X (moves the cue up/down)
 		   math::rotate(cuePitch, Vector3(0.0f, 1.0f, 0.0f)) *
-		
+		// TRANSLATE BASED ON ACCELERATION
+		   math::translate(Vector3(cueDrawDistance, 0.0f, 0.0f)) *
 		// TRANSLATE SO THE TIP IS AT THE ORIGIN
 		   math::translate(Vector3(4.8f, 0.0f, 0.0f)) *
-		
 		// SCALE THE CUE
 		   math::scale(Vector3(4.0f, 0.1f, 0.1f))
 	);
-
+	
 	for (int i = 1; i < 16; i++)
 		balls[i - 1]->setModelMatrix(ModelsManager::instance()->get("ball" + std::to_string(i))->modelMatrix());
 
@@ -565,8 +586,12 @@ void keyboardPressSpecial(int key, int x, int y) {
 
 void keyboardUp(unsigned char key, int x, int y) {
 	KeyBuffer::instance()->releaseKey(key);
-	if (key = ' ')
-		ModelsManager::instance()->get("whiteBall")->setAcceleration(Vector2(-cueAcceleration*cos(math::toRadians(cueYaw)), -cueAcceleration*sin(math::toRadians(cueYaw))));
+	if (key = ' ') {
+		cueReleased = true;
+		savedWhiteBallAcceleration = Vector2(-whiteBallAcceleration*cos(math::toRadians(cueYaw)), 
+											 -whiteBallAcceleration*sin(math::toRadians(cueYaw))
+											);
+	}	
 }
 
 void keyboardUpSpecial(int key, int x, int y) {
