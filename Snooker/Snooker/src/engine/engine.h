@@ -10,6 +10,7 @@
 #include "visual\camera.h"
 #include "visual\mesh.h"
 #include "visual\shaderprogram.h"
+#include "visual\snapshot.h"
 
 #endif
 

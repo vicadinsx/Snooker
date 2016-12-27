@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\geometry.h" />
+    <ClInclude Include="src\engine\visual\snapshot.h" />
     <ClInclude Include="src\physicengine\physicengine.h" />
     <ClInclude Include="src\engine\common\managers.h" />
     <ClInclude Include="src\engine\common\models.h" />

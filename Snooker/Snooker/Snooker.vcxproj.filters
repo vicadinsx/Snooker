@@ -140,6 +140,9 @@
     <ClInclude Include="src\engine\math\geometry.h">
       <Filter>Source Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\visual\snapshot.h">
+      <Filter>Source Files\Visual</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\textures\ball1.bmp">
