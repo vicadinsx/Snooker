@@ -582,6 +582,14 @@ void keyboardPress(unsigned char key, int x, int y) {
 	KeyBuffer::instance()->pressKey(key);
 	if (key == 'g')
 		interpolationSwitch = !interpolationSwitch;
+	if (key == 'm') {
+		if (Snapshot::instance()->takeSnapshotToBMP(WinX, WinY))
+			std::cout << "Smile for the bmp camera!" << std::endl;
+	}
+	if (key == 'n') {
+		if (Snapshot::instance()->takeSnapshotToTGA(WinX, WinY))
+			std::cout << "Smile for the tga camera!" << std::endl;
+	}
 }
 
 void keyboardPressSpecial(int key, int x, int y) {
