@@ -2,19 +2,15 @@
 
 in vec2 ex_TexCoords;
 in vec3 ex_Normal;
-in vec3 fLight;
-in vec3 fEye;
+
 in vec3 vertPos;
-in vec4 aProduct, dProduct, sProduct;
+
+in vec3 ambientColor, diffuseColor, specColor,lightPos;
 
 out vec3 out_Color;
 uniform sampler2D Texture;
 
-const vec3 lightPos = vec3(1.0,20.0,20.0);
-const vec3 ambientColor = vec3(0.0, 0.0, 0.0);
-const vec3 diffuseColor = vec3(1.0, 1.0, 1.0);
-const vec3 specColor = vec3(1.0, 1.0, 1.0);
-const float shininess = 20.0;
+const float shininess = 100.0;
 const float screenGamma = 2.2; // Assume the monitor is calibrated to the sRGB color space
 const int mode = 0;
 
@@ -43,12 +39,15 @@ void main() {
       specular = pow(specAngle, shininess/4.0);
     }
   }
+
   vec3 colorLinear = ambientColor +
                      lambertian * diffuseColor +
                      specular * specColor;
+
   // apply gamma correction (assume ambientColor, diffuseColor and specColor
   // have been linearized, i.e. have no gamma correction in them)
   vec3 colorGammaCorrected = pow(colorLinear, vec3(1.0/screenGamma));
-  // use the gamma corrected color in the fragment
-	  out_Color = texture(Texture, ex_TexCoords).xyz * colorGammaCorrected;
+
+  // use the gamma corrected color in the fragment	
+  out_Color = texture(Texture, ex_TexCoords).xyz * colorGammaCorrected;
 }
