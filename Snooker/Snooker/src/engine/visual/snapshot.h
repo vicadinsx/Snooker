@@ -150,6 +150,21 @@ namespace engine {
 
 			fwrite(bmpfileheader, 1, 14, filePtr);
 			fwrite(bmpinfoheader, 1, 40, filePtr);
+
+			//BMP FIX, change red with blue
+			for (int i = 0; i < w*h*3; i += 3)
+
+			{
+
+				char temp = bmpBuffer[i];
+
+				bmpBuffer[i] = bmpBuffer[i + 2];
+
+				bmpBuffer[i + 2] = temp;
+
+			}
+
+
 			fwrite(bmpBuffer, w*h * 3, 1, filePtr);
 			fclose(filePtr);
 
