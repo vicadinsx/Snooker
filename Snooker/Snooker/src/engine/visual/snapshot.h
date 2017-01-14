@@ -123,7 +123,7 @@ namespace engine {
 			glReadBuffer(GL_FRONT);
 			glReadPixels((GLint)0, (GLint)0,
 				(GLint)w - 1, (GLint)h - 1,
-				GL_RGB, GL_UNSIGNED_BYTE, bmpBuffer);
+				GL_BGR, GL_UNSIGNED_BYTE, bmpBuffer);
 
 			//FILE *filePtr = fopen(filename.c_str(), "wb");
 			FILE *filePtr;
@@ -150,21 +150,6 @@ namespace engine {
 
 			fwrite(bmpfileheader, 1, 14, filePtr);
 			fwrite(bmpinfoheader, 1, 40, filePtr);
-
-			//BMP FIX, change red with blue
-			for (int i = 0; i < w*h*3; i += 3)
-
-			{
-
-				char temp = bmpBuffer[i];
-
-				bmpBuffer[i] = bmpBuffer[i + 2];
-
-				bmpBuffer[i + 2] = temp;
-
-			}
-
-
 			fwrite(bmpBuffer, w*h * 3, 1, filePtr);
 			fclose(filePtr);
 
