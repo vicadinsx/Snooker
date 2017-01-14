@@ -471,6 +471,15 @@ void setViewProjectionMatrix() {
 	SceneGraphManager::instance()->get(activeSceneGraph)->getCamera()->setViewMatrix(translation * rotation);
 }
 
+void setLightning()
+{
+	ShaderProgramManager::instance()->get("default")->use();
+	ShaderProgramManager::instance()->get("default")->setUniform("AmbientProduct", 0.0, 0.0, 0.0, 0.0);
+	ShaderProgramManager::instance()->get("default")->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 0.0);
+	ShaderProgramManager::instance()->get("default")->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
+	ShaderProgramManager::instance()->get("default")->setUniform("LightPosition", 0.0, 0.0, 20.0, 0.0);
+}
+
 void drawSceneGraph() {
 	ModelsManager::instance()->updateObjects(0);
 	whiteBall->setModelMatrix(ModelsManager::instance()->get("whiteBall")->modelMatrix());
@@ -534,6 +543,7 @@ void drawScene()
 	computeTime();
 	applyMotion();
 	setViewProjectionMatrix();
+	setLightning();
 	drawSceneGraph();
 
 	glUseProgram(0);

@@ -125,12 +125,6 @@ namespace engine {
 			shaderProgram->setUniform("Matrix", this->getModelMatrix().getData());
 			shaderProgram->setUniformTexture("Texture", texture);
 
-			shaderProgram->setUniform("AmbientProduct", 0.0, 0.0, 0.0, 0.0);
-			shaderProgram->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 0.0);
-			shaderProgram->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
-
-			shaderProgram->setUniform("LightPosition", 0.0, 0.0, 20.0, 0.0);
-
 			if (drawable)
 				mesh->draw();
 
