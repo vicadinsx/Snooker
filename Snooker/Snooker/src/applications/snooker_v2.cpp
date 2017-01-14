@@ -108,21 +108,25 @@ void destroyShaderProgram()
 void createMeshes()
 {
 	std::string tamSquare("data/meshes/cube.obj");
+	std::string quadStr("data/meshes/tamSquare.obj");
 	std::string ballStr("data/meshes/sphere.obj");
 	std::string cylinderStr("data/meshes/cylinder.obj");
 
 	Mesh *square = new Mesh(tamSquare);
 	Mesh *ball = new Mesh(ballStr);
 	Mesh *cylinder = new Mesh(cylinderStr);
+	Mesh *quad = new Mesh(quadStr);
 
 	square->create();
 	ball->create();
 	cylinder->create();
+	quad->create();
 
 
 	MeshManager::instance()->add("square", square);
 	MeshManager::instance()->add("ball", ball);
 	MeshManager::instance()->add("cylinder", cylinder);
+	MeshManager::instance()->add("quad", quad);
 
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
@@ -593,12 +597,32 @@ void keyboardPress(unsigned char key, int x, int y) {
 	if (key == 'g')
 		interpolationSwitch = !interpolationSwitch;
 	if (key == 'm') {
+		ShaderProgramManager::instance()->get("default")->use();
+		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", true);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		drawScene();
+		glutSwapBuffers();
+
 		if (Snapshot::instance()->takeSnapshotToBMP(WinX, WinY))
 			std::cout << "Smile for the bmp camera!" << std::endl;
+
+		ShaderProgramManager::instance()->get("default")->use();
+		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", false);
 	}
 	if (key == 'n') {
+		ShaderProgramManager::instance()->get("default")->use();
+		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", true);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		drawScene();
+		glutSwapBuffers();
+
 		if (Snapshot::instance()->takeSnapshotToTGA(WinX, WinY))
 			std::cout << "Smile for the tga camera!" << std::endl;
+
+		ShaderProgramManager::instance()->get("default")->use();
+		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", false);
 	}
 }
 
@@ -613,7 +637,7 @@ void keyboardUp(unsigned char key, int x, int y) {
 		savedWhiteBallAcceleration = Vector2(-whiteBallAcceleration*cos(math::toRadians(cueYaw)), 
 											 -whiteBallAcceleration*sin(math::toRadians(cueYaw))
 											);
-	}	
+	}
 }
 
 void keyboardUpSpecial(int key, int x, int y) {

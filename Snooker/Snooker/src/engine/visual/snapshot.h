@@ -67,59 +67,11 @@ namespace engine {
 		}
 
 		bool takeSnapshotToBMP(int w, int h) {
-			//std::string filename = "data/snapshots/snapshot_" + std::to_string(snaps_taken++) + ".bmp";
-
-			//BYTE* bmpBuffer = (BYTE*)malloc(w*h * 3);
-			//if (!bmpBuffer)
-			//	return false;
-
-			/*glReadBuffer(GL_FRONT);
-			glReadPixels((GLint)0, (GLint)0,
-				(GLint)w - 1, (GLint)h - 1,
-				GL_RGB, GL_UNSIGNED_BYTE, bmpBuffer);*/
-
-			/*//FILE *filePtr = fopen(filename.c_str(), "wb");
-			FILE *filePtr;
-			fopen_s(&filePtr, filename.c_str(), "wb");
-			if (!filePtr)
-				return false;*/
-
-			//BITMAPFILEHEADER bitmapFileHeader;
-			//BITMAPINFOHEADER bitmapInfoHeader;
-
-			//bitmapFileHeader.bfType = 0x4D42; //"BM"
-			//bitmapFileHeader.bfSize = w*h * 3;
-			//bitmapFileHeader.bfReserved1 = 0;
-			//bitmapFileHeader.bfReserved2 = 0;
-			//bitmapFileHeader.bfOffBits =
-			//	sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
-
-			//bitmapInfoHeader.biSize = sizeof(BITMAPINFOHEADER);
-			//bitmapInfoHeader.biWidth = w - 1;
-			//bitmapInfoHeader.biHeight = h - 1;
-			//bitmapInfoHeader.biPlanes = 1;
-			//bitmapInfoHeader.biBitCount = 24;
-			//bitmapInfoHeader.biCompression = BI_RGB;
-			//bitmapInfoHeader.biSizeImage = 0;
-			//bitmapInfoHeader.biXPelsPerMeter = 0; // ?
-			//bitmapInfoHeader.biYPelsPerMeter = 0; // ?
-			//bitmapInfoHeader.biClrUsed = 0;
-			//bitmapInfoHeader.biClrImportant = 0;
-
-			/*fwrite(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
-			fwrite(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
-			fwrite(bmpBuffer, w*h * 3, 1, filePtr);
-			fclose(filePtr);*/
-
-			/*free(bmpBuffer);
-
-			return true;*/
-
-			//SECOND TRY - BOTH BLUE WALL
 			std::string filename = "data/snapshots/snapshot_" + std::to_string(snaps_taken++) + ".bmp";
 			int filesize = 54 + 3 * w*h;
 
 			char* bmpBuffer = (char*)malloc(3 * w*h * sizeof(char));
+
 			glReadBuffer(GL_FRONT);
 			glReadPixels((GLint)0, (GLint)0,
 				(GLint)w - 1, (GLint)h - 1,

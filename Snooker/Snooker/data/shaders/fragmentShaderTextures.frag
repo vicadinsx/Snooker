@@ -9,6 +9,7 @@ in vec3 ambientColor, diffuseColor, specColor,lightPos;
 
 out vec3 out_Color;
 uniform sampler2D Texture;
+uniform bool isSepia;
 
 const float shininess = 100.0;
 const float screenGamma = 2.2; // Assume the monitor is calibrated to the sRGB color space
@@ -46,8 +47,16 @@ void main() {
 
   // apply gamma correction (assume ambientColor, diffuseColor and specColor
   // have been linearized, i.e. have no gamma correction in them)
-  vec3 colorGammaCorrected = pow(colorLinear, vec3(1.0/screenGamma));
+	vec3 colorGammaCorrected = pow(colorLinear, vec3(1.0/screenGamma));
+  
 
-  // use the gamma corrected color in the fragment	
-  out_Color = texture(Texture, ex_TexCoords).xyz * colorGammaCorrected;
+    // use the gamma corrected color in the fragment	
+	vec3 color = texture(Texture, ex_TexCoords).xyz * colorGammaCorrected;
+	if(isSepia)
+	{
+		float gray = dot(color, vec3(0.299, 0.587, 0.114));
+		out_Color  = gray * vec3(1.2, 1.0, 0.8);
+	}
+	else out_Color = color;
+
 }
