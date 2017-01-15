@@ -190,6 +190,11 @@ class ShaderProgram {
             glUniformMatrix4fv(uniformID,1,GL_FALSE,m);
         }
 
+		void setUniform(const char* name, bool value) {
+			GLint uniformID = getUniformLocation(name);
+			glUniform1d(uniformID, value);
+		}
+
 		void setUniformTexture(const char* name, int n) {
 			GLint uniformID = getUniformLocation(name);
 
