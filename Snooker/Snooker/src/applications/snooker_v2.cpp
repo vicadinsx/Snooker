@@ -23,6 +23,7 @@ bool leftMouseButtonPressed = false;
 bool rightMouseButtonPressed = false;
 
 float animationDuration = 2.0f;
+bool isSepia = false;
 float interpolationFactor = 1.0f / animationDuration;
 float currentInterpolation = 0.0f;
 bool  interpolationSwitch = false;
@@ -475,13 +476,14 @@ void setViewProjectionMatrix() {
 	SceneGraphManager::instance()->get(activeSceneGraph)->getCamera()->setViewMatrix(translation * rotation);
 }
 
-void setLightning()
+void setLightningAndPost()
 {
 	ShaderProgramManager::instance()->get("default")->use();
 	ShaderProgramManager::instance()->get("default")->setUniform("AmbientProduct", 0.0, 0.0, 0.0, 0.0);
 	ShaderProgramManager::instance()->get("default")->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 0.0);
 	ShaderProgramManager::instance()->get("default")->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
 	ShaderProgramManager::instance()->get("default")->setUniform("LightPosition", 0.0, 0.0, 20.0, 0.0);
+	ShaderProgramManager::instance()->get("default")->setUniform("isSepia", isSepia);
 }
 
 void drawSceneGraph() {
@@ -547,7 +549,7 @@ void drawScene()
 	computeTime();
 	applyMotion();
 	setViewProjectionMatrix();
-	setLightning();
+	setLightningAndPost();
 	drawSceneGraph();
 
 	glUseProgram(0);
@@ -597,32 +599,17 @@ void keyboardPress(unsigned char key, int x, int y) {
 	if (key == 'g')
 		interpolationSwitch = !interpolationSwitch;
 	if (key == 'm') {
-		ShaderProgramManager::instance()->get("default")->use();
-		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", true);
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		drawScene();
-		glutSwapBuffers();
-
 		if (Snapshot::instance()->takeSnapshotToBMP(WinX, WinY))
 			std::cout << "Smile for the bmp camera!" << std::endl;
-
-		ShaderProgramManager::instance()->get("default")->use();
-		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", false);
 	}
 	if (key == 'n') {
-		ShaderProgramManager::instance()->get("default")->use();
-		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", true);
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		drawScene();
-		glutSwapBuffers();
 
 		if (Snapshot::instance()->takeSnapshotToTGA(WinX, WinY))
 			std::cout << "Smile for the tga camera!" << std::endl;
-
-		ShaderProgramManager::instance()->get("default")->use();
-		ShaderProgramManager::instance()->get("default")->setUniform("isSepia", false);
+	}
+	if (key == 'k')
+	{
+		isSepia = !isSepia;
 	}
 }
 
