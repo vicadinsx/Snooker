@@ -183,6 +183,9 @@
     <None Include="data\shaders\fragmentShaderSceneManagement.frag" />
     <None Include="data\shaders\fragmentShaderTextures.frag" />
     <None Include="data\shaders\fragmentWithNormals.frag" />
+    <None Include="data\shaders\framebuffers_screen.frag" />
+    <None Include="data\shaders\framebuffers_screen.vert" />
+    <None Include="data\shaders\framebuffers_sepia.frag" />
     <None Include="data\shaders\vertexShader.vert" />
     <None Include="data\shaders\vertexShaderSceneManagement.vert" />
     <None Include="data\shaders\vertexShaderTextures.vert" />
