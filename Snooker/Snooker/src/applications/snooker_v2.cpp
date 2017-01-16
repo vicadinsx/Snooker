@@ -511,7 +511,7 @@ void setLightningAndPost()
 	ShaderProgramManager::instance()->get("wood")->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
 	ShaderProgramManager::instance()->get("wood")->setUniform("LightPosition", 0.0, 0.0, 20.0, 0.0);
 
-	float scale = 20.0f;
+	float scale = 1.75f;
 	float trans = 1.0f;
 	ShaderProgramManager::instance()->get("wood")->setUniform("Slice", (math::translate(Vector3(trans,trans,trans)) *
 																		math::scale(Vector3(scale,scale,1.0f))).getData());
