@@ -563,7 +563,7 @@ GLfloat quadVertices[] = {   // Vertex attributes for a quad that fills the enti
 };
 
 // FRAMEBUFFER
-void setScreenVAO()
+void createScreenVAO()
 {
 	// Setup screen VAO
 	glGenVertexArrays(1, &quadVAO);
@@ -647,7 +647,7 @@ void drawBuffer() {
 	// Clear all relevant buffers
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
 	glClear(GL_COLOR_BUFFER_BIT);
-	//glDisable(GL_DEPTH_TEST); // We don't care about depth information when rendering a single quad
+	glDisable(GL_DEPTH_TEST); // We don't care about depth information when rendering a single quad
 
 	// Draw Screen
 	//screenShader.Use();
@@ -656,6 +656,7 @@ void drawBuffer() {
 	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);	// Use the color attachment texture as the texture of the quad plane
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void drawScene()
@@ -667,7 +668,6 @@ void drawScene()
 	drawSceneGraph();
 
 	// FRAMEBUFFER
-	setScreenVAO();
 	drawBuffer();
 
 	glUseProgram(0);
@@ -881,7 +881,7 @@ void init(int argc, char* argv[])
 
 	createMeshes();
 	createShaderProgram();
-
+	createScreenVAO();
 	//FRAMEBUFFER
 	createFrameBuffer();
 	createSnooker();
