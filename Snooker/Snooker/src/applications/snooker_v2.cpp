@@ -96,6 +96,22 @@ void createShaderProgram()
 
 	ShaderProgramManager::instance()->add("default", program);
 
+
+	ShaderProgram *woodShader = new ShaderProgram();
+
+	woodShader->compileShaderFromFile("data/shaders/vertexShaderTextures.vert", ShaderType::VERTEX);
+	woodShader->compileShaderFromFile("data/shaders/woodFragmentShader.glsl", ShaderType::FRAGMENT);
+
+	woodShader->bindAttribLocation(VERTICES, "in_Position");
+	woodShader->bindAttribLocation(TEXCOORDS, "in_TexCoords");
+	woodShader->bindAttribLocation(NORMALS, "in_Normal");
+	woodShader->addUniformBlock("Camera", UBO_BP);
+
+	woodShader->link();
+
+	ShaderProgramManager::instance()->add("wood", woodShader);
+
+
 	//checkOpenGLError("ERROR: Could not create shaders.");
 }
 
@@ -190,24 +206,28 @@ void createSnooker() {
 	walls[0]->setModelMatrix(math::translate(Vector3(0.0f, 1.3f, 2.0f)) *
 		math::scale(Vector3(0.82f, 0.1f, 1.0)));
 	walls[0]->setTexture(textWood);
+	walls[0]->setShaderProgram(ShaderProgramManager::instance()->get("wood"));
 
 	walls[1] = ground->createNode("wall");
 	walls[1]->setMesh(squareMesh);
 	walls[1]->setModelMatrix(math::translate(Vector3(0.0f, -0.5f, 2.0f)) *
 		math::scale(Vector3(0.82f, 0.1f, 1.0)));
 	walls[1]->setTexture(textWood);
+	walls[1]->setShaderProgram(ShaderProgramManager::instance()->get("wood"));
 
 	walls[2] = ground->createNode("wall");
 	walls[2]->setMesh(squareMesh);
 	walls[2]->setModelMatrix(math::translate(Vector3(0.85f, 0.0f, 2.0f)) *
 		math::scale(Vector3(0.1f, 1.0f, 1.0)));
 	walls[2]->setTexture(textWood);
+	walls[2]->setShaderProgram(ShaderProgramManager::instance()->get("wood"));
 
 	walls[3] = ground->createNode("wall");
 	walls[3]->setMesh(squareMesh);
 	walls[3]->setModelMatrix(math::translate(Vector3(-0.95f, 0.0f, 2.0f)) *
 		math::scale(Vector3(0.1f, 1.0f, 1.0)));
 	walls[3]->setTexture(textWood);
+	walls[3]->setShaderProgram(ShaderProgramManager::instance()->get("wood"));
 
 	float holeSize = 0.1f;
 	holes[0] = ground->createNode("hole");
@@ -484,6 +504,17 @@ void setLightningAndPost()
 	ShaderProgramManager::instance()->get("default")->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
 	ShaderProgramManager::instance()->get("default")->setUniform("LightPosition", 0.0, 0.0, 20.0, 0.0);
 	ShaderProgramManager::instance()->get("default")->setUniform("isSepia", isSepia);
+
+	ShaderProgramManager::instance()->get("wood")->use();
+	ShaderProgramManager::instance()->get("wood")->setUniform("AmbientProduct", 0.0, 0.0, 0.0, 0.0);
+	ShaderProgramManager::instance()->get("wood")->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 0.0);
+	ShaderProgramManager::instance()->get("wood")->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
+	ShaderProgramManager::instance()->get("wood")->setUniform("LightPosition", 0.0, 0.0, 20.0, 0.0);
+
+	float scale = 20.0f;
+	float trans = 1.0f;
+	ShaderProgramManager::instance()->get("wood")->setUniform("Slice", (math::translate(Vector3(trans,trans,trans)) *
+																		math::scale(Vector3(scale,scale,1.0f))).getData());
 }
 
 void drawSceneGraph() {
