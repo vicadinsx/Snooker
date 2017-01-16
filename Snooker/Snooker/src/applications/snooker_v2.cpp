@@ -148,15 +148,16 @@ void createShaderProgram()
 
 	ShaderProgramManager::instance()->add("default", program);
 
+	ShaderProgram *program2 = new ShaderProgram();
 	// FRAMEBUFFER
-	program->compileShaderFromFile("data/shaders/framebuffers_screen.vert", ShaderType::VERTEX);
-	program->compileShaderFromFile("data/shaders/framebuffers_screen.frag", ShaderType::FRAGMENT);
+	program2->compileShaderFromFile("data/shaders/framebuffers_screen.vert", ShaderType::VERTEX);
+	program2->compileShaderFromFile("data/shaders/framebuffers_screen.frag", ShaderType::FRAGMENT);
 
-	program->bindAttribLocation(VERTICES, "position");
-	program->bindAttribLocation(TEXCOORDS, "texCoords");
+	program2->bindAttribLocation(VERTICES, "position");
+	program2->bindAttribLocation(TEXCOORDS, "texCoords");
 
-	program->link();
-	ShaderProgramManager::instance()->add("screen", program);
+	program2->link();
+	ShaderProgramManager::instance()->add("screen", program2);
 
 	//checkOpenGLError("ERROR: Could not create shaders.");
 }
@@ -665,7 +666,7 @@ void drawScene()
 	setLightningAndPost();
 	drawSceneGraph();
 
-	// FRAMEBUFFER
+	//// FRAMEBUFFER
 	setScreenVAO();
 	drawBuffer();
 
@@ -880,6 +881,7 @@ void init(int argc, char* argv[])
 
 	createMeshes();
 	createShaderProgram();
+
 	//FRAMEBUFFER
 	createFrameBuffer();
 	createSnooker();
