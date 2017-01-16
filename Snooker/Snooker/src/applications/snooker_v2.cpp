@@ -648,8 +648,8 @@ void drawBuffer() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST); // We don't care about depth information when rendering a single quad
 
-							  // Draw Screen
-							  //screenShader.Use();
+	// Draw Screen
+	//screenShader.Use();
 	ShaderProgramManager::instance()->get("screen")->use();
 	glBindVertexArray(quadVAO);
 	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);	// Use the color attachment texture as the texture of the quad plane
@@ -880,6 +880,8 @@ void init(int argc, char* argv[])
 
 	createMeshes();
 	createShaderProgram();
+	//FRAMEBUFFER
+	createFrameBuffer();
 	createSnooker();
 }
 
