@@ -80,6 +80,7 @@ void checkOpenGLError(std::string error)
 
 /////////////////////////////////////////////////////////////////////// FRAMEBUFFER
 
+// FRAMEBUFFER
 // Generates a texture that is suited for attachments to a framebuffer
 GLuint generateAttachmentTexture(GLboolean depth, GLboolean stencil)
 {
@@ -108,11 +109,13 @@ GLuint generateAttachmentTexture(GLboolean depth, GLboolean stencil)
 }
 
 GLuint framebuffer;
+GLuint textureColorbuffer;
+
 void createFrameBuffer() {
 	glGenFramebuffers(1, &framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	// Create a color attachment texture
-	GLuint textureColorbuffer = generateAttachmentTexture(false, false);
+	textureColorbuffer = generateAttachmentTexture(false, false);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
 	// Create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
 	GLuint rbo;
@@ -144,6 +147,16 @@ void createShaderProgram()
 	program->link();
 
 	ShaderProgramManager::instance()->add("default", program);
+
+	// FRAMEBUFFER
+	program->compileShaderFromFile("data/shaders/framebuffers_screen.vert", ShaderType::VERTEX);
+	program->compileShaderFromFile("data/shaders/framebuffers_screen.frag", ShaderType::FRAGMENT);
+
+	program->bindAttribLocation(VERTICES, "position");
+	program->bindAttribLocation(TEXCOORDS, "texCoords");
+
+	program->link();
+	ShaderProgramManager::instance()->add("screen", program);
 
 	//checkOpenGLError("ERROR: Could not create shaders.");
 }
@@ -535,6 +548,35 @@ void setLightningAndPost()
 	ShaderProgramManager::instance()->get("default")->setUniform("isSepia", isSepia);
 }
 
+// FRAMEBUFFER
+GLuint quadVAO, quadVBO;
+GLfloat quadVertices[] = {   // Vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+							 // Positions   // TexCoords
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	-1.0f, -1.0f,  0.0f, 0.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+	1.0f,  1.0f,  1.0f, 1.0f
+};
+
+// FRAMEBUFFER
+void setScreenVAO()
+{
+	// Setup screen VAO
+	glGenVertexArrays(1, &quadVAO);
+	glGenBuffers(1, &quadVBO);
+	glBindVertexArray(quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
+	glBindVertexArray(0);
+}
+
 void drawSceneGraph() {
 	ModelsManager::instance()->updateObjects(0);
 	whiteBall->setModelMatrix(ModelsManager::instance()->get("whiteBall")->modelMatrix());
@@ -601,10 +643,38 @@ void drawScene()
 	setLightningAndPost();
 	drawSceneGraph();
 
+	// FRAMEBUFFER
+	setScreenVAO();
+	drawBuffer();
+
 	glUseProgram(0);
 	glBindVertexArray(0);
 
 }
+
+// FRAMEBUFFER
+void drawBuffer() {
+
+	/////////////////////////////////////////////////////
+	// Bind to default framebuffer again and draw the 
+	// quad plane with attched screen texture.
+	// //////////////////////////////////////////////////
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	// Clear all relevant buffers
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST); // We don't care about depth information when rendering a single quad
+
+	// Draw Screen
+	//screenShader.Use();
+	ShaderProgramManager::instance()->get("screen")->use();
+	glBindVertexArray(quadVAO);
+	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);	// Use the color attachment texture as the texture of the quad plane
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+
+}
+
 
 void cleanup()
 {
@@ -615,8 +685,19 @@ void cleanup()
 void display()
 {
 	++FrameCount;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// FRAMEBUFFER
+	/////////////////////////////////////////////////////
+	// Bind to framebuffer and draw to color texture 
+	// as we normally would.
+	// //////////////////////////////////////////////////
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	// Clear all attached buffers        
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // We're not using stencil buffer so why bother with clearing?
+
 	drawScene();
+
 	glutSwapBuffers();
 }
 
