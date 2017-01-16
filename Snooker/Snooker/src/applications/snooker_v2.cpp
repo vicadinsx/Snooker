@@ -635,6 +635,28 @@ void drawSceneGraph() {
 	SceneGraphManager::instance()->get(activeSceneGraph)->draw();
 }
 
+// FRAMEBUFFER
+void drawBuffer() {
+
+	/////////////////////////////////////////////////////
+	// Bind to default framebuffer again and draw the 
+	// quad plane with attched screen texture.
+	// //////////////////////////////////////////////////
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	// Clear all relevant buffers
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST); // We don't care about depth information when rendering a single quad
+
+							  // Draw Screen
+							  //screenShader.Use();
+	ShaderProgramManager::instance()->get("screen")->use();
+	glBindVertexArray(quadVAO);
+	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);	// Use the color attachment texture as the texture of the quad plane
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+}
+
 void drawScene()
 {
 	computeTime();
@@ -651,30 +673,6 @@ void drawScene()
 	glBindVertexArray(0);
 
 }
-
-// FRAMEBUFFER
-void drawBuffer() {
-
-	/////////////////////////////////////////////////////
-	// Bind to default framebuffer again and draw the 
-	// quad plane with attched screen texture.
-	// //////////////////////////////////////////////////
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	// Clear all relevant buffers
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST); // We don't care about depth information when rendering a single quad
-
-	// Draw Screen
-	//screenShader.Use();
-	ShaderProgramManager::instance()->get("screen")->use();
-	glBindVertexArray(quadVAO);
-	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);	// Use the color attachment texture as the texture of the quad plane
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
-
-}
-
 
 void cleanup()
 {
