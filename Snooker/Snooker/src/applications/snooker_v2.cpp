@@ -184,7 +184,7 @@ void createSnooker() {
 	std::string textBall15("data/textures/ball15.bmp");
 	std::string textWood("data/textures/wood1.bmp");
 	//std::string textTable("data/textures/tableTexture.bmp");
-	std::string textTable("data/textures/tableTexture.bmp");
+	std::string textTable("data/textures/grass.bmp");
 
 	Mesh* squareMesh = MeshManager::instance()->get("square");
 	Mesh* ballMesh = MeshManager::instance()->get("ball");
@@ -371,6 +371,7 @@ void createSnooker() {
 						math::rotate(-10.0f,Vector3(0.0f,1.0f,0.0f)) *
 						math::scale(Vector3(4.0f, 0.1f, 0.1f)));
 	cue->setTexture(textWood);
+	cue->setShaderProgram(ShaderProgramManager::instance()->get("wood"));
 
 	ModelsManager::instance()->add(new Object(whiteBall->getModelMatrix()
 		* Quaternion(0.0f, Vector3(1.0f, 0.0f, 0.0f)).toMatrix(), 0.15f, Vector2(0, 0), Vector2(0.0, 0), Vector2(0.000, 0), 1), "whiteBall");

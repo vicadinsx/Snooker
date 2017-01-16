@@ -11,7 +11,7 @@
 namespace engine {
 
 	class Snapshot {
-		int snaps_taken = 0;
+		int snaps_taken = 1;
 
 		Snapshot() {}
 		~Snapshot() {}
