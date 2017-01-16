@@ -96,6 +96,9 @@
     <None Include="data\shaders\framebuffers_screen.vert">
       <Filter>Data Files\Shaders</Filter>
     </None>
+    <None Include="data\shaders\framebuffers_sepia.frag">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\engine.h">

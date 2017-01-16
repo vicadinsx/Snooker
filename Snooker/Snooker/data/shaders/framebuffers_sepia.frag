@@ -10,5 +10,6 @@ const float offset = 1.0 / 300;
 
 void main()
 {
-    color = vec4(texture(screenTexture, TexCoords).xyz,1.0);
+	float gray = dot(texture(screenTexture, TexCoords).xyz, vec3(0.299, 0.587, 0.114));
+	color  = gray * vec4(1.2, 1.0, 0.8, 1.0);
 } 

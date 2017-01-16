@@ -148,16 +148,27 @@ void createShaderProgram()
 
 	ShaderProgramManager::instance()->add("default", program);
 
-	ShaderProgram *program2 = new ShaderProgram();
+	ShaderProgram *sepiaProgram = new ShaderProgram();
 	// FRAMEBUFFER
-	program2->compileShaderFromFile("data/shaders/framebuffers_screen.vert", ShaderType::VERTEX);
-	program2->compileShaderFromFile("data/shaders/framebuffers_screen.frag", ShaderType::FRAGMENT);
+	sepiaProgram->compileShaderFromFile("data/shaders/framebuffers_screen.vert", ShaderType::VERTEX);
+	sepiaProgram->compileShaderFromFile("data/shaders/framebuffers_sepia.frag", ShaderType::FRAGMENT);
 
-	program2->bindAttribLocation(VERTICES, "position");
-	program2->bindAttribLocation(TEXCOORDS, "texCoords");
+	sepiaProgram->bindAttribLocation(VERTICES, "position");
+	sepiaProgram->bindAttribLocation(TEXCOORDS, "texCoords");
 
-	program2->link();
-	ShaderProgramManager::instance()->add("screen", program2);
+	sepiaProgram->link();
+	ShaderProgramManager::instance()->add("sepia", sepiaProgram);
+
+	ShaderProgram *normalProgram = new ShaderProgram();
+	// FRAMEBUFFER
+	normalProgram->compileShaderFromFile("data/shaders/framebuffers_screen.vert", ShaderType::VERTEX);
+	normalProgram->compileShaderFromFile("data/shaders/framebuffers_screen.frag", ShaderType::FRAGMENT);
+
+	normalProgram->bindAttribLocation(VERTICES, "position");
+	normalProgram->bindAttribLocation(TEXCOORDS, "texCoords");
+
+	normalProgram->link();
+	ShaderProgramManager::instance()->add("normal", normalProgram);
 
 	//checkOpenGLError("ERROR: Could not create shaders.");
 }
@@ -651,7 +662,9 @@ void drawBuffer() {
 
 	// Draw Screen
 	//screenShader.Use();
-	ShaderProgramManager::instance()->get("screen")->use();
+	if(isSepia)
+		ShaderProgramManager::instance()->get("sepia")->use();
+	else ShaderProgramManager::instance()->get("normal")->use();
 	glBindVertexArray(quadVAO);
 	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);	// Use the color attachment texture as the texture of the quad plane
 	glDrawArrays(GL_TRIANGLES, 0, 6);
