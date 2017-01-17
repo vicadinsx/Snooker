@@ -66,9 +66,8 @@
 //
 //void createShaderProgram()
 //{
-//        program.compileShaderFromFile("data/shaders/vertexWithNormals.vert",ShaderType::VERTEX);
-//
-//        program.compileShaderFromFile("data/shaders/fragmentWithNormals.frag",ShaderType::FRAGMENT);
+//        program.compileShaderFromFile("data/shaders/simple_normals_vs.glsl",ShaderType::VERTEX);
+//        program.compileShaderFromFile("data/shaders/simple_normals_fs.glsl",ShaderType::FRAGMENT);
 //
 //        program.bindAttribLocation(VERTICES,"in_Position");
 //        program.bindAttribLocation(TEXCOORDS,"in_TexCoords");

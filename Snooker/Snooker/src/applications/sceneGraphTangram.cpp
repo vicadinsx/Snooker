@@ -73,15 +73,13 @@
 //{
 //    ShaderProgram *program = new ShaderProgram();
 //
-//    program->compileShaderFromFile("data/shaders/vertexShaderTextures.vert",ShaderType::VERTEX);
-//
-//    program->compileShaderFromFile("data/shaders/fragmentShaderTextures.frag",ShaderType::FRAGMENT);
+//    program->compileShaderFromFile("data/shaders/simple_normals_vs.glsl",ShaderType::VERTEX);
+//    program->compileShaderFromFile("data/shaders/simple_normals_fs.glsl",ShaderType::FRAGMENT);
 //
 //    program->bindAttribLocation(VERTICES,"in_Position");
 //    program->bindAttribLocation(TEXCOORDS,"in_TexCoords");
 //    program->bindAttribLocation(NORMALS,"in_Normal");
 //    program->addUniformBlock("Camera", UBO_BP);
-//
 //    program->link();
 //
 //    ShaderProgramManager::instance()->add("default",program);

@@ -1,13 +1,10 @@
-#version 330 core
+#version 330 core 
 
-in vec2 ex_TexCoords;
-in vec3 ex_Normal;
-in vec3 ex_texture;
+uniform vec4 ex_Color;
 
-out vec3 out_Color;
-uniform sampler2D Texture;
+out vec4 out_Color;
 
 void main(void)
 {
-    out_Color = texture(Texture, ex_TexCoords).rgb;
+    out_Color = ex_Color;
 }

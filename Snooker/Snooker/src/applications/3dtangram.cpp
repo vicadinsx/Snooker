@@ -56,9 +56,8 @@
 //
 //void createShaderProgram()
 //{
-//        program.compileShaderFromFile("data/shaders/3dvertexShader.vert",ShaderType::VERTEX);
-//
-//        program.compileShaderFromFile("data/shaders/3dfragmentShader.frag",ShaderType::FRAGMENT);
+//        program.compileShaderFromFile("data/shaders/simple_3d_vs.glsl",ShaderType::VERTEX);
+//        program.compileShaderFromFile("data/shaders/simple_3d_fs.glsl",ShaderType::FRAGMENT);
 //
 //        program.bindAttribLocation(VERTICES,"in_Position");
 //        program.bindAttribLocation(COLORS,"in_Color");

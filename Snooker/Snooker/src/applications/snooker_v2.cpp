@@ -64,8 +64,8 @@
 //{
 //	ShaderProgram *program = new ShaderProgram();
 //
-//	program->compileShaderFromFile("data/shaders/simple_vs.glsl", ShaderType::VERTEX);
-//	program->compileShaderFromFile("data/shaders/simple_fs.glsl", ShaderType::FRAGMENT);
+//	program->compileShaderFromFile("data/shaders/simple_textures_vs.glsl", ShaderType::VERTEX);
+//	program->compileShaderFromFile("data/shaders/simple_textures_fs.glsl", ShaderType::FRAGMENT);
 //
 //	program->bindAttribLocation(VERTICES, "in_Position");
 //	program->bindAttribLocation(TEXCOORDS, "in_TexCoords");

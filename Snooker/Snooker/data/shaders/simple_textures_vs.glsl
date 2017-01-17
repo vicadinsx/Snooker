@@ -6,15 +6,19 @@ in vec3 in_Normal;
 
 out vec2 ex_TexCoords;
 out vec3 ex_Normal;
+out vec3 ex_texture;
 
 uniform mat4 Matrix;
-uniform mat4 ViewMatrix;
-uniform mat4 ProjectionMatrix;
+
+uniform Camera
+{
+    mat4 ViewMatrix;
+    mat4 ProjectionMatrix;
+};
 
 void main(void)
 {
     gl_Position = ProjectionMatrix * ViewMatrix * Matrix * vec4(in_Position,1);
     ex_TexCoords = in_TexCoords;
-    ex_Normal = in_Normal;        
-
+    ex_Normal = in_Normal;
 }
