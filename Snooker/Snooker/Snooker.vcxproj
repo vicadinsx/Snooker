@@ -190,6 +190,7 @@
     <None Include="data\shaders\vertexShaderSceneManagement.vert" />
     <None Include="data\shaders\vertexShaderTextures.vert" />
     <None Include="data\shaders\vertexWithNormals.vert" />
+    <None Include="data\shaders\woodFragmentShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\geometry.h" />
