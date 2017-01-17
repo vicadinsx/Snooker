@@ -1,28 +1,24 @@
-# README #
+**Stage 2: Project Report and Documentation (deadline: January 21st 16:30)**
 
-relevant for shader to have a uniform with the lighting info?
-
-each object must have a physical representation associated with its visual representation.
-(ex: sphere associated with billard ball mesh)
-
-physics engine holds a list of physical representations of objects, which is in turn linked to a list of visual representations on the visual engine
-
-* on each update
-    * check elapsed seconds
-    * update
-        * physics engine (feeds onto the visual engine)
-        * visual engine
-* for each ball in list of balls
-    * see if it colides with any of hte other balls
-        * if so, create collision objects
-* after checking all balls, resolve all collision objects
-* (repeat until no more collision objects are generated)
-
-move onto the visual engine -> draw scenegraph
-	note: need to update the model matrix of each ball to match collisions
-	
-### post-processing
-
-instead of rendering to screen, take framebuffer and render it onto a texture. 
-map that texture onto a square, that will be rendered onto the screen
-before doing so, edit that texture with the shader of the effect.
+> **/media/docs**
+>
+> Contains a (1-page if possible) user manual in pdf format (**user.pdf**) describing how to   interact with and set/change the parameters of your application.
+> 
+>**/media/report**
+>
+> Contains a copy of your report in both word (**report.doc**) and pdf format (**report.pdf**).
+>
+> **/media/snapshots**
+>
+>Contains (at least) a dozen snapshots (png format) of your application running. Provide for a wide coverage of the developed functionality and use meaningful filenames.
+>
+> **/media/videos**
+>
+>Contains two videos:
+>>One short video (**demo.mp4**, max 2 min, mp4 format) demonstrating the main features of your application.
+>
+>>One short video commentary (**makingof.mp4**, max 3 min, mp4 format) in which the team discusses the development process. 
+>
+> **/media/fan (option* al)**
+>
+>Contains multimedia content produced during development (e.g. sketches, pictures of your working space, etc.), everything a fan is entitled to!
