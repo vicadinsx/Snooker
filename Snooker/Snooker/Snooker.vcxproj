@@ -171,6 +171,7 @@
     <ClCompile Include="src\applications\meshLoader.cpp" />
     <ClCompile Include="src\applications\objectRotation.cpp" />
     <ClCompile Include="src\applications\sceneGraphTangram.cpp" />
+    <ClCompile Include="src\applications\snooker_final.cpp" />
     <ClCompile Include="src\applications\tangram.cpp" />
     <ClCompile Include="src\applications\snooker_v2.cpp" />
   </ItemGroup>
@@ -181,16 +182,18 @@
     <None Include="data\shaders\cube_vs.glsl" />
     <None Include="data\shaders\fragmentShader.frag" />
     <None Include="data\shaders\fragmentShaderSceneManagement.frag" />
-    <None Include="data\shaders\fragmentShaderTextures.frag" />
+    <None Include="data\shaders\texture_fs.glsl" />
     <None Include="data\shaders\fragmentWithNormals.frag" />
-    <None Include="data\shaders\framebuffers_screen.frag" />
-    <None Include="data\shaders\framebuffers_screen.vert" />
-    <None Include="data\shaders\framebuffers_sepia.frag" />
+    <None Include="data\shaders\screen_fs.glsl" />
+    <None Include="data\shaders\screen_vs.glsl" />
+    <None Include="data\shaders\sepia_fs.glsl" />
+    <None Include="data\shaders\simple_fs.glsl" />
+    <None Include="data\shaders\simple_vs.glsl" />
     <None Include="data\shaders\vertexShader.vert" />
     <None Include="data\shaders\vertexShaderSceneManagement.vert" />
-    <None Include="data\shaders\vertexShaderTextures.vert" />
+    <None Include="data\shaders\texture_vs.glsl" />
     <None Include="data\shaders\vertexWithNormals.vert" />
-    <None Include="data\shaders\woodFragmentShader.glsl" />
+    <None Include="data\shaders\wood_fs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\geometry.h" />

@@ -15,7 +15,7 @@ namespace engine {
 
 		Snapshot() {}
 		~Snapshot() {}
-		Snapshot(Snapshot const&);		// Don't Implement.
+		Snapshot(Snapshot const&);				// Don't Implement.
 		void operator=(Snapshot const&);		// Don't implement
 
 	public:
@@ -25,7 +25,8 @@ namespace engine {
 			return &instance;
 		}
 
-		bool takeSnapshotToTGA(int w, int h) {
+		bool takeSnapshotToTGA(int w, int h) 
+		{
 			std::string filename = "data/snapshots/snapshot_" + std::to_string(snaps_taken++) + ".tga";
 			//This prevents the images getting padded 
 			// when the width multiplied by 3 is not a multiple of 4
@@ -50,13 +51,13 @@ namespace engine {
 			fopen_s(&filePtr, filename.c_str(), "wb");
 			if (!filePtr) return false;
 
-			unsigned char TGAheader[12] = { 0,0,2,0,0,0,0,0,0,0,0,0 };
-			unsigned char header[6] = { w % 256,w / 256,
-				h % 256,h / 256,
-				24,0 };
+			unsigned char TGAheader[12] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			unsigned char header[6] = { static_cast<unsigned char>(w % 256), static_cast<unsigned char>(w / 256),
+										static_cast<unsigned char>(h % 256), static_cast<unsigned char>(h / 256), 24, 0 };
 			// We write the headers
 			fwrite(TGAheader, sizeof(unsigned char), 12, filePtr);
 			fwrite(header, sizeof(unsigned char), 6, filePtr);
+
 			// And finally our image data
 			fwrite(dataBuffer, sizeof(GLubyte), nSize, filePtr);
 			fclose(filePtr);
@@ -66,7 +67,8 @@ namespace engine {
 			return true;
 		}
 
-		bool takeSnapshotToBMP(int w, int h) {
+		bool takeSnapshotToBMP(int w, int h) 
+		{
 			std::string filename = "data/snapshots/snapshot_" + std::to_string(snaps_taken++) + ".bmp";
 			int filesize = 54 + 3 * w*h;
 
@@ -112,5 +114,4 @@ namespace engine {
 
 	};
 }
-
 #endif

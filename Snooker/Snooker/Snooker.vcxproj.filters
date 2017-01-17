@@ -52,6 +52,9 @@
     <ClCompile Include="src\applications\snooker_v2.cpp">
       <Filter>Source Files\Applications</Filter>
     </ClCompile>
+    <ClCompile Include="src\applications\snooker_final.cpp">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\shaders\3dfragmentShader.frag">
@@ -84,22 +87,28 @@
     <None Include="data\shaders\vertexWithNormals.vert">
       <Filter>Data Files\Shaders</Filter>
     </None>
-    <None Include="data\shaders\fragmentShaderTextures.frag">
+    <None Include="data\shaders\wood_fs.glsl">
       <Filter>Data Files\Shaders</Filter>
     </None>
-    <None Include="data\shaders\vertexShaderTextures.vert">
+    <None Include="data\shaders\texture_vs.glsl">
       <Filter>Data Files\Shaders</Filter>
     </None>
-    <None Include="data\shaders\framebuffers_screen.frag">
+    <None Include="data\shaders\screen_fs.glsl">
       <Filter>Data Files\Shaders</Filter>
     </None>
-    <None Include="data\shaders\framebuffers_screen.vert">
+    <None Include="data\shaders\screen_vs.glsl">
       <Filter>Data Files\Shaders</Filter>
     </None>
-    <None Include="data\shaders\framebuffers_sepia.frag">
+    <None Include="data\shaders\sepia_fs.glsl">
       <Filter>Data Files\Shaders</Filter>
     </None>
-    <None Include="data\shaders\woodFragmentShader.glsl">
+    <None Include="data\shaders\texture_fs.glsl">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\simple_fs.glsl">
+      <Filter>Data Files\Shaders</Filter>
+    </None>
+    <None Include="data\shaders\simple_vs.glsl">
       <Filter>Data Files\Shaders</Filter>
     </None>
   </ItemGroup>

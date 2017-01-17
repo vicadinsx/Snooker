@@ -19,8 +19,6 @@ const float screenGamma = 2.2; // Assume the monitor is calibrated to the sRGB c
 
 void main()
 {
-
-
 	vec3 normal = normalize(ex_Normal);
   	vec3 lightDir = normalize(lightPos - vertPos);
 
