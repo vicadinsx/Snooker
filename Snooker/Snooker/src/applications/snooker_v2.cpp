@@ -575,7 +575,6 @@ void setLightningAndPost()
 	ShaderProgramManager::instance()->get("default")->setUniform("DiffuseProduct", 1.0, 1.0, 1.0, 0.0);
 	ShaderProgramManager::instance()->get("default")->setUniform("SpecularProduct", 1.0, 1.0, 1.0, 1.0);
 	ShaderProgramManager::instance()->get("default")->setUniform("LightPosition", 0.0, 0.0, 20.0, 0.0);
-	ShaderProgramManager::instance()->get("default")->setUniform("isSepia", isSepia);
 
 	ShaderProgramManager::instance()->get("wood")->use();
 	ShaderProgramManager::instance()->get("wood")->setUniform("AmbientProduct", 0.0, 0.0, 0.0, 0.0);
