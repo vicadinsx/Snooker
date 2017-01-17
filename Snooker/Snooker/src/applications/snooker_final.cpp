@@ -373,8 +373,7 @@ void createSnooker() {
 	std::string textBall14("data/textures/ball14.bmp");
 	std::string textBall15("data/textures/ball15.bmp");
 	std::string textWood("data/textures/wood1.bmp");
-	//std::string textTable("data/textures/tableTexture.bmp");
-	std::string textTable("data/textures/grass.bmp");
+	std::string textTable("data/textures/cloth2.bmp");
 
 	Mesh* squareMesh = MeshManager::instance()->get("square");
 	Mesh* ballMesh = MeshManager::instance()->get("ball");
