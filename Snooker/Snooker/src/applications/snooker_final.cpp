@@ -6,7 +6,6 @@ using namespace engine;
 using math::Quaternion;
 
 #define CAPTION "Snooker on Fire - Final"
-
 #define MAX_ACC 0.05
 
 int WinX = 640, WinY = 480;
@@ -16,8 +15,6 @@ unsigned int FrameCount = 0;
 GLfloat lastX = (GLfloat)(WinX / 2);
 GLfloat lastY = (GLfloat)(WinY / 2);
 GLfloat currentX, currentY;
-
-GLuint UBO_BP = 0;
 
 bool leftMouseButtonPressed = false;
 bool rightMouseButtonPressed = false;
@@ -56,8 +53,22 @@ std::array<SceneNode*, 4> walls;
 std::array<SceneNode*, 6> holes;
 std::array<SceneNode*, 15> balls;
 
-/////////////////////////////////////////////////////////////////////// ERRORS
+GLuint UBO_BP = 0;
+GLuint quadVAO, quadVBO;
+GLuint framebuffer, textureColorbuffer;
+GLfloat quadVertices[] = {
+	// Vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+	// Positions, TexCoords
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	-1.0f, -1.0f,  0.0f, 0.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
 
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+	1.0f,  1.0f,  1.0f, 1.0f
+};
+
+/////////////////////////////////////////////////////////////////////// ERRORS
 bool isOpenGLError() {
 	bool isError = false;
 	GLenum errCode;
@@ -80,11 +91,9 @@ void checkOpenGLError(std::string error)
 
 /////////////////////////////////////////////////////////////////////// FRAMEBUFFER
 
-// FRAMEBUFFER
 // Generates a texture that is suited for attachments to a framebuffer
 GLuint generateAttachmentTexture(GLboolean depth, GLboolean stencil)
 {
-	// What enum to use?
 	GLenum attachment_type;
 	if (!depth && !stencil)
 		attachment_type = GL_RGB;
@@ -108,9 +117,6 @@ GLuint generateAttachmentTexture(GLboolean depth, GLboolean stencil)
 	return textureID;
 }
 
-GLuint framebuffer;
-GLuint textureColorbuffer;
-
 void createFrameBuffer() {
 	glGenFramebuffers(1, &framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -131,57 +137,47 @@ void createFrameBuffer() {
 }
 
 /////////////////////////////////////////////////////////////////////// SHADERs
-
 void createShaderProgram()
 {
+	// "default" texture shader
 	ShaderProgram *program = new ShaderProgram();
-
 	program->compileShaderFromFile("data/shaders/texture_vs.glsl", ShaderType::VERTEX);
 	program->compileShaderFromFile("data/shaders/texture_fs.glsl", ShaderType::FRAGMENT);
-
 	program->bindAttribLocation(VERTICES, "in_Position");
 	program->bindAttribLocation(TEXCOORDS, "in_TexCoords");
 	program->bindAttribLocation(NORMALS, "in_Normal");
 	program->addUniformBlock("Camera", UBO_BP);
-
 	program->link();
-
 	ShaderProgramManager::instance()->add("default", program);
 
-	ShaderProgram *sepiaProgram = new ShaderProgram();
-	// FRAMEBUFFER
-	sepiaProgram->compileShaderFromFile("data/shaders/screen_vs.glsl", ShaderType::VERTEX);
-	sepiaProgram->compileShaderFromFile("data/shaders/sepia_fs.glsl", ShaderType::FRAGMENT);
+	// "wood" texture shader
+	ShaderProgram *woodShader = new ShaderProgram();
+	woodShader->compileShaderFromFile("data/shaders/texture_vs.glsl", ShaderType::VERTEX);
+	woodShader->compileShaderFromFile("data/shaders/wood_fs.glsl", ShaderType::FRAGMENT);
+	woodShader->bindAttribLocation(VERTICES, "in_Position");
+	woodShader->bindAttribLocation(TEXCOORDS, "in_TexCoords");
+	woodShader->bindAttribLocation(NORMALS, "in_Normal");
+	woodShader->addUniformBlock("Camera", UBO_BP);
+	woodShader->link();
+	ShaderProgramManager::instance()->add("wood", woodShader);
 
-	sepiaProgram->bindAttribLocation(VERTICES, "position");
-	sepiaProgram->bindAttribLocation(TEXCOORDS, "texCoords");
-
-	sepiaProgram->link();
-	ShaderProgramManager::instance()->add("sepia", sepiaProgram);
-
+	// "normal" screen shader
 	ShaderProgram *normalProgram = new ShaderProgram();
-	// FRAMEBUFFER
 	normalProgram->compileShaderFromFile("data/shaders/screen_vs.glsl", ShaderType::VERTEX);
 	normalProgram->compileShaderFromFile("data/shaders/screen_fs.glsl", ShaderType::FRAGMENT);
-
 	normalProgram->bindAttribLocation(VERTICES, "position");
 	normalProgram->bindAttribLocation(TEXCOORDS, "texCoords");
 	normalProgram->link();
 	ShaderProgramManager::instance()->add("normal", normalProgram);
 
-	ShaderProgram *woodShader = new ShaderProgram();
-
-	woodShader->compileShaderFromFile("data/shaders/texture_vs.glsl", ShaderType::VERTEX);
-	woodShader->compileShaderFromFile("data/shaders/wood_fs.glsl", ShaderType::FRAGMENT);
-
-	woodShader->bindAttribLocation(VERTICES, "in_Position");
-	woodShader->bindAttribLocation(TEXCOORDS, "in_TexCoords");
-	woodShader->bindAttribLocation(NORMALS, "in_Normal");
-	woodShader->addUniformBlock("Camera", UBO_BP);
-
-	woodShader->link();
-
-	ShaderProgramManager::instance()->add("wood", woodShader);
+	// "sepia" screen shader
+	ShaderProgram *sepiaProgram = new ShaderProgram();
+	sepiaProgram->compileShaderFromFile("data/shaders/screen_vs.glsl", ShaderType::VERTEX);
+	sepiaProgram->compileShaderFromFile("data/shaders/sepia_fs.glsl", ShaderType::FRAGMENT);
+	sepiaProgram->bindAttribLocation(VERTICES, "position");
+	sepiaProgram->bindAttribLocation(TEXCOORDS, "texCoords");
+	sepiaProgram->link();
+	ShaderProgramManager::instance()->add("sepia", sepiaProgram);
 
 	//checkOpenGLError("ERROR: Could not create shaders.");
 }
@@ -189,10 +185,10 @@ void createShaderProgram()
 void destroyShaderProgram()
 {
 	glUseProgram(0);
-
 	//checkOpenGLError("ERROR: Could not destroy shaders.");
 }
 
+/////////////////////////////////////////////////////////////////////// VAOs & VBOs
 void createMeshes()
 {
 	std::string tamSquare("data/meshes/cube.obj");
@@ -210,7 +206,6 @@ void createMeshes()
 	cylinder->create();
 	quad->create();
 
-
 	MeshManager::instance()->add("square", square);
 	MeshManager::instance()->add("ball", ball);
 	MeshManager::instance()->add("cylinder", cylinder);
@@ -219,9 +214,133 @@ void createMeshes()
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
 
+void createScreenVAO()
+{
+	// Setup screen VAO
+	glGenVertexArrays(1, &quadVAO);
+	glGenBuffers(1, &quadVBO);
+	glBindVertexArray(quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
+	glBindVertexArray(0);
+}
+
 void destroyBufferObjects() {
 }
 
+///////////////////////////////////////////////////////////////////////// COMPUTATIONS
+void computeInterpolation() {
+	float interpolationStep = interpolationFactor * deltaTime;
+
+	if (interpolationSwitch)
+		currentInterpolation += interpolationStep;
+	else
+		currentInterpolation -= interpolationStep;
+
+	if (currentInterpolation < 0.0f)
+		currentInterpolation = 0.0f;
+
+	if (currentInterpolation > 1.0f)
+		currentInterpolation = 1.0f;
+}
+
+void computeTime() {
+	GLfloat currentTime = ((GLfloat)glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
+	deltaTime = currentTime - oldTime;
+	oldTime = currentTime;
+}
+
+void computeAngleAxis() {
+	if (currentX != lastX || currentY != lastY) {
+		float rotX = currentX - lastX;
+		float rotY = currentY - lastY;
+		Quaternion rotationQtrnY = Quaternion(rotX, math::Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+		Quaternion rotationQtrnX = Quaternion(rotY, math::Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		rotationQuaternion = rotationQtrnX * rotationQtrnY * rotationQuaternion;
+		lastX = currentX;
+		lastY = currentY;
+	}
+}
+
+void computeCueRotation() {
+	if (currentX != lastX || currentY != lastY) {
+
+		cuePitch += currentY - lastY;
+		//cueYaw += currentX - lastX;
+
+		if (cuePitch < -48.0f)
+			cuePitch = -48.0f;
+		if (cuePitch > -18.0f)
+			cuePitch = -18.0f;
+
+		//if (cueYaw >  89.0f)
+		//	cueYaw =  89.0f;
+		//if (cueYaw < -89.0f)
+		//	cueYaw = -89.0f;
+
+		lastX = currentX;
+		lastY = currentY;
+	}
+}
+
+void applyWhiteBallMovement() {
+	if (KeyBuffer::instance()->isKeyDown('a')) {
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(-0.01f, 0.0f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('d')) {
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.01f, 0.0f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('w')) {
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.0f, 0.01f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('s')) {
+		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.0f, -0.01f);
+		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('z')) {
+		cueYaw += 1.0f;
+	}
+
+	if (KeyBuffer::instance()->isKeyDown('c')) {
+		cueYaw -= 1.0f;
+	}
+
+	if (KeyBuffer::instance()->isKeyDown(' ')) {
+		cueTakingTheShot = true;
+		if (whiteBallAcceleration < MAX_ACC) {
+			whiteBallAcceleration += 0.0005f;
+			std::cout << "Cue Acceleration: " << whiteBallAcceleration << std::endl;
+		}
+		else
+			whiteBallAcceleration = (float)MAX_ACC;
+
+	}
+
+	if (!KeyBuffer::instance()->isKeyDown(' ')) {
+		if (whiteBallAcceleration > 0.0f)
+			whiteBallAcceleration -= 0.0005f;
+		else
+			whiteBallAcceleration = 0.0f;
+	}
+}
+
+void applyMotion() {
+	applyWhiteBallMovement();
+	computeInterpolation();
+}
+
+///////////////////////////////////////////////////////////////////////// SCENE
 void createSnooker() {
 	SceneGraph* scenegraph = new SceneGraph();
 	scenegraph->setCamera(new ArcballCamera(UBO_BP));
@@ -455,113 +574,6 @@ void createSnooker() {
 	SceneGraphManager::instance()->add(activeSceneGraph, scenegraph);
 }
 
-void applyWhiteBallMovement() {
-	if (KeyBuffer::instance()->isKeyDown('a')) {
-		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(-0.01f, 0.0f);
-		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
-	}
-
-	if (KeyBuffer::instance()->isKeyDown('d')) {
-		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.01f, 0.0f);
-		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
-	}
-
-	if (KeyBuffer::instance()->isKeyDown('w')) {
-		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.0f, 0.01f);
-		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
-	}
-
-	if (KeyBuffer::instance()->isKeyDown('s')) {
-		Vector2 newDir = ModelsManager::instance()->get("whiteBall")->speed() + Vector2(0.0f, -0.01f);
-		ModelsManager::instance()->get("whiteBall")->setSpeed(newDir);
-	}
-
-	if (KeyBuffer::instance()->isKeyDown('z')) {
-		cueYaw += 1.0f;
-	}
-
-	if (KeyBuffer::instance()->isKeyDown('c')) {
-		cueYaw -= 1.0f;
-	}
-
-	if (KeyBuffer::instance()->isKeyDown(' ')) {
-		cueTakingTheShot = true;
-		if (whiteBallAcceleration < MAX_ACC) {
-			whiteBallAcceleration += 0.0005f;
-			std::cout << "Cue Acceleration: " << whiteBallAcceleration << std::endl;
-		}
-		else
-			whiteBallAcceleration = (float)MAX_ACC;
-
-	}
-
-	if (!KeyBuffer::instance()->isKeyDown(' ')) {
-		if (whiteBallAcceleration > 0.0f)
-			whiteBallAcceleration -= 0.0005f;
-		else
-			whiteBallAcceleration = 0.0f;
-	}
-}
-
-void computeInterpolation() {
-	float interpolationStep = interpolationFactor * deltaTime;
-
-	if (interpolationSwitch)
-		currentInterpolation += interpolationStep;
-	else
-		currentInterpolation -= interpolationStep;
-
-	if (currentInterpolation < 0.0f)
-		currentInterpolation = 0.0f;
-
-	if (currentInterpolation > 1.0f)
-		currentInterpolation = 1.0f;
-}
-
-void applyMotion() {
-	applyWhiteBallMovement();
-	computeInterpolation();
-}
-
-void computeTime() {
-	GLfloat currentTime = ((GLfloat)glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
-	deltaTime = currentTime - oldTime;
-	oldTime = currentTime;
-}
-
-void computeAngleAxis() {
-	if (currentX != lastX || currentY != lastY) {
-		float rotX = currentX - lastX;
-		float rotY = currentY - lastY;
-		Quaternion rotationQtrnY = Quaternion(rotX, math::Vector4(0.0f, 1.0f, 0.0f, 1.0f));
-		Quaternion rotationQtrnX = Quaternion(rotY, math::Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-		rotationQuaternion = rotationQtrnX * rotationQtrnY * rotationQuaternion;
-		lastX = currentX;
-		lastY = currentY;
-	}
-}
-
-void computeCueRotation() {
-	if (currentX != lastX || currentY != lastY) {
-
-		cuePitch += currentY - lastY;
-		//cueYaw += currentX - lastX;
-
-		if (cuePitch < -48.0f)
-			cuePitch = -48.0f;
-		if (cuePitch > -18.0f)
-			cuePitch = -18.0f;
-
-		//if (cueYaw >  89.0f)
-		//	cueYaw =  89.0f;
-		//if (cueYaw < -89.0f)
-		//	cueYaw = -89.0f;
-
-		lastX = currentX;
-		lastY = currentY;
-	}
-}
-
 void setViewProjectionMatrix() {
 	Matrix4 translation = math::translate(Vector3(0.0f, 0.0f, -distance));
 	Matrix4 rotation = rotationQuaternion.toMatrix();
@@ -586,35 +598,6 @@ void setLightningAndPost()
 	float trans = 1.0f;
 	ShaderProgramManager::instance()->get("wood")->setUniform("Slice", (math::translate(Vector3(trans, trans, trans)) *
 		math::scale(Vector3(scale, scale, 1.0f))).getData());
-}
-
-// FRAMEBUFFER
-GLuint quadVAO, quadVBO;
-GLfloat quadVertices[] = {   // Vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-							 // Positions   // TexCoords
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	-1.0f, -1.0f,  0.0f, 0.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
-
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
-	1.0f,  1.0f,  1.0f, 1.0f
-};
-
-// FRAMEBUFFER
-void createScreenVAO()
-{
-	// Setup screen VAO
-	glGenVertexArrays(1, &quadVAO);
-	glGenBuffers(1, &quadVBO);
-	glBindVertexArray(quadVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
-	glBindVertexArray(0);
 }
 
 void drawSceneGraph() {
@@ -675,24 +658,19 @@ void drawSceneGraph() {
 	SceneGraphManager::instance()->get(activeSceneGraph)->draw();
 }
 
-// FRAMEBUFFER
 void drawBuffer() {
-
-	/////////////////////////////////////////////////////
-	// Bind to default framebuffer again and draw the 
-	// quad plane with attched screen texture.
-	// //////////////////////////////////////////////////
+	// Bind to default framebuffer again and draw the quad plane with attched screen texture.
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// Clear all relevant buffers
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST); // We don't care about depth information when rendering a single quad
 
-							  // Draw Screen
-							  //screenShader.Use();
+	// Draw Screen
 	if (isSepia)
 		ShaderProgramManager::instance()->get("sepia")->use();
-	else ShaderProgramManager::instance()->get("normal")->use();
+	else 
+		ShaderProgramManager::instance()->get("normal")->use();
 	glBindVertexArray(quadVAO);
 	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);	// Use the color attachment texture as the texture of the quad plane
 	glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -706,16 +684,15 @@ void drawScene()
 	applyMotion();
 	setViewProjectionMatrix();
 	setLightningAndPost();
-	drawSceneGraph();
 
-	// FRAMEBUFFER
+	drawSceneGraph();
 	drawBuffer();
 
 	glUseProgram(0);
 	glBindVertexArray(0);
-
 }
 
+///////////////////////////////////////////////////////////////////////// CALLBACKS
 void cleanup()
 {
 	destroyShaderProgram();
@@ -726,15 +703,11 @@ void display()
 {
 	++FrameCount;
 
-	// FRAMEBUFFER
-	/////////////////////////////////////////////////////
 	// Bind to framebuffer and draw to color texture 
-	// as we normally would.
-	// //////////////////////////////////////////////////
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	// Clear all attached buffers        
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // We're not using stencil buffer so why bother with clearing?
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	drawScene();
 
@@ -887,7 +860,8 @@ void setupGLEW()
 {
 	glewExperimental = GL_TRUE;
 	GLenum result = glewInit();
-	if (result != GLEW_OK) {
+	if (result != GLEW_OK) 
+	{
 		std::cerr << "ERROR glewInit: " << glewGetString(result) << std::endl;
 		exit(EXIT_FAILURE);
 	}
@@ -907,7 +881,8 @@ void setupGLUT(int argc, char* argv[])
 	glutInitWindowSize(WinX, WinY);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	WindowHandle = glutCreateWindow(CAPTION);
-	if (WindowHandle < 1) {
+	if (WindowHandle < 1) 
+	{
 		std::cerr << "ERROR: Could not create a new rendering window." << std::endl;
 		exit(EXIT_FAILURE);
 	}
@@ -923,7 +898,6 @@ void init(int argc, char* argv[])
 	createMeshes();
 	createShaderProgram();
 	createScreenVAO();
-	//FRAMEBUFFER
 	createFrameBuffer();
 	createSnooker();
 }
