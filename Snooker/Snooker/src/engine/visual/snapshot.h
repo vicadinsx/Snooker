@@ -30,7 +30,7 @@ namespace engine {
 			std::string filename = "data/snapshots/snapshot_" + std::to_string(snaps_taken++) + ".tga";
 			//This prevents the images getting padded 
 			// when the width multiplied by 3 is not a multiple of 4
-			glPixelStorei(GL_PACK_ALIGNMENT, 1);
+			//glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
 			int nSize = w*h * 3;
 			// First let's create our buffer, 3 channels per Pixel
