@@ -69,47 +69,96 @@ namespace engine {
 
 		bool takeSnapshotToBMP(int w, int h) 
 		{
+
 			std::string filename = "data/snapshots/snapshot_" + std::to_string(snaps_taken++) + ".bmp";
-			int filesize = 54 + 3 * w*h;
-
-			char* bmpBuffer = (char*)malloc(3 * w*h * sizeof(char));
-
+			
+			BYTE* bmpBuffer = (BYTE*)malloc(w*h * 3);
+			if (!bmpBuffer)
+				return false;
+				
 			glReadBuffer(GL_FRONT);
 			glReadPixels((GLint)0, (GLint)0,
 				(GLint)w - 1, (GLint)h - 1,
 				GL_BGR, GL_UNSIGNED_BYTE, bmpBuffer);
-
-			//FILE *filePtr = fopen(filename.c_str(), "wb");
+				
 			FILE *filePtr;
 			fopen_s(&filePtr, filename.c_str(), "wb");
 			if (!filePtr)
 				return false;
-
-			unsigned char bmpfileheader[14] = { 'B','M', 0,0,0,0, 0,0, 0,0, 54,0,0,0 };
-			unsigned char bmpinfoheader[40] = { 40,0,0,0, 0,0,0,0, 0,0,0,0, 1,0, 24,0 };
-
-			bmpfileheader[2] = (unsigned char)(filesize);
-			bmpfileheader[3] = (unsigned char)(filesize >> 8);
-			bmpfileheader[4] = (unsigned char)(filesize >> 16);
-			bmpfileheader[5] = (unsigned char)(filesize >> 24);
-
-			bmpinfoheader[4] = (unsigned char)(w);
-			bmpinfoheader[5] = (unsigned char)(w >> 8);
-			bmpinfoheader[6] = (unsigned char)(w >> 16);
-			bmpinfoheader[7] = (unsigned char)(w >> 24);
-			bmpinfoheader[8] = (unsigned char)(h);
-			bmpinfoheader[9] = (unsigned char)(h >> 8);
-			bmpinfoheader[10] = (unsigned char)(h >> 16);
-			bmpinfoheader[11] = (unsigned char)(h >> 24);
-
-			fwrite(bmpfileheader, 1, 14, filePtr);
-			fwrite(bmpinfoheader, 1, 40, filePtr);
+				
+			BITMAPFILEHEADER bitmapFileHeader;
+			BITMAPINFOHEADER bitmapInfoHeader;
+				
+			bitmapFileHeader.bfType = 0x4D42; //"BM"
+			bitmapFileHeader.bfSize = w*h * 3;
+			bitmapFileHeader.bfReserved1 = 0;
+			bitmapFileHeader.bfReserved2 = 0;
+			bitmapFileHeader.bfOffBits =
+				sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+				
+			bitmapInfoHeader.biSize = sizeof(BITMAPINFOHEADER);
+			bitmapInfoHeader.biWidth = w - 1;
+			bitmapInfoHeader.biHeight = h - 1;
+			bitmapInfoHeader.biPlanes = 1;
+			bitmapInfoHeader.biBitCount = 24;
+			bitmapInfoHeader.biCompression = BI_RGB;
+			bitmapInfoHeader.biSizeImage = 0;
+			bitmapInfoHeader.biXPelsPerMeter = 0; // ?
+			bitmapInfoHeader.biYPelsPerMeter = 0; // ?
+			bitmapInfoHeader.biClrUsed = 0;
+			bitmapInfoHeader.biClrImportant = 0;
+				
+			fwrite(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
+			fwrite(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 			fwrite(bmpBuffer, w*h * 3, 1, filePtr);
 			fclose(filePtr);
-
+				
 			free(bmpBuffer);
-
+							
 			return true;
+
+
+			//std::string filename = "data/snapshots/snapshot_" + std::to_string(snaps_taken++) + ".bmp";
+			//int filesize = 54 + 3 * w*h;
+
+			//char* bmpBuffer = (char*)malloc(3 * w*h * sizeof(char));
+
+			//glReadBuffer(GL_FRONT);
+			//glReadPixels((GLint)0, (GLint)0,
+			//	(GLint)w - 1, (GLint)h - 1,
+			//	GL_BGR, GL_UNSIGNED_BYTE, bmpBuffer);
+
+			////FILE *filePtr = fopen(filename.c_str(), "wb");
+			//FILE *filePtr;
+			//fopen_s(&filePtr, filename.c_str(), "wb");
+			//if (!filePtr)
+			//	return false;
+
+			//unsigned char bmpfileheader[14] = { 'B','M', 0,0,0,0, 0,0, 0,0, 54,0,0,0 };
+			//unsigned char bmpinfoheader[40] = { 40,0,0,0, 0,0,0,0, 0,0,0,0, 1,0, 24,0 };
+
+			//bmpfileheader[2] = (unsigned char)(filesize);
+			//bmpfileheader[3] = (unsigned char)(filesize >> 8);
+			//bmpfileheader[4] = (unsigned char)(filesize >> 16);
+			//bmpfileheader[5] = (unsigned char)(filesize >> 24);
+
+			//bmpinfoheader[4] = (unsigned char)(w);
+			//bmpinfoheader[5] = (unsigned char)(w >> 8);
+			//bmpinfoheader[6] = (unsigned char)(w >> 16);
+			//bmpinfoheader[7] = (unsigned char)(w >> 24);
+			//bmpinfoheader[8] = (unsigned char)(h);
+			//bmpinfoheader[9] = (unsigned char)(h >> 8);
+			//bmpinfoheader[10] = (unsigned char)(h >> 16);
+			//bmpinfoheader[11] = (unsigned char)(h >> 24);
+
+			//fwrite(bmpfileheader, 1, 14, filePtr);
+			//fwrite(bmpinfoheader, 1, 40, filePtr);
+			//fwrite(bmpBuffer, w*h * 3, 1, filePtr);
+			//fclose(filePtr);
+
+			//free(bmpBuffer);
+
+			//return true;
 		}
 
 	};
