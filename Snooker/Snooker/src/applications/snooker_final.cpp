@@ -117,7 +117,7 @@ GLuint generateAttachmentTexture(GLboolean depth, GLboolean stencil)
 	return textureID;
 }
 
-void createFrameBuffer() {
+void createFrameBuffer(int WinX, int WinY) {
 	glGenFramebuffers(1, &framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	// Create a color attachment texture
@@ -347,7 +347,7 @@ void createSnooker() {
 
 	scenegraph->getCamera()->setProjectionMatrix(
 		math::Perspective(30.0f, (float)WinX / WinY, 0.1f, 100.0f));
-
+	
 	//Textures definition
 	std::string textBrick("data/textures/bricks.bmp");
 	std::string textRed("data/textures/red.bmp");
@@ -723,6 +723,7 @@ void reshape(int w, int h)
 	WinX = w;
 	WinY = h;
 	glViewport(0, 0, WinX, WinY);
+	createFrameBuffer(WinX, WinY); // CREATE FRAMEBUFFER THAT MATCHES NEW VIEWPORT DIMENTIONS
 }
 
 void timer(int value)
@@ -897,7 +898,7 @@ void init(int argc, char* argv[])
 	createMeshes();
 	createShaderProgram();
 	createScreenVAO();
-	createFrameBuffer();
+	createFrameBuffer(WinX, WinY);
 	createSnooker();
 }
 
