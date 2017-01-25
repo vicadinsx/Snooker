@@ -27,7 +27,8 @@ void main(void)
 
     ex_TexCoords = in_TexCoords;
 
-	vec4 vertPos4 = Matrix * vec4(in_Position, 1);
+	//vec4 vertPos4 = Matrix * vec4(in_Position, 1);
+	vec4 vertPos4 = ViewMatrix * Matrix * vec4(in_Position, 1);
 
 	vertPos = vec3(vertPos4) / vertPos4.w;
 
