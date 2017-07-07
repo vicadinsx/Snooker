@@ -70,6 +70,10 @@ namespace engine {
 			drawable = b;
 		}
 
+		bool getDrawable() {
+			return drawable;
+		}
+
 		void setTexture(std::string& filename)
 		{
 			texture = loadBMP_custom(filename.c_str());

@@ -91,6 +91,20 @@ namespace engine {
 			}
 		}
 
+		//Was getting annoyed with modals, so I did it like walls
+		void calculateCollisionsWithHole(SceneNode *o) {
+			if (o->getDrawable()) {
+				if (o->getModelMatrix().getElement(1, 3) < -1.5 || o->getModelMatrix().getElement(1, 3) > 6.7) {
+					if ((o->getModelMatrix().getElement(0, 3) > -0.3 && o->getModelMatrix().getElement(0, 3) < 0.3) ||
+						(o->getModelMatrix().getElement(0, 3) < -7.8) ||
+						(o->getModelMatrix().getElement(0, 3) > 6.9))
+					{
+						o->setDrawable(false);
+					}
+				}
+			}
+		}
+
 		static ModelsManager* instance()
 		{
 			static ModelsManager instance;

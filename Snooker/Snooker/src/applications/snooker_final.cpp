@@ -53,6 +53,9 @@ std::array<SceneNode*, 4> walls;
 std::array<SceneNode*, 6> holes;
 std::array<SceneNode*, 15> balls;
 
+Matrix4 whiteBeggining;
+bool visible = true;
+
 GLuint UBO_BP = 0;
 GLuint quadVAO, quadVBO;
 GLuint framebuffer, textureColorbuffer;
@@ -464,6 +467,8 @@ void createSnooker() {
 		math::scale(Vector3(1.0f, 1.0f, 1.0f) * scaleFactor));
 	whiteBall->setTexture(textWhite);
 
+	whiteBeggining = whiteBall->getModelMatrix();
+
 	balls[0] = scenegraph->createNode("ball");
 	balls[0]->setMesh(ballMesh);
 	balls[0]->setModelMatrix(math::translate(Vector3(-4.0f + xOffset, 2.5f + yOffset, 1.0f + zOffset)) *
@@ -649,10 +654,37 @@ void drawSceneGraph() {
 	for (int i = 1; i < 16; i++)
 		balls[i - 1]->setModelMatrix(ModelsManager::instance()->get("ball" + std::to_string(i))->modelMatrix());
 
+
+	//Holes were made with nodes as a quick hack to make the project public
+	if (!visible) {
+		for (int i = 1; i < 16; i++) {
+			ModelsManager::instance()->calculateCollisionsWithHole(balls[i - 1]);
+		}
+		ModelsManager::instance()->calculateCollisionsWithHole(whiteBall);
+	}
+
+	for (int i = 1; i < 16; i++) {
+		if (!balls[i - 1]->getDrawable()) {
+			ModelsManager::instance()->get("ball" + std::to_string(i))->setSpeed(Vector2(0));
+			ModelsManager::instance()->get("ball" + std::to_string(i))->setModel(math::translate(Vector3(-1000.0f * i, -1000.0f * i, -1000.0f * i)));
+		}
+	}
+	if (!whiteBall->getDrawable()) {
+		ModelsManager::instance()->get("whiteBall")->setSpeed(Vector2(0));
+	}
+
 	if (ModelsManager::instance()->shotInProgress())
 		cue->setDrawable(false);
-	else
+	else {
+		if (!whiteBall->getDrawable()) {
+			ModelsManager::instance()->get("whiteBall")->setModel(whiteBeggining);
+			whiteBall->setDrawable(true);
+		}
+
 		cue->setDrawable(true);
+	}
+
+	//End of hack
 
 	SceneGraphManager::instance()->get(activeSceneGraph)->draw();
 }
@@ -753,6 +785,11 @@ void keyboardPress(unsigned char key, int x, int y) {
 	if (key == 'k')
 	{
 		isSepia = !isSepia;
+	}
+
+	if (key == 'v')
+	{
+		visible = !visible;
 	}
 }
 
